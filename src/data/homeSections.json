@@ -1,0 +1,111 @@
+{
+  "heroSlides": [
+    {
+      "tag": "Legend Never Ends",
+      "title": "Aegis Legend 5",
+      "subtitle": "Racing-inspired design with real tri-proof body protection and 200W max output.",
+      "image": "/images/hero/legend-5-banner.png",
+      "cta": "Learn More",
+      "link": "/products/aegis-legend-5"
+    },
+    {
+      "tag": "Leather Edition",
+      "title": "Wenax M2",
+      "subtitle": "Premium leather-wrapped design with VPU Inside technology. Elegant styling meets effortless performance.",
+      "image": "/images/hero/wenax-m2.png",
+      "cta": "Learn More",
+      "link": "/products"
+    },
+    {
+      "tag": "22–23 Mars 2026",
+      "title": "Vapexpo 2026",
+      "subtitle": "Visit us at Porte De Versaille Expo, Pavillion 6 — Booth E24.",
+      "image": "/images/hero/vapexpo-banner.png",
+      "cta": "See Details",
+      "link": "/news"
+    },
+    {
+      "tag": "Top Airflow Design",
+      "title": "Z Nano 3 Tank",
+      "subtitle": "Push to refill. Top feeling. VPU Inside for optimized coil heating and flavor precision.",
+      "image": "/images/hero/z-nano-tank.png",
+      "cta": "Explore Now",
+      "link": "/products"
+    },
+    {
+      "tag": "Low-Carbon Future",
+      "title": "Neutra",
+      "subtitle": "Design for a low-carbon future. European Product Design Award winner.",
+      "image": "/images/hero/neutra-banner.png",
+      "cta": "Discover",
+      "link": "/products"
+    },
+    {
+      "tag": "Your Easy Start To Be A Pro",
+      "title": "Aegis Mini 5",
+      "subtitle": "IP67 tri-proof protection. 3200mAh battery. 100W max output with VPU Inside technology.",
+      "image": "/images/hero/aegis-mini-5.png",
+      "cta": "Discover",
+      "link": "/products"
+    },
+    {
+      "tag": "Nano Power, Full Flavor",
+      "title": "Aegis Nano 3",
+      "subtitle": "Ultra-compact tri-proof pod with premium hexagonal grip. Bold design meets desert-proof durability.",
+      "image": "/images/hero/aegis-nano-3.png",
+      "cta": "Learn More",
+      "link": "/products"
+    }
+  ],
+  "featuredProducts": [
+    {
+      "tag": "Powered by Force. Built to Endure.",
+      "title": "Force",
+      "subtitle": "80W Smart Mode with canyon-conquering design. Adventure-ready pod mod.",
+      "image": "/images/products/force.png",
+      "link": "/products/force"
+    },
+    {
+      "tag": "Legend Never Ends",
+      "title": "Aegis Legend 5",
+      "subtitle": "200W summit-class power with IP68 tri-proof body. Peak performance.",
+      "image": "/images/products/legend-5.png",
+      "link": "/products/aegis-legend-5"
+    }
+  ],
+  "categories": [
+    { "name": "Pod", "image": "https://placehold.co/400x300/0d0d1a/333333?text=Pod", "link": "/products?cat=Pod" },
+    { "name": "Pod Mod", "image": "https://placehold.co/400x300/0a0a18/333333?text=Pod+Mod", "link": "/products?cat=Pod+Mod" },
+    { "name": "Box Mod", "image": "https://placehold.co/400x300/140d0d/333333?text=Box+Mod", "link": "/products?cat=Box+Mod" },
+    { "name": "Tank", "image": "https://placehold.co/400x300/0d140d/333333?text=Tank", "link": "/products?cat=Tank" },
+    { "name": "Platform", "image": "https://placehold.co/400x300/14140d/333333?text=Platform", "link": "/products" }
+  ],
+  "trending": [
+    { "label": "LEGEND 5", "link": "/products/aegis-legend-5" },
+    { "label": "WENAX Q2", "link": "/products/wenax-q2" },
+    { "label": "TOPBAR NewVI", "link": "/products" },
+    { "label": "Aegis Boost III", "link": "/products" },
+    { "label": "AEGIS HERO 5", "link": "/products/aegis-hero-5" },
+    { "label": "10th Anniversary", "link": "/about" },
+    { "label": "Peak 2", "link": "/products" }
+  ],
+  "brandValues": [
+    { "keyword": "GENUINE", "text": "Genuine innovation can be respected." },
+    { "keyword": "WANT", "text": "Enthusiast knows what users want." },
+    { "keyword": "EXPERT", "text": "Expert creates the best quality." },
+    { "keyword": "KNOWLEDGE", "text": "Knowledge can keep advancement." }
+  ],
+  "testimonials": [
+    { "text": "The booth was packed — everyone wanted to try TOPBAR!", "author": "VapeExpo Attendee" },
+    { "text": "Build quality feels solid and premium in the hand.", "author": "Tech Reviewer" },
+    { "text": "Battery life easily lasts me the whole day.", "author": "Daily User" },
+    { "text": "Loved the vibe and packaging — feels premium from the moment you get it.", "author": "First-Time Buyer" },
+    { "text": "Sleek design, really stylish to carry around.", "author": "Style Enthusiast" },
+    { "text": "Perfect for a relaxing evening — smooth and flavorful.", "author": "Flavor Chaser" },
+    { "text": "Powerful hits every time — solid and consistent performance.", "author": "Power User" },
+    { "text": "Adjustable power makes it work well with any juice.", "author": "Hobbyist" },
+    { "text": "No leaking issues, which is a huge plus.", "author": "Commuter" },
+    { "text": "Produces plenty of vapor with strong satisfaction.", "author": "Cloud Enthusiast" },
+    { "text": "Compact and lightweight, perfect for on-the-go.", "author": "Traveler" }
+  ]
+}

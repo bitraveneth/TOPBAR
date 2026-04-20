@@ -1,0 +1,134 @@
+[
+  {
+    "slug": "aegis-legend-5",
+    "name": "Aegis Legend 5",
+    "category": "Box Mod",
+    "tagline": "Legend Never Ends",
+    "description": "Racing-inspired design with real tri-proof body protection and 200W max output. Dual battery system delivers all-day power for advanced users who demand performance.",
+    "image": "/images/products/legend-5.png",
+    "specs": ["200W Max Output", "IP68 Tri-Proof", "Dual 18650 Battery", "AS Chip 4.0", "Racing Design"],
+    "featured": true,
+    "isNew": true
+  },
+  {
+    "slug": "force",
+    "name": "Force",
+    "category": "Pod Mod",
+    "tagline": "Powered by Force. Built to Endure.",
+    "description": "Power-focused pod mod platform with lightweight frame, stable output, and advanced coil compatibility for enthusiasts seeking durability and flavor.",
+    "image": "/images/products/force.png",
+    "specs": ["Fast Firing", "Lightweight Frame", "Flavor Boost", "Type-C Charging"],
+    "featured": true,
+    "isNew": true
+  },
+  {
+    "slug": "aegis-mini-5",
+    "name": "Aegis Mini 5",
+    "category": "Box Mod",
+    "tagline": "Your Easy Start To Be A Pro",
+    "description": "Compact tri-proof box mod with 3200mAh built-in battery and 100W output. Perfect balance of portability and power for transitioning vapers.",
+    "image": "https://placehold.co/600x600/0f0a14/444444?text=AEGIS+MINI+5",
+    "specs": ["100W Max Output", "IP67 Tri-Proof", "3200mAh Battery", "Single Coil"],
+    "featured": false,
+    "isNew": true
+  },
+  {
+    "slug": "wenax-q2",
+    "name": "Wenax Q2",
+    "category": "Pod",
+    "tagline": "Pocket Companion",
+    "description": "Ultra-portable draw-activated pod system with all-day battery life. Designed for everyday carry with smooth, consistent flavor delivery.",
+    "image": "https://placehold.co/600x600/0a140a/444444?text=WENAX+Q2",
+    "specs": ["1200mAh Battery", "Easy Top Fill", "Draw Activated", "Compact Design"],
+    "featured": false,
+    "isNew": false
+  },
+  {
+    "slug": "aegis-hero-5",
+    "name": "Aegis Hero 5",
+    "category": "Pod Mod",
+    "tagline": "Hero of Durability",
+    "description": "Built for durability with advanced adjustable airflow and powerful chip tuning. Leak-resistant pod design for worry-free daily use.",
+    "image": "https://placehold.co/600x600/140a0a/444444?text=HERO+5",
+    "specs": ["Tri-Proof Body", "Adjustable Power", "Leak Resistant", "1400mAh"],
+    "featured": false,
+    "isNew": false
+  },
+  {
+    "slug": "z-nano-3-tank",
+    "name": "Z Nano 3 Tank",
+    "category": "Tank",
+    "tagline": "Push to Refill, Top Feeling",
+    "description": "Top airflow and innovative push-to-refill design delivers a clean, leak-free experience. 5mL capacity for extended use between refills.",
+    "image": "https://placehold.co/600x600/0d140a/444444?text=Z+NANO+3",
+    "specs": ["5mL Capacity", "Top Airflow", "Push-to-Refill", "Z Series Coil"],
+    "featured": false,
+    "isNew": true
+  },
+  {
+    "slug": "kloud",
+    "name": "Kloud",
+    "category": "Pod",
+    "tagline": "Easy Cloud, Big Flavor",
+    "description": "Beginner-friendly pod system with 10mL refill ecosystem and pocket-sized form factor. Smooth flavor delivery with minimal maintenance required.",
+    "image": "https://placehold.co/600x600/14140a/444444?text=KLOUD",
+    "specs": ["10mL x 3 Refills", "Simple Interface", "Portable Design", "Smooth Draw"],
+    "featured": false,
+    "isNew": true
+  },
+  {
+    "slug": "aegis-nano-3",
+    "name": "Aegis Nano 3",
+    "category": "Pod",
+    "tagline": "Nano Power, Full Flavor",
+    "description": "Ultra-compact tri-proof pod with ergonomic leather grip and powerful flavor engine. Perfect for on-the-go use in any condition.",
+    "image": "https://placehold.co/600x600/0a0a14/444444?text=NANO+3",
+    "specs": ["1200mAh Battery", "Tri-Proof", "Leather Grip", "Top Fill"],
+    "featured": false,
+    "isNew": true
+  },
+  {
+    "slug": "digi-q-vista",
+    "name": "Digi Q Vista",
+    "category": "Pod",
+    "tagline": "Digital Vision",
+    "description": "Smart pod system with digital display for real-time monitoring. Precision temperature control and customizable settings in a sleek form.",
+    "image": "https://placehold.co/600x600/0a0f14/444444?text=DIGI+Q",
+    "specs": ["Digital Display", "Smart Chip", "Type-C", "Adjustable Wattage"],
+    "featured": false,
+    "isNew": false
+  },
+  {
+    "slug": "sonder-q2",
+    "name": "Sonder Q2",
+    "category": "Pod",
+    "tagline": "Simple Sophistication",
+    "description": "Minimalist pod design with advanced coil technology for rich flavor. Lightweight body and long-lasting pod life for hassle-free vaping.",
+    "image": "https://placehold.co/600x600/10100a/444444?text=SONDER+Q2",
+    "specs": ["Auto Draw", "650mAh", "Compact Body", "Flavor Focused"],
+    "featured": false,
+    "isNew": false
+  },
+  {
+    "slug": "z-subohm-tank-5",
+    "name": "Z Subohm Tank 5",
+    "category": "Tank",
+    "tagline": "Cloud Beast Returns",
+    "description": "High-performance sub-ohm tank with massive vapor production and top-tier flavor. Compatible with all Z-series coils for versatile builds.",
+    "image": "https://placehold.co/600x600/0a100a/444444?text=Z+SUBOHM+5",
+    "specs": ["5.5mL Capacity", "Z Series Coil", "Top Fill", "Adjustable Airflow"],
+    "featured": false,
+    "isNew": false
+  },
+  {
+    "slug": "z-fli-tank-2",
+    "name": "Z Fli Tank 2",
+    "category": "Tank",
+    "tagline": "Fly High with Flavor",
+    "description": "Lightweight flip-top tank with precise airflow control and quick-swap coil system. Engineered for both flavor chasers and cloud enthusiasts.",
+    "image": "https://placehold.co/600x600/0f0a10/444444?text=Z+FLI+2",
+    "specs": ["4mL Capacity", "Flip-Top Design", "Quick-Swap Coil", "Dual Airflow"],
+    "featured": false,
+    "isNew": true
+  }
+]

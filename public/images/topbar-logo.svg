@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 60">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@900&amp;display=swap');
+    </style>
+  </defs>
+  <text x="180" y="46" text-anchor="middle" font-family="'Orbitron', sans-serif" font-weight="900" font-size="48" fill="#CCFF00" letter-spacing="0.15em">TOPBAR</text>
+</svg>

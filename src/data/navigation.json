@@ -1,0 +1,106 @@
+{
+  "primaryNav": [
+    {
+      "label": "Products",
+      "path": "/products",
+      "children": [
+        {
+          "title": "Pod",
+          "links": [
+            { "label": "Wenax", "path": "/products?cat=Pod" },
+            { "label": "Sonder", "path": "/products?cat=Pod" },
+            { "label": "Aegis", "path": "/products?cat=Pod" },
+            { "label": "Digi", "path": "/products?cat=Pod" },
+            { "label": "Soul", "path": "/products?cat=Pod" }
+          ]
+        },
+        {
+          "title": "Pod Mod",
+          "links": [
+            { "label": "Force", "path": "/products?cat=Pod+Mod" },
+            { "label": "Aegis Series", "path": "/products?cat=Pod+Mod" },
+            { "label": "Digi Max", "path": "/products?cat=Pod+Mod" },
+            { "label": "Digi Pro", "path": "/products?cat=Pod+Mod" }
+          ]
+        },
+        {
+          "title": "Box Mod",
+          "links": [
+            { "label": "Aegis Series", "path": "/products?cat=Box+Mod" },
+            { "label": "Others Series", "path": "/products?cat=Box+Mod" }
+          ]
+        },
+        {
+          "title": "Platform",
+          "links": [
+            { "label": "Q Pod Series", "path": "/products" },
+            { "label": "M Cartridge", "path": "/products" },
+            { "label": "Z Series Coil", "path": "/products" },
+            { "label": "B Series Coil", "path": "/products" }
+          ]
+        },
+        {
+          "title": "Tank",
+          "links": [
+            { "label": "Z Nano 3 Tank", "path": "/products?cat=Tank" },
+            { "label": "Z Subohm Tank 5", "path": "/products?cat=Tank" },
+            { "label": "Z Fli Tank 2", "path": "/products?cat=Tank" }
+          ]
+        },
+        {
+          "title": "All Products",
+          "links": [
+            { "label": "View All →", "path": "/products" }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "About Us",
+      "path": "/about",
+      "children": [
+        {
+          "title": "Company",
+          "links": [
+            { "label": "Our Brand", "path": "/about" },
+            { "label": "VPU Technology", "path": "/about" }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Info Center",
+      "path": "/news",
+      "children": [
+        {
+          "title": "Resources",
+          "links": [
+            { "label": "News & Events", "path": "/news" },
+            { "label": "Blog", "path": "/news" }
+          ]
+        }
+      ]
+    },
+    { "label": "Compliance", "path": "/compliance" },
+    {
+      "label": "Sustainability",
+      "path": "/about"
+    },
+    { "label": "Downloads", "path": "/downloads" },
+    {
+      "label": "Support",
+      "path": "/support",
+      "children": [
+        {
+          "title": "Help",
+          "links": [
+            { "label": "FAQ", "path": "/support" },
+            { "label": "Warranty", "path": "/support" },
+            { "label": "Contact Us", "path": "/support" },
+            { "label": "Verify", "path": "/support" }
+          ]
+        }
+      ]
+    }
+  ]
+}
