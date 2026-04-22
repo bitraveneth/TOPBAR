@@ -5,8 +5,44 @@
     "category": "Box Mod",
     "tagline": "Legend Never Ends",
     "description": "Racing-inspired design with real tri-proof body protection and 200W max output. Dual battery system delivers all-day power for advanced users who demand performance.",
-    "image": "/images/products/legend-5.png",
+    "image": "/images/products/kiwi-passion-guava2.png",
     "specs": ["200W Max Output", "IP68 Tri-Proof", "Dual 18650 Battery", "AS Chip 4.0", "Racing Design"],
+    "colorVariants": [
+      {
+        "name": "Lime Pulse",
+        "hex": "#CCFF00",
+        "image": "/images/hero/topbar-hero-beach-sunrise.png"
+      },
+      {
+        "name": "Arctic Mint",
+        "hex": "#00FFAA",
+        "image": "/images/hero/topbar-hero-ice.png"
+      },
+      {
+        "name": "Canyon Ember",
+        "hex": "#FF6B35",
+        "image": "/images/hero/topbar-hero-canyon-dusk.png"
+      },
+      {
+        "name": "Midnight Volt",
+        "hex": "#72A7FF",
+        "image": "/images/hero/topbar-hero-volcano.png"
+      }
+    ],
+    "features": [
+      {
+        "title": "Tri-Proof Durability",
+        "description": "IP68-rated construction protects against water, dust, and impact for daily reliability in challenging environments."
+      },
+      {
+        "title": "Dual-Battery Power",
+        "description": "Two 18650 batteries deliver stable high-watt performance with longer runtime for advanced all-day sessions."
+      },
+      {
+        "title": "Smart Chip Control",
+        "description": "AS Chip 4.0 provides instant firing response, smooth output curves, and intelligent safety protections."
+      }
+    ],
     "featured": true,
     "isNew": true
   },
@@ -22,14 +58,202 @@
     "isNew": true
   },
   {
-    "slug": "aegis-mini-5",
-    "name": "Aegis Mini 5",
-    "category": "Box Mod",
-    "tagline": "Your Easy Start To Be A Pro",
-    "description": "Compact tri-proof box mod with 3200mAh built-in battery and 100W output. Perfect balance of portability and power for transitioning vapers.",
-    "image": "https://placehold.co/600x600/0f0a14/444444?text=AEGIS+MINI+5",
-    "specs": ["100W Max Output", "IP67 Tri-Proof", "3200mAh Battery", "Single Coil"],
+    "slug": "topbar-9900-puffs",
+    "name": "TOPBAR 9900 Puffs",
+    "category": "Disposable",
+    "tagline": "Mango Flavor, Max Puff Count",
+    "description": "High-capacity disposable with a vivid yellow finish, vertical display for battery and e-liquid at a glance, and a smooth mango profile — 9900 puffs in a pocket-friendly form.",
+    "image": "/images/products/topbar-9900-feature.png",
+    "specs": ["9900 Puffs", "Mango Flavor", "Battery & Liquid Display", "Disposable"],
+    "colorVariants": [
+      {
+        "name": "Mango",
+        "hex": "#E6AA1A",
+        "image": "/images/products/topbar-9900-colors-v2/mango.png"
+      },
+      {
+        "name": "Pomegranate Berry",
+        "hex": "#E97D8E",
+        "image": "/images/products/topbar-9900-colors-v2/pomegranate-berry.png"
+      },
+      {
+        "name": "Strawberry Ice",
+        "hex": "#EF7088",
+        "image": "/images/products/topbar-9900-colors-v2/strawberry-ice.png"
+      },
+      {
+        "name": "Red Energy",
+        "hex": "#F44852",
+        "image": "/images/products/topbar-9900-colors-v2/red-energy.png"
+      },
+      {
+        "name": "Pineapple Ice",
+        "hex": "#E8D150",
+        "image": "/images/products/topbar-9900-colors-v2/pineapple-ice.png"
+      },
+      {
+        "name": "Strawberry Mint Lemonade",
+        "hex": "#4AC9C4",
+        "image": "/images/products/topbar-9900-colors-v2/strawberry-mint-lemonade.png"
+      },
+      {
+        "name": "Berry Grape",
+        "hex": "#8C5ED5",
+        "image": "/images/products/topbar-9900-colors-v2/berry-grape.png"
+      },
+      {
+        "name": "White Peach Raspberry",
+        "hex": "#5EA6E9",
+        "image": "/images/products/topbar-9900-colors-v2/white-peach-raspberry.png"
+      },
+      {
+        "name": "Watermelon Ice",
+        "hex": "#F6505A",
+        "image": "/images/products/topbar-9900-colors-v2/watermelon-ice.png"
+      },
+      {
+        "name": "Cherry Peach Lemon",
+        "hex": "#D98CA9",
+        "image": "/images/products/topbar-9900-colors-v2/cherry-peach-lemon.png"
+      },
+      {
+        "name": "Blue Raspberry Lemonade",
+        "hex": "#67A7E0",
+        "image": "/images/products/topbar-9900-colors-v2/blue-raspberry-lemonade.png"
+      },
+      {
+        "name": "Coke Ice",
+        "hex": "#AE2225",
+        "image": "/images/products/topbar-9900-colors-v2/coke-ice.png"
+      },
+      {
+        "name": "Kiwi Passion Guava",
+        "hex": "#58BE4E",
+        "image": "/images/products/topbar-9900-colors-v2/kiwi-passion-guava.png"
+      },
+      {
+        "name": "Gummy Bear",
+        "hex": "#79A9D9",
+        "image": "/images/products/topbar-9900-colors-v2/gummy-bear.png"
+      },
+      {
+        "name": "Fizzy Cherry",
+        "hex": "#D94B98",
+        "image": "/images/products/topbar-9900-colors-v2/fizzy-cherry.png"
+      }
+    ],
     "featured": false,
+    "isNew": true
+  },
+  {
+    "slug": "topbar-8000-puffs",
+    "name": "TOPBAR 8000 Puffs",
+    "category": "Disposable",
+    "tagline": "Compact Form, Big Flavor",
+    "description": "Streamlined rechargeable disposable built for portability, stable flavor delivery, and an easy all-day experience.",
+    "image": "/images/products/topbar-8000-feature.png",
+    "specs": ["8000 Puffs", "Rechargeable", "Mesh Coil", "Digital Screen"],
+    "featureShowcase": [
+      {
+        "title": "Coke Ice",
+        "image": "/images/products/topbar-8000-feature-front-coke-ice.png",
+        "className": "detail-feature-tile--smoke detail-feature-tile--focus-left"
+      },
+      {
+        "title": "Up to 8000 Puffs",
+        "image": "/images/products/topbar-8000-feature.png"
+      },
+      {
+        "title": "Digital Screen",
+        "image": "/images/products/topbar-8000-feature.png"
+      },
+      {
+        "title": "Rechargeable",
+        "image": "/images/products/topbar-8000-feature.png"
+      },
+      {
+        "title": "Mesh Coil",
+        "image": "/images/products/topbar-8000-feature.png"
+      }
+    ],
+    "colorVariants": [
+      {
+        "name": "Cherry Peach",
+        "hex": "#F4A2B8",
+        "image": "/images/products/topbar-8000-colors-v1/cherry-peach.png"
+      },
+      {
+        "name": "Peach Raspberry",
+        "hex": "#89C9F2",
+        "image": "/images/products/topbar-8000-colors-v1/peach-raspberry.png"
+      },
+      {
+        "name": "Pineapple Ice",
+        "hex": "#F3D84A",
+        "image": "/images/products/topbar-8000-colors-v1/pineapple-ice.png"
+      },
+      {
+        "name": "Strawberry Peach",
+        "hex": "#F5A4B3",
+        "image": "/images/products/topbar-8000-colors-v1/strawberry-peach.png"
+      },
+      {
+        "name": "Watermelon Ice",
+        "hex": "#F1656A",
+        "image": "/images/products/topbar-8000-colors-v1/watermelon-ice.png"
+      },
+      {
+        "name": "Mango",
+        "hex": "#E5AB2A",
+        "image": "/images/products/topbar-8000-colors-v1/mango.png"
+      },
+      {
+        "name": "Watermelon Raspberry",
+        "hex": "#E65255",
+        "image": "/images/products/topbar-8000-colors-v1/watermelon-raspberry.png"
+      },
+      {
+        "name": "Strawberry Mint Lemonade",
+        "hex": "#F1B54D",
+        "image": "/images/products/topbar-8000-colors-v1/strawberry-mint-lemonade.png"
+      },
+      {
+        "name": "Passion Fruit",
+        "hex": "#D96BAF",
+        "image": "/images/products/topbar-8000-colors-v1/passion-fruit.png"
+      },
+      {
+        "name": "Aloe Grape",
+        "hex": "#B48DE1",
+        "image": "/images/products/topbar-8000-colors-v1/aloe-grape.png"
+      },
+      {
+        "name": "Cherry Berry",
+        "hex": "#DA6995",
+        "image": "/images/products/topbar-8000-colors-v1/cherry-berry.png"
+      },
+      {
+        "name": "Blackberry Ice",
+        "hex": "#6E61CF",
+        "image": "/images/products/topbar-8000-colors-v1/blackberry-ice.png"
+      },
+      {
+        "name": "Coke Ice",
+        "hex": "#6A58C6",
+        "image": "/images/products/topbar-8000-colors-v1/coke-ice.png"
+      },
+      {
+        "name": "Strawberry Ice",
+        "hex": "#E74A4A",
+        "image": "/images/products/topbar-8000-colors-v1/strawberry-ice.png"
+      },
+      {
+        "name": "Tropical Cherry",
+        "hex": "#D96AA1",
+        "image": "/images/products/topbar-8000-colors-v1/tropical-cherry.png"
+      }
+    ],
+    "featured": true,
     "isNew": true
   },
   {

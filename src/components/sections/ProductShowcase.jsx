@@ -2,18 +2,27 @@ import { Link } from 'react-router-dom'
 
 const colors = ['#CCFF00', '#00FFAA', '#FF6B35']
 
-function ProductShowcase({ products, title = 'Explore Our Products', limit = 3 }) {
+function ProductShowcase({
+  products,
+  title = 'Explore Our Products',
+  limit = 3,
+  className = '',
+  showViewAll = true,
+  ctaText = 'View All Products',
+  ctaLink = '/products',
+}) {
   const displayed = products.slice(0, limit)
+  const sectionClassName = ['showcase-section', className].filter(Boolean).join(' ')
 
   return (
-    <section className="showcase-section">
+    <section className={sectionClassName}>
       <div className="container">
         <h1 className="section-hero-title">{title}</h1>
         <div className="showcase-grid">
           {displayed.map((product, i) => (
             <Link
-              key={product.slug}
-              to={`/products/${product.slug}`}
+              key={product.slug || product.name}
+              to={product.link || `/products/${product.slug}`}
               className="showcase-card"
               style={{
                 '--card-accent': colors[i % colors.length],
@@ -24,20 +33,18 @@ function ProductShowcase({ products, title = 'Explore Our Products', limit = 3 }
               <img className="showcase-card__img" src={product.image} alt={product.name} loading="lazy" />
               <div className="showcase-card__overlay" />
               <div className="showcase-card__info">
+                {product.tagline && <span className="showcase-card__tag">{product.tagline}</span>}
                 <h3 className="showcase-card__name">{product.name}</h3>
-                <p className="showcase-card__tagline">{product.tagline}</p>
-                <div className="showcase-card__specs">
-                  {product.specs?.slice(0, 4).map((spec) => (
-                    <span key={spec} className="showcase-card__spec">{spec}</span>
-                  ))}
-                </div>
+                {product.description && <p className="showcase-card__desc">{product.description}</p>}
               </div>
             </Link>
           ))}
         </div>
-        <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
-          <Link to="/products" className="btn-outline">View All Products</Link>
-        </div>
+        {showViewAll && (
+          <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+            <Link to={ctaLink} className="btn-outline">{ctaText}</Link>
+          </div>
+        )}
       </div>
     </section>
   )

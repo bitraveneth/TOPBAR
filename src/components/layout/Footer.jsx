@@ -29,10 +29,9 @@ function Footer() {
 
           <div className="footer-col">
             <h4>Products</h4>
-            <Link to="/products?cat=Pod">Pod</Link>
-            <Link to="/products?cat=Pod+Mod">Pod Mod</Link>
-            <Link to="/products?cat=Box+Mod">Box Mod</Link>
-            <Link to="/products?cat=Tank">Tank</Link>
+            <Link to="/products/topbar-8000-puffs">TOPBAR 8000 Puffs</Link>
+            <Link to="/products/topbar-9900-puffs">TOPBAR 9900 Puffs</Link>
+            <Link to="/products">All Products</Link>
           </div>
 
           <div className="footer-col">
@@ -48,8 +47,8 @@ function Footer() {
             <Link to="/support">FAQ</Link>
             <Link to="/support">Warranty</Link>
             <Link to="/support">Contact Us</Link>
+            <Link to="/verify-products">Verify Products</Link>
             <Link to="/downloads">Downloads</Link>
-            <Link to="/compliance">Verify</Link>
           </div>
 
           <div className="footer-col">

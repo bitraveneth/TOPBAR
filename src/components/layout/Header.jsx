@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink, Link } from 'react-router-dom'
-import { Menu, X, ChevronDown, Search, ShoppingBag } from 'lucide-react'
+import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
 import navigation from '../../data/navigation.json'
 
 function Header() {
@@ -84,9 +84,6 @@ function Header() {
           </nav>
 
           <div className="header-actions">
-            <button className="icon-btn" aria-label="Search">
-              <Search size={18} />
-            </button>
             <Link to="/products" className="btn-store">
               <ShoppingBag size={14} />
               Store

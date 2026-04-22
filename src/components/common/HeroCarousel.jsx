@@ -29,6 +29,7 @@ function HeroCarousel({ slides }) {
             <img className="parallax-hero__img" src={s.image} alt={s.title} />
           </div>
           <div className="parallax-hero__overlay" />
+          <div className="parallax-hero__focus-overlay" />
         </div>
       ))}
 
