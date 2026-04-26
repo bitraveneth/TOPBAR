@@ -1,21 +1,53 @@
 import { useState } from 'react'
 
 const items = [
-  { img: '/images/community/community-2.png', text: 'Build quality feels solid and premium in the hand.', author: 'Tech Reviewer' },
-  { img: '/images/community/community-3.png', text: 'Sleek design, really stylish to carry around.', author: 'Style Enthusiast' },
-  { img: '/images/community/community-4.png', text: 'Perfect for a relaxing evening — smooth and flavorful.', author: 'Flavor Chaser' },
-  { img: '/images/community/community-5.png', text: 'Battery life easily lasts me the whole day.', author: 'Daily User' },
-  { img: '/images/community/community-2.png', text: 'Loved the vibe and packaging — feels premium from the moment you get it.', author: 'First-Time Buyer' },
-  { img: '/images/community/community-3.png', text: 'Powerful hits every time — solid and consistent performance.', author: 'Power User' },
-  { img: '/images/community/community-4.png', text: 'Compact and lightweight, perfect for on-the-go.', author: 'Traveler' },
-  { img: '/images/community/community-5.png', text: 'Produces plenty of vapor with strong satisfaction.', author: 'Cloud Enthusiast' },
+  {
+    img: '/images/community/community-2.png',
+    text: "TOPBAR's Type-C top-up is fast and drama-free—I'm never caught off guard before a night out.",
+    author: 'City Commuter',
+  },
+  {
+    img: '/images/community/community-3.png',
+    text: 'The 1.0Ω mesh hit is smooth and consistent. Flavor comes through clean, puff after puff.',
+    author: 'Flavor Purist',
+  },
+  {
+    img: '/images/community/community-4.png',
+    text: "500mAh in this size still feels all-day. The digital readout is so clear I actually check it.",
+    author: 'Weekend Hiker',
+  },
+  {
+    img: '/images/community/community-5.png',
+    text: "No leaks in the bag, no stress on the go—the anti-leak build is what won me over.",
+    author: 'On-The-Go Pro',
+  },
+  {
+    img: '/images/community/community-2.png',
+    text: "Screen, battery, liquid—glance and go. It feels more premium than most disposables I've tried.",
+    author: 'Design Snob',
+  },
+  {
+    img: '/images/community/community-3.png',
+    text: "9900+ puffs and the flavor line keeps me trying new options. TOPBAR doesn't feel like a one-note brand.",
+    author: 'Sampler',
+  },
+  {
+    img: '/images/community/community-4.png',
+    text: "Charge. Draw. Move on. Simple rhythm—and the bold yellow aesthetic matches the energy.",
+    author: 'Music Crew',
+  },
+  {
+    img: '/images/community/community-5.png',
+    text: "I'm here for the movement: better tech, real transparency on what's left, and zero messy surprises.",
+    author: 'Joiner',
+  },
 ]
 
 const doubled = [...items, ...items]
 
-function Ribbon({ text, variant = 'primary' }) {
+function Ribbon({ text }) {
   return (
-    <div className={`loved-header loved-header--${variant}`}>
+    <div className="loved-header">
       <div className="loved-checker" />
       <h1 className="loved-title">{text}</h1>
       <div className="loved-checker" />
@@ -28,7 +60,7 @@ function LovedByYou() {
 
   return (
     <section className="loved-section">
-      <Ribbon text="Real Reviews" variant="primary" />
+      <Ribbon text="Real Reviews" />
       <div
         className={`loved-track-wrapper${hovered ? ' paused' : ''}`}
         onMouseEnter={() => setHovered(true)}
@@ -46,7 +78,7 @@ function LovedByYou() {
           ))}
         </div>
       </div>
-      <Ribbon text="Join The Movement" variant="secondary" />
+      <Ribbon text="Join The Movement" />
     </section>
   )
 }

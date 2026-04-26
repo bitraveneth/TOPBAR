@@ -98,12 +98,6 @@ If you add these later, match:
 
 ---
 
-## 8. Funky banner (home bottom)
-
-**No product photos**—typography/gradients only ([`FunkyBanner.jsx`](../src/components/sections/FunkyBanner.jsx), [`.funky-section`](../src/styles/global.css)). No image dimensions to plan for there.
-
----
-
 ### Quick decision guide for **one** product image used everywhere today
 
 `products.json` uses **one** `image` URL for **explore (3:4 crop)**, **grid (1:1)**, and **detail (1:1)**. The strictest match is **square (1:1)** so the listing and detail are uncropped; the **showcase** will **crop** top/bottom or sides to **3:4**—place the subject with **padding in the frame** or accept crop on the 3:4 card. If the hero slide uses a **separate** path in `homeSections.json`, you can use a **wide 16:9** hero art independent of the product file.

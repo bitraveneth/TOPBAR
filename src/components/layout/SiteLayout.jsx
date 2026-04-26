@@ -3,6 +3,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 import AgeGateModal from '../common/AgeGateModal'
+import BackToTop from '../common/BackToTop'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -42,6 +43,7 @@ function SiteLayout() {
     <>
       <ScrollToTop />
       <ScrollProgress />
+      <BackToTop />
       {!isAccepted && <AgeGateModal onAccept={onAccept} />}
       <Header />
       <main>

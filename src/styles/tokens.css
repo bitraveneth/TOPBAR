@@ -28,6 +28,10 @@
   --container: 1320px;
   --container-narrow: 960px;
   --header-height: 60px;
+  /* Stable viewport for mobile (address bar); falls back to vh. */
+  --app-vh: 100vh;
+  --app-vh-130: 130vh;
+  --app-vh-125: 125vh;
   --transition-fast: 0.15s ease;
   --transition: 0.3s ease;
   --transition-slow: 0.5s ease;
@@ -37,4 +41,12 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 30px rgba(204, 255, 0, 0.2);
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --app-vh: 100dvh;
+    --app-vh-130: 130dvh;
+    --app-vh-125: 125dvh;
+  }
 }

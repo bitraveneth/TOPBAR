@@ -1,9 +1,20 @@
 import { useState, useEffect, useRef } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
 import navigation from '../../data/navigation.json'
 
+function isPrimaryNavItemActive(pathname, item) {
+  if (item.path === '/products') {
+    return pathname === '/products' || pathname.startsWith('/products/')
+  }
+  if (item.path === '/support' && item.children) {
+    return pathname === '/support' || pathname.startsWith('/support/')
+  }
+  return pathname === item.path
+}
+
 function Header() {
+  const { pathname } = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeMega, setActiveMega] = useState(null)
   const [scrolled, setScrolled] = useState(false)
@@ -41,7 +52,7 @@ function Header() {
       <header className="site-header" style={scrolled ? { borderBottomColor: 'rgba(255,255,255,0.06)' } : undefined}>
         <div className="header-inner container">
           <Link to="/" className="brand">
-            <img src="/images/topbar-logo.svg" alt="TOPBAR" className="brand-logo" />
+            <img src="/images/topbar-logo.png" alt="TOPBAR" className="brand-logo" />
           </Link>
 
           <nav className={`main-nav${mobileOpen ? ' open' : ''}`}>
@@ -54,7 +65,8 @@ function Header() {
               >
                 <NavLink
                   to={item.path}
-                  className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+                  className={() =>
+                    `nav-link${isPrimaryNavItemActive(pathname, item) ? ' active' : ''}`}
                   onClick={() => { setMobileOpen(false); setActiveMega(null) }}
                 >
                   {item.label}

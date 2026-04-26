@@ -3,8 +3,8 @@ import { useMemo } from 'react'
 
 import ProductShowcase from '../components/sections/ProductShowcase'
 import BestSellingFlavors from '../components/sections/BestSellingFlavors'
-import FunkyBanner from '../components/sections/FunkyBanner'
 import BrandValues from '../components/sections/BrandValues'
+import TopbarScrollZoom from '../components/sections/TopbarScrollZoom'
 
 import LovedByYou from '../components/sections/LovedByYou'
 import HomeBlogPreview from '../components/sections/HomeBlogPreview'
@@ -73,7 +73,7 @@ function Home() {
       <BestSellingFlavors groups={bestFlavorGroups} />
       <BrandValues values={homeSections.brandValues} />
       <LovedByYou />
-      <FunkyBanner />
+      <TopbarScrollZoom tagline={homeSections.topbarTagline} />
       <HomeBlogPreview />
     </>
   )
