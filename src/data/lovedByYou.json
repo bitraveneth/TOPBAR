@@ -1,0 +1,45 @@
+{
+  "ribbons": ["Real Reviews", "Join The Movement"],
+  "items": [
+    {
+      "img": "/images/community/review-1.png",
+      "text": "TOPBAR's Type-C top-up is fast and drama-free—I'm never caught off guard before a night out.",
+      "author": "City Commuter"
+    },
+    {
+      "img": "/images/community/review-2.png",
+      "text": "The 1.0Ω mesh hit is smooth and consistent. Flavor comes through clean, puff after puff.",
+      "author": "Flavor Purist"
+    },
+    {
+      "img": "/images/community/review-3.png",
+      "text": "500mAh in this size still feels all-day. The digital readout is so clear I actually check it.",
+      "author": "Weekend Hiker"
+    },
+    {
+      "img": "/images/community/review-4.png",
+      "text": "No leaks in the bag, no stress on the go—the anti-leak build is what won me over.",
+      "author": "On-The-Go Pro"
+    },
+    {
+      "img": "/images/community/review-5.png",
+      "text": "Screen, battery, liquid—glance and go. It feels more premium than most disposables I've tried.",
+      "author": "Design Snob"
+    },
+    {
+      "img": "/images/community/review-6.png",
+      "text": "9900+ puffs and the flavor line keeps me trying new options. TOPBAR doesn't feel like a one-note brand.",
+      "author": "Sampler"
+    },
+    {
+      "img": "/images/community/review-7.png",
+      "text": "Charge. Draw. Move on. Simple rhythm—and the bold yellow aesthetic matches the energy.",
+      "author": "Music Crew"
+    },
+    {
+      "img": "/images/community/review-1.png",
+      "text": "I'm here for the movement: better tech, real transparency on what's left, and zero messy surprises.",
+      "author": "Joiner"
+    }
+  ]
+}

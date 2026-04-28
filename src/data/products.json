@@ -64,15 +64,10 @@
     "tagline": "Mango Flavor, Max Puff Count",
     "description": "High-capacity disposable with a vivid yellow finish, vertical display for battery and e-liquid at a glance, and a smooth mango profile — 9900 puffs in a pocket-friendly form.",
     "image": "/images/products/topbar-9900-showcase-home.png",
+    "showcaseImagePosition": "50% 62%",
     "specs": ["9900 Puffs", "Mango Flavor", "Battery & Liquid Display", "Disposable"],
     "showProductFeaturesHeading": false,
-    "featureShowcase": [
-      {
-        "image": "/images/products/topbar-9900-feature-spec-grid.png",
-        "showTitle": false,
-        "alt": "TOPBAR 9900 Puffs product specifications and features"
-      }
-    ],
+    "featureShowcase": [],
     "colorVariants": [
       {
         "name": "Mango",
@@ -160,6 +155,7 @@
     "tagline": "Compact Form, Big Flavor",
     "description": "Streamlined rechargeable disposable built for portability, stable flavor delivery, and an easy all-day experience.",
     "image": "/images/products/topbar-8000-showcase-home.png",
+    "showcaseImagePosition": "58% 55%",
     "specs": ["8000 Puffs", "Rechargeable", "Mesh Coil", "Digital Screen"],
     "featureShowcase": [
       {

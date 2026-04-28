@@ -27,6 +27,9 @@ function ProductShowcase({
               style={{
                 '--card-accent': colors[i % colors.length],
                 animationDelay: `${i * 0.15}s`,
+                ...(product.showcaseImagePosition
+                  ? { '--showcase-img-pos': product.showcaseImagePosition }
+                  : {}),
               }}
             >
               <div className="showcase-card__glow" />

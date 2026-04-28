@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
-import navigation from '../../data/navigation.json'
+import { useCms } from '../../contexts/CmsContext'
 
 function isPrimaryNavItemActive(pathname, item) {
   if (item.path === '/products') {
@@ -14,6 +14,9 @@ function isPrimaryNavItemActive(pathname, item) {
 }
 
 function Header() {
+  const { merged } = useCms()
+  const site = merged.site || {}
+  const navigation = merged.navigation || { primaryNav: [] }
   const { pathname } = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeMega, setActiveMega] = useState(null)
@@ -47,16 +50,22 @@ function Header() {
   return (
     <>
       <div className="warning-bar">
-        <strong>WARNING:</strong> This product contains nicotine. Nicotine is an addictive chemical.
+        <strong>{site.warningBold ?? 'WARNING:'}</strong>
+        {site.warningText ??
+          ' This product contains nicotine. Nicotine is an addictive chemical.'}
       </div>
       <header className="site-header" style={scrolled ? { borderBottomColor: 'rgba(255,255,255,0.06)' } : undefined}>
         <div className="header-inner container">
           <Link to="/" className="brand">
-            <img src="/images/topbar-logo.png" alt="TOPBAR" className="brand-logo" />
+            <img
+              src={site.headerLogo || '/images/topbar-logo.png'}
+              alt={site.headerLogoAlt || 'TOPBAR'}
+              className="brand-logo"
+            />
           </Link>
 
           <nav className={`main-nav${mobileOpen ? ' open' : ''}`}>
-            {navigation.primaryNav.map((item) => (
+            {(navigation.primaryNav || []).map((item) => (
               <div
                 key={item.label}
                 className="nav-item"

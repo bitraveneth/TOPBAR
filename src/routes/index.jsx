@@ -1,4 +1,4 @@
-﻿import Home from '../pages/Home'
+import Home from '../pages/Home'
 import Products from '../pages/Products'
 import ProductDetail from '../pages/ProductDetail'
 import About from '../pages/About'

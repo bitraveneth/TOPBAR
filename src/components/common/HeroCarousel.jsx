@@ -2,18 +2,31 @@ import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
 
-function HeroCarousel({ slides }) {
+function HeroCarousel({ slides = [] }) {
+  const count = slides.length
   const [current, setCurrent] = useState(0)
   const [hovering, setHovering] = useState(false)
 
-  const next = useCallback(() => setCurrent((c) => (c + 1) % slides.length), [slides.length])
-  const prev = useCallback(() => setCurrent((c) => (c - 1 + slides.length) % slides.length), [slides.length])
+  const next = useCallback(() => {
+    if (count < 1) return
+    setCurrent((c) => (c + 1) % count)
+  }, [count])
+  const prev = useCallback(() => {
+    if (count < 1) return
+    setCurrent((c) => (c - 1 + count) % count)
+  }, [count])
 
   useEffect(() => {
-    if (hovering) return
+    if (hovering || count < 1) return
     const timer = setInterval(next, 5000)
     return () => clearInterval(timer)
-  }, [next, hovering])
+  }, [next, hovering, count])
+
+  useEffect(() => {
+    if (count > 0 && current >= count) setCurrent(0)
+  }, [count, current])
+
+  if (count < 1) return null
 
   const slide = slides[current]
 

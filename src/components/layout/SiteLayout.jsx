@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import { CmsProvider } from '../../contexts/CmsContext'
 import Header from './Header'
 import Footer from './Footer'
 import AgeGateModal from '../common/AgeGateModal'
@@ -40,7 +41,7 @@ function SiteLayout() {
   }
 
   return (
-    <>
+    <CmsProvider>
       <ScrollToTop />
       <ScrollProgress />
       <BackToTop />
@@ -50,7 +51,7 @@ function SiteLayout() {
         <Outlet />
       </main>
       <Footer />
-    </>
+    </CmsProvider>
   )
 }
 

@@ -8,16 +8,21 @@ import TopbarScrollZoom from '../components/sections/TopbarScrollZoom'
 
 import LovedByYou from '../components/sections/LovedByYou'
 import HomeBlogPreview from '../components/sections/HomeBlogPreview'
+import NewsletterSignup from '../components/sections/NewsletterSignup'
 
-import homeSections from '../data/homeSections.json'
-import products from '../data/products.json'
+import { useCms } from '../contexts/CmsContext'
 
 function Home() {
-  const featuredProductSlugs = ['topbar-9900-puffs', 'topbar-8000-puffs']
+  const { merged } = useCms()
+  const home = merged.home || {}
+  const productsList = merged.products?.items ?? []
+
+  const featuredProductSlugs = home.featuredProductSlugs || ['topbar-9900-puffs', 'topbar-8000-puffs']
+  const flavorOrderBySlug = home.flavorOrderBySlug || {}
 
   const coreProducts = useMemo(
     () =>
-      products
+      productsList
         .filter((product) => featuredProductSlugs.includes(product.slug))
         .map((product) => ({
           slug: product.slug,
@@ -25,56 +30,54 @@ function Home() {
           tagline: product.category,
           description: '',
           image: product.image,
+          showcaseImagePosition: product.showcaseImagePosition,
           link: `/products/${product.slug}`,
         })),
-    []
+    [productsList, featuredProductSlugs],
   )
 
-  const bestFlavorGroups = useMemo(
-    () => {
-      const flavorOrderBySlug = {
-        'topbar-9900-puffs': ['Mango', 'Coke Ice', 'Berry Grape', 'Strawberry Ice'],
-        'topbar-8000-puffs': ['Mango', 'Coke Ice', 'Watermelon Ice', 'Passion Fruit'],
-      }
+  const bestFlavorGroups = useMemo(() => {
+    return featuredProductSlugs
+      .map((slug) => productsList.find((product) => product.slug === slug))
+      .filter(Boolean)
+      .map((product) => {
+        const preferredNames = flavorOrderBySlug[product.slug] || []
+        const preferredFlavors = preferredNames
+          .map((name) => (product.colorVariants || []).find((flavor) => flavor.name === name))
+          .filter(Boolean)
 
-      return featuredProductSlugs
-        .map((slug) => products.find((product) => product.slug === slug))
-        .filter(Boolean)
-        .map((product) => {
-          const preferredNames = flavorOrderBySlug[product.slug] || []
-          const preferredFlavors = preferredNames
-            .map((name) => (product.colorVariants || []).find((flavor) => flavor.name === name))
-            .filter(Boolean)
+        const fallbackFlavors = (product.colorVariants || []).filter(
+          (flavor) => !preferredNames.includes(flavor.name),
+        )
 
-          const fallbackFlavors = (product.colorVariants || []).filter(
-            (flavor) => !preferredNames.includes(flavor.name)
-          )
+        return {
+          title: product.name,
+          slug: product.slug,
+          flavors: [...preferredFlavors, ...fallbackFlavors].slice(0, 4),
+        }
+      })
+      .filter((group) => group.flavors.length > 0)
+  }, [productsList, featuredProductSlugs, flavorOrderBySlug])
 
-          return {
-            title: product.name,
-            slug: product.slug,
-            flavors: [...preferredFlavors, ...fallbackFlavors].slice(0, 4),
-          }
-        })
-        .filter((group) => group.flavors.length > 0)
-    },
-    []
-  )
+  const heroSlides = home.heroSlides || []
+  const brandValues = home.brandValues || []
+  const topbarTagline = home.topbarTagline
 
   return (
     <>
-      <HeroCarousel slides={homeSections.heroSlides} />
+      <HeroCarousel slides={heroSlides} />
       <ProductShowcase
         products={coreProducts}
-        title="Our Products"
+        title={home.productShowcaseTitle || 'Our Products'}
         limit={2}
         className="showcase-section--core"
       />
       <BestSellingFlavors groups={bestFlavorGroups} />
-      <BrandValues values={homeSections.brandValues} />
+      <BrandValues values={brandValues} />
       <LovedByYou />
-      <TopbarScrollZoom tagline={homeSections.topbarTagline} />
+      <TopbarScrollZoom tagline={topbarTagline} />
       <HomeBlogPreview />
+      <NewsletterSignup />
     </>
   )
 }

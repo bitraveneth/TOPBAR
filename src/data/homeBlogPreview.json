@@ -1,0 +1,26 @@
+{
+  "featuredPost": {
+    "title": "Inside The Flavor Journey",
+    "category": "Stories",
+    "date": "April 2026",
+    "excerpt": "A closer look at how TOPBAR blends flavor direction, design decisions, and everyday portability into one premium experience.",
+    "image": "/images/hero/topbar-hero-beach-sunrise.png"
+  },
+  "sidePosts": [
+    {
+      "title": "9900 Puffs Highlights",
+      "category": "Product",
+      "date": "April 2026",
+      "image": "/images/hero/topbar-hero-collapse.png",
+      "excerpt": "A quick product story focused on performance, smooth draw, and the premium feel behind the 9900 Puffs lineup."
+    },
+    {
+      "title": "TOPBAR Design Details",
+      "category": "Design",
+      "date": "March 2026",
+      "image": "/images/hero/topbar-hero-volcano.png",
+      "excerpt": "From silhouette to finish, this story highlights the visual choices that shape the TOPBAR brand language."
+    }
+  ],
+  "sectionTitle": "NEWS & EVENTS"
+}

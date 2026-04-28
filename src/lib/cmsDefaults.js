@@ -1,0 +1,90 @@
+import homeSections from '../data/homeSections.json'
+import navigation from '../data/navigation.json'
+import products from '../data/products.json'
+import lovedByYou from '../data/lovedByYou.json'
+import homeBlogPreview from '../data/homeBlogPreview.json'
+
+export const CMS_DOCUMENT_KEYS = [
+  { key: 'site', label: 'Site — notice bar, logo' },
+  { key: 'navigation', label: 'Navigation' },
+  { key: 'home', label: 'Home' },
+  { key: 'footer', label: 'Footer' },
+  { key: 'products', label: 'Products' },
+  { key: 'newsletter', label: 'Newsletter' },
+]
+
+export function getDefaultCmsMap() {
+  return {
+    site: {
+      warningBold: 'WARNING:',
+      warningText:
+        ' This product contains nicotine. Nicotine is an addictive chemical.',
+      headerLogo: '/images/topbar-logo.png',
+      headerLogoAlt: 'TOPBAR',
+    },
+    navigation,
+    home: {
+      ...homeSections,
+      productShowcaseTitle: 'Our Products',
+      featuredProductSlugs: ['topbar-9900-puffs', 'topbar-8000-puffs'],
+      flavorOrderBySlug: {
+        'topbar-9900-puffs': ['Mango', 'Coke Ice', 'Berry Grape', 'Strawberry Ice'],
+        'topbar-8000-puffs': ['Mango', 'Coke Ice', 'Watermelon Ice', 'Passion Fruit'],
+      },
+      lovedByYou,
+      blogPreview: homeBlogPreview,
+    },
+    footer: {
+      columns: [
+        {
+          title: 'Products',
+          links: [
+            { label: 'TOPBAR 8000 Puffs', path: '/products/topbar-8000-puffs' },
+            { label: 'TOPBAR 9900 Puffs', path: '/products/topbar-9900-puffs' },
+            { label: 'All Products', path: '/products' },
+          ],
+        },
+        {
+          title: 'About Us',
+          links: [
+            { label: 'Our Brand', path: '/about' },
+            { label: 'News & Events', path: '/news' },
+            { label: 'Blog', path: '/news' },
+            { label: 'Join Us', path: '/about' },
+          ],
+        },
+        {
+          title: 'Support',
+          links: [
+            { label: 'FAQ', path: '/support' },
+            { label: 'Warranty', path: '/support' },
+            { label: 'Contact Us', path: '/support' },
+            { label: 'Verify Products', path: '/verify-products' },
+            { label: 'Downloads', path: '/downloads' },
+          ],
+        },
+      ],
+      copyright: '© 2026 TOPBAR. All Rights Reserved.',
+      legalLinks: [
+        { label: 'Privacy Policy', path: '/compliance' },
+        { label: 'Terms of Use', path: '/compliance' },
+        { label: 'Cookie Policy', path: '/compliance' },
+      ],
+      giantWordmark: 'TOP BAR',
+    },
+    products: {
+      items: products,
+      slugAliases: {
+        'aegis-legend-5': 'topbar-9900-puffs',
+        'topbar-mango': 'topbar-9900-puffs',
+      },
+    },
+    newsletter: {
+      title: 'Taste the next drop first.',
+      emailLabel: 'Email',
+      placeholder: 'you@example.com',
+      buttonJoin: 'Join Drop List',
+      buttonJoined: 'Joined',
+    },
+  }
+}

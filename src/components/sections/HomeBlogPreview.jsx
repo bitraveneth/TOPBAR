@@ -1,37 +1,19 @@
-const featuredPost = {
-  title: 'Inside The Flavor Journey',
-  category: 'Stories',
-  date: 'April 2026',
-  excerpt:
-    'A closer look at how TOPBAR blends flavor direction, design decisions, and everyday portability into one premium experience.',
-  image: '/images/hero/topbar-hero-beach-sunrise.png',
-}
-
-const sidePosts = [
-  {
-    title: '9900 Puffs Highlights',
-    category: 'Product',
-    date: 'April 2026',
-    image: '/images/hero/topbar-hero-collapse.png',
-    excerpt:
-      'A quick product story focused on performance, smooth draw, and the premium feel behind the 9900 Puffs lineup.',
-  },
-  {
-    title: 'TOPBAR Design Details',
-    category: 'Design',
-    date: 'March 2026',
-    image: '/images/hero/topbar-hero-volcano.png',
-    excerpt:
-      'From silhouette to finish, this story highlights the visual choices that shape the TOPBAR brand language.',
-  },
-]
+import { useCms } from '../../contexts/CmsContext'
 
 function HomeBlogPreview() {
+  const { merged } = useCms()
+  const blog = merged.home?.blogPreview || {}
+  const featuredPost = blog.featuredPost
+  const sidePosts = blog.sidePosts || []
+  const sectionTitle = blog.sectionTitle || 'NEWS & EVENTS'
+
+  if (!featuredPost) return null
+
   return (
     <section className="home-blog-section section">
       <div className="container">
         <div className="section-header home-blog-section__header">
-          <h1 className="section-hero-title best-flavors-title home-blog-title">NEWS &amp; EVENTS</h1>
+          <h1 className="section-hero-title best-flavors-title home-blog-title">{sectionTitle}</h1>
         </div>
 
         <div className="home-blog-grid">
