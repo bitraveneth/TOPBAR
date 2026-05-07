@@ -82,39 +82,52 @@ function TopbarScrollZoom({ tagline = '' }) {
     }
   }, [])
 
+  const fullVideoArmedRef = useRef(false)
+
   useEffect(() => {
     const el = sectionRef.current
     const textV = textVideoRef.current
-    const fullV = fullVideoRef.current
     if (!el) return
 
-    const playPair = () => {
-      const p1 = textV?.play?.()
-      if (p1 && typeof p1.catch === 'function') p1.catch(() => {})
-      const p2 = fullV?.play?.()
-      if (p2 && typeof p2.catch === 'function') p2.catch(() => {})
+    const playText = () => {
+      const p = textV?.play?.()
+      if (p && typeof p.catch === 'function') p.catch(() => {})
     }
 
     if (textV) {
       textV.muted = true
       textV.setAttribute('playsinline', '')
     }
-    if (fullV) {
-      fullV.muted = true
-      fullV.setAttribute('playsinline', '')
-    }
 
     const obs = new IntersectionObserver(
       (entries) => {
-        if (entries.some((e) => e.isIntersecting)) playPair()
+        if (entries.some((e) => e.isIntersecting)) playText()
       },
       { root: null, threshold: 0.08, rootMargin: '0px 0px 12% 0px' }
     )
     obs.observe(el)
-    playPair()
+    playText()
 
     return () => obs.disconnect()
   }, [])
+
+  useEffect(() => {
+    const fullV = fullVideoRef.current
+    if (!fullV) return
+    if (fullVideoArmedRef.current) return
+    if (progress < TOPBAR_PHASE.FADE_START) return
+
+    fullVideoArmedRef.current = true
+    fullV.muted = true
+    fullV.setAttribute('playsinline', '')
+    try {
+      fullV.load()
+    } catch {
+      /* noop */
+    }
+    const p = fullV.play?.()
+    if (p && typeof p.catch === 'function') p.catch(() => {})
+  }, [progress])
 
   return (
     <section className="topbar-zoom-section" ref={sectionRef}>
@@ -126,11 +139,10 @@ function TopbarScrollZoom({ tagline = '' }) {
         <video
           ref={fullVideoRef}
           className="topbar-zoom-fullscreen-video"
-          autoPlay
           loop
           muted
           playsInline
-          preload="auto"
+          preload="none"
           disablePictureInPicture
           controls={false}
         >
@@ -153,8 +165,8 @@ function TopbarScrollZoom({ tagline = '' }) {
                 className="topbar-zoom-wordmark-static"
                 src={WORDMARK_SRC}
                 alt="TOPBAR"
-                width={1260}
-                height={312}
+                width={1024}
+                height={205}
                 decoding="async"
                 loading="eager"
                 fetchPriority="high"

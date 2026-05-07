@@ -1,4 +1,19 @@
 /* TOPBAR - Designed and developed by Alex - https://github.com/bitraveneth - meetalex@protonmail.com */
+
+/* ===== Theme Switch Guard =====
+ * Suppress all transitions/animations during a theme swap so CSS-variable
+ * changes (colors, borders, filters, backgrounds) don't trigger a flicker
+ * storm across cards, images, and overlays. The class is added by
+ * ThemeContext for ~240ms around the data-theme swap.
+ */
+:root.theme-switching,
+:root.theme-switching *,
+:root.theme-switching *::before,
+:root.theme-switching *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
 /* ===== Custom Scrollbar ===== */
 html::-webkit-scrollbar {
   width: 4px;
