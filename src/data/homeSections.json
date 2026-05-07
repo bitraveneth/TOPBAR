@@ -78,14 +78,14 @@
       "tag": "Powered by Force. Built to Endure.",
       "title": "Force",
       "subtitle": "80W Smart Mode with canyon-conquering design. Adventure-ready pod mod.",
-      "image": "/images/products/force.png",
+      "image": "/assets/images/z-nano-3.svg",
       "link": "/products/force"
     },
     {
       "tag": "Legend Never Ends",
       "title": "Aegis Legend 5",
       "subtitle": "200W summit-class power with IP68 tri-proof body. Peak performance.",
-      "image": "/images/products/legend-5.png",
+      "image": "/assets/images/legend-5.svg",
       "link": "/products/topbar-9900-puffs"
     }
   ],

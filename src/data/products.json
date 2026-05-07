@@ -52,7 +52,7 @@
     "category": "Pod Mod",
     "tagline": "Powered by Force. Built to Endure.",
     "description": "Power-focused pod mod platform with lightweight frame, stable output, and advanced coil compatibility for enthusiasts seeking durability and flavor.",
-    "image": "/images/products/force.png",
+    "image": "/assets/images/z-nano-3.svg",
     "specs": ["Fast Firing", "Lightweight Frame", "Flavor Boost", "Type-C Charging"],
     "featured": true,
     "isNew": true
