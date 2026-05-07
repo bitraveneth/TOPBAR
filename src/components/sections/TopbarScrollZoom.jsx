@@ -1,14 +1,18 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ChevronsDown } from 'lucide-react'
 
 const WORDMARK_SRC = '/assets/images/topbar-wordmark-white.png'
 
-/* Section progress 0→1. */
 const TOPBAR_PHASE = {
   ZOOM_MAX_AT: 0.38,
   FADE_START: 0.2,
   FADE_END: 0.48,
-  /* After wordmark is gone: bg + tagline ramp; scroll hint uses +1s time (not scroll). */
   REVEAL_END: 0.72,
 }
 const SCROLL_HINT_DELAY_MS = 1000
@@ -78,7 +82,6 @@ function TopbarScrollZoom({ tagline = '' }) {
     }
   }, [])
 
-  /* Muted inline video often needs an explicit .play() on iOS when the section is visible. */
   useEffect(() => {
     const el = sectionRef.current
     const textV = textVideoRef.current
@@ -115,10 +118,6 @@ function TopbarScrollZoom({ tagline = '' }) {
 
   return (
     <section className="topbar-zoom-section" ref={sectionRef}>
-      {/*
-        Full-bleed video: hidden until wordmark has zoomed+vanished; then ramps with tagline.
-        "Scroll" appears 1s after wordmark is gone (see scrollHintAfterDelay).
-      */}
       <div
         className="topbar-zoom-fullscreen"
         aria-hidden="true"

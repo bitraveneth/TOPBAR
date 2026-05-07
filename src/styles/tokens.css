@@ -1,6 +1,7 @@
+/* TOPBAR - Designed and developed by Alex - https://github.com/bitraveneth - meetalex@protonmail.com */
 :root {
   --bg-primary: #000000;
-  --bg-secondary: #040604;
+  --bg-secondary: #000000;
   --bg-card: #0a0d0a;
   --bg-card-hover: #121812;
   --bg-elevated: #0b0e0b;
@@ -27,7 +28,7 @@
   --radius-full: 9999px;
   --container: 1320px;
   --container-narrow: 960px;
-  --header-height: 60px;
+  --header-height: 74px;
   /* Stable viewport for mobile (address bar); falls back to vh. */
   --app-vh: 100vh;
   --app-vh-130: 130vh;
@@ -41,6 +42,102 @@
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
   --shadow-glow: 0 0 30px rgba(204, 255, 0, 0.2);
+  --header-bg: rgba(0, 0, 0, 0.88);
+  --warning-bg-solid: #000000;
+  --warning-text-solid: #ffffff;
+  --scrollbar-track: #000000;
+  --scrollbar-thumb: #CCFF00;
+  --scrollbar-thumb-hover: #DFFF00;
+  --slider-overlay: linear-gradient(180deg, rgba(246, 248, 246, 0.02) 20%, rgba(246, 248, 246, 0.5) 100%),
+    linear-gradient(90deg, rgba(246, 248, 246, 0.2) 0%, transparent 50%);
+  --slider-focus-overlay: radial-gradient(90% 70% at 20% 72%, rgba(246, 248, 246, 0.5) 0%, rgba(246, 248, 246, 0.2) 54%, transparent 100%),
+    linear-gradient(90deg, rgba(246, 248, 246, 0.22) 0%, rgba(246, 248, 246, 0.08) 42%, transparent 68%);
+  --slider-title-color: #ffffff;
+  --slider-sub-color: #ffffff;
+  --slider-cta-color: #ffffff;
+  --slider-arrow-bg: rgba(246, 248, 246, 0.74);
+  --slider-arrow-border: rgba(15, 27, 15, 0.2);
+  --slider-arrow-color: #1c2b1c;
+  --slider-indicator: rgba(15, 27, 15, 0.2);
+  --slider-indicator-active: var(--accent);
+  --ribbon-bg: var(--accent);
+  --ribbon-title: #000000;
+  --ribbon-checker: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%) 0 0 / 20px 20px;
+  --bv-accent-strong: var(--accent);
+  --bv-pill-hover-bg: rgba(204, 255, 0, 0.02);
+  --bv-pill-hover-border: var(--border-light);
+  --bv-pill-hover-text: var(--text-primary);
+  --bv-pill-active-bg: rgba(204, 255, 0, 0.05);
+  --bv-pill-active-border: var(--accent);
+  --newsletter-bg: var(--bg-primary);
+  --newsletter-card-bg: radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 15%, transparent), transparent 42%),
+    linear-gradient(135deg, color-mix(in srgb, var(--bg-card) 88%, transparent), var(--bg-primary));
+  --newsletter-form-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent) 5%, transparent), transparent 44%),
+    rgba(0, 0, 0, 0.45);
+  --newsletter-label: var(--accent);
+  --newsletter-button-bg: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 74%, #7c9900 26%));
+  --newsletter-button-text: var(--accent-text);
+}
+
+:root[data-theme='light'] {
+  --bg-primary: #f6f8f6;
+  --bg-secondary: #f6f8f6;
+  --bg-card: #f6f8f6;
+  --bg-card-hover: #f6f8f6;
+  --bg-elevated: #f6f8f6;
+  --bg-input: #f6f8f6;
+  --text-primary: #0f1b0f;
+  --text-secondary: #334a33;
+  --text-muted: #6d816d;
+  --accent: #10B981;
+  --accent-hover: #34D399;
+  --accent-dim: #059669;
+  --accent-soft: rgba(16, 185, 129, 0.14);
+  --accent-text: #ffffff;
+  --border: #d5dfd5;
+  --border-light: #c2d1c2;
+  --warning-bg: #d6e600;
+  --warning-text: #0d1300;
+  --success: #059669;
+  --shadow-sm: 0 2px 8px rgba(17, 24, 17, 0.1);
+  --shadow-md: 0 8px 24px rgba(17, 24, 17, 0.14);
+  --shadow-lg: 0 16px 48px rgba(17, 24, 17, 0.18);
+  --shadow-glow: 0 0 24px rgba(16, 185, 129, 0.25);
+  --header-bg: rgba(230, 236, 230, 0.9);
+  --warning-bg-solid: #000000;
+  --warning-text-solid: #ffffff;
+  --scrollbar-track: #edf2ed;
+  --scrollbar-thumb: #10B981;
+  --scrollbar-thumb-hover: #34D399;
+  --slider-overlay: linear-gradient(180deg, rgba(246, 248, 246, 0.02) 20%, rgba(246, 248, 246, 0.5) 100%),
+    linear-gradient(90deg, rgba(246, 248, 246, 0.2) 0%, transparent 50%);
+  --slider-focus-overlay: radial-gradient(90% 70% at 20% 72%, rgba(246, 248, 246, 0.5) 0%, rgba(246, 248, 246, 0.2) 54%, transparent 100%),
+    linear-gradient(90deg, rgba(246, 248, 246, 0.22) 0%, rgba(246, 248, 246, 0.08) 42%, transparent 68%);
+  --slider-title-color: #ffffff;
+  --slider-sub-color: #ffffff;
+  --slider-cta-color: #ffffff;
+  --slider-arrow-bg: rgba(246, 248, 246, 0.74);
+  --slider-arrow-border: rgba(15, 27, 15, 0.2);
+  --slider-arrow-color: #1c2b1c;
+  --slider-indicator: rgba(15, 27, 15, 0.2);
+  --slider-indicator-active: var(--accent);
+  --ribbon-bg: var(--accent);
+  --ribbon-title: #ffffff;
+  --ribbon-checker: repeating-conic-gradient(#ffffff 0% 25%, transparent 0% 50%) 0 0 / 20px 20px;
+  --bv-accent-strong: #046A38;
+  --bv-pill-hover-bg: color-mix(in srgb, var(--accent) 22%, var(--bg-card) 78%);
+  --bv-pill-hover-border: var(--accent);
+  --bv-pill-hover-text: #013220;
+  --bv-pill-active-bg: color-mix(in srgb, var(--accent) 32%, var(--bg-card) 68%);
+  --bv-pill-active-border: var(--accent);
+  --newsletter-bg: var(--bg-secondary);
+  --newsletter-card-bg: radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 42%),
+    linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+  --newsletter-form-bg: linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, transparent), transparent 44%),
+    color-mix(in srgb, var(--bg-card) 92%, #fff);
+  --newsletter-label: #046A38;
+  --newsletter-button-bg: linear-gradient(135deg, #046A38, #10B981);
+  --newsletter-button-text: #ffffff;
 }
 
 @supports (height: 100dvh) {

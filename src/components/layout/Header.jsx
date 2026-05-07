@@ -1,7 +1,14 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { useState, useEffect, useRef } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react'
+import { Menu, X, ChevronDown, Moon, Sun } from 'lucide-react'
 import { useCms } from '../../contexts/CmsContext'
+import { useTheme } from '../../contexts/useTheme'
 
 function isPrimaryNavItemActive(pathname, item) {
   if (item.path === '/products') {
@@ -15,6 +22,7 @@ function isPrimaryNavItemActive(pathname, item) {
 
 function Header() {
   const { merged } = useCms()
+  const { theme, toggleTheme } = useTheme()
   const site = merged.site || {}
   const navigation = merged.navigation || { primaryNav: [] }
   const { pathname } = useLocation()
@@ -61,6 +69,9 @@ function Header() {
               src={site.headerLogo || '/images/topbar-logo.png'}
               alt={site.headerLogoAlt || 'TOPBAR'}
               className="brand-logo"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
           </Link>
 
@@ -105,10 +116,21 @@ function Header() {
           </nav>
 
           <div className="header-actions">
-            <Link to="/products" className="btn-store">
-              <ShoppingBag size={14} />
-              Store
-            </Link>
+            <button
+              className="theme-switch"
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              aria-pressed={theme === 'dark'}
+            >
+              <span className="theme-switch__track" aria-hidden>
+                <span className={`theme-switch__thumb theme-switch__thumb--${theme}`} />
+              </span>
+              <span className="theme-switch__icon-wrap" aria-hidden>
+                {theme === 'dark' ? <Moon size={14} /> : <Sun size={14} />}
+              </span>
+              <span className="theme-switch__label">{theme === 'dark' ? 'Dark' : 'Light'}</span>
+            </button>
             <button
               className="menu-toggle"
               onClick={() => setMobileOpen((v) => !v)}

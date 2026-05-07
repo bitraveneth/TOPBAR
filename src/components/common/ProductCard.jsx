@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 function ProductCard({ product }) {
   return (
     <article className="product-card">

@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { useState } from 'react'
 import { ShieldCheck, ScanSearch, PackageCheck } from 'lucide-react'
 
@@ -29,6 +35,7 @@ function VerifyProducts() {
     <>
       <div className="page-hero">
         <div className="container">
+          <p className="page-hero__eyebrow">Product Protection</p>
           <h1>Verify Products</h1>
           <p>Check your TOPBAR product security code to confirm authenticity.</p>
         </div>

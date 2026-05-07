@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { useCallback, useEffect, useState } from 'react'
 
 const ARROW_SRC = '/assets/images/back-to-top-arrow.png'

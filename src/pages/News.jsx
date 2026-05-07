@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 const posts = [
   {
     title: 'GEEK-Like Design Language 2026',

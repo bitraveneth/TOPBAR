@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { Link } from 'react-router-dom'
 
 function NotFound() {

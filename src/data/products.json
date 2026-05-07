@@ -11,22 +11,22 @@
       {
         "name": "Lime Pulse",
         "hex": "#CCFF00",
-        "image": "/images/hero/topbar-hero-beach-sunrise.png"
+        "image": "/images/hero/topbar-hero-beach-sunrise.webp"
       },
       {
         "name": "Arctic Mint",
         "hex": "#00FFAA",
-        "image": "/images/hero/topbar-hero-ice.png"
+        "image": "/images/hero/topbar-hero-ice.webp"
       },
       {
         "name": "Canyon Ember",
         "hex": "#FF6B35",
-        "image": "/images/hero/topbar-hero-canyon-dusk.png"
+        "image": "/images/hero/topbar-hero-canyon-dusk.webp"
       },
       {
         "name": "Midnight Volt",
         "hex": "#72A7FF",
-        "image": "/images/hero/topbar-hero-volcano.png"
+        "image": "/images/hero/topbar-hero-volcano.webp"
       }
     ],
     "features": [
@@ -61,14 +61,24 @@
     "slug": "topbar-9900-puffs",
     "name": "TOPBAR 9900 Puffs",
     "category": "Disposable",
-    "tagline": "Mango Flavor, Max Puff Count",
-    "description": "High-capacity disposable with a vivid yellow finish, vertical display for battery and e-liquid at a glance, and a smooth mango profile — 9900 puffs in a pocket-friendly form.",
+    "tagline": "Watermelon Ice, Max Puff Count",
+    "description": "High-capacity disposable with a vivid finish, vertical display for battery and e-liquid at a glance, and a crisp watermelon ice profile — 9900 puffs in a pocket-friendly form.",
     "image": "/images/products/topbar-9900-showcase-home.png",
     "showcaseImagePosition": "50% 62%",
-    "specs": ["9900 Puffs", "Mango Flavor", "Battery & Liquid Display", "Disposable"],
+    "specs": ["9900 Puffs", "Watermelon Ice", "Battery & Liquid Display", "Disposable"],
     "showProductFeaturesHeading": false,
     "featureShowcase": [],
     "colorVariants": [
+      {
+        "name": "Watermelon Ice",
+        "hex": "#F6505A",
+        "image": "/images/products/topbar-9900-colors/watermelon-ice.png"
+      },
+      {
+        "name": "Red Energy",
+        "hex": "#F44852",
+        "image": "/images/products/topbar-9900-colors-v2/red-energy.png"
+      },
       {
         "name": "Mango",
         "hex": "#E6AA1A",
@@ -83,11 +93,6 @@
         "name": "Strawberry Ice",
         "hex": "#EF7088",
         "image": "/images/products/topbar-9900-colors-v2/strawberry-ice.png"
-      },
-      {
-        "name": "Red Energy",
-        "hex": "#F44852",
-        "image": "/images/products/topbar-9900-colors-v2/red-energy.png"
       },
       {
         "name": "Pineapple Ice",
@@ -108,11 +113,6 @@
         "name": "White Peach Raspberry",
         "hex": "#5EA6E9",
         "image": "/images/products/topbar-9900-colors-v2/white-peach-raspberry.png"
-      },
-      {
-        "name": "Watermelon Ice",
-        "hex": "#F6505A",
-        "image": "/images/products/topbar-9900-colors-v2/watermelon-ice.png"
       },
       {
         "name": "Cherry Peach Lemon",
@@ -258,6 +258,84 @@
       }
     ],
     "featured": true,
+    "isNew": true
+  },
+  {
+    "slug": "topbar-50000-puffs",
+    "name": "TOPBAR 50000 Puffs",
+    "category": "Disposable",
+    "tagline": "Ultra Capacity, Extended Flavor",
+    "description": "Ultra high-capacity disposable designed for long-lasting sessions, smooth draw performance, and consistent flavor from first puff to last.",
+    "image": "/images/products/topbar-50000-showcase-home.png",
+    "showcaseImagePosition": "50% 62%",
+    "specs": ["50000 Puffs", "Rechargeable", "Mesh Coil", "Digital Display"],
+    "colorVariants": [
+      {
+        "name": "Mint Ice",
+        "hex": "#B7D66C",
+        "image": "/images/products/topbar-50000-colors/mint-ice.png"
+      },
+      {
+        "name": "Grape Ice",
+        "hex": "#A77AD8",
+        "image": "/images/products/topbar-50000-colors/grape-ice.png"
+      },
+      {
+        "name": "Strawberry Kiwi",
+        "hex": "#EE7E93",
+        "image": "/images/products/topbar-50000-colors/strawberry-kiwi.png"
+      },
+      {
+        "name": "Watermelon Ice",
+        "hex": "#F25F86",
+        "image": "/images/products/topbar-50000-colors/watermelon-ice.png"
+      },
+      {
+        "name": "Blue Razz",
+        "hex": "#5D8EDC",
+        "image": "/images/products/topbar-50000-colors/blue-razz.png"
+      }
+    ],
+    "featured": false,
+    "isNew": true
+  },
+  {
+    "slug": "topbar-60000-puffs",
+    "name": "TOPBAR 60000 Puffs",
+    "category": "Disposable",
+    "tagline": "Maximum Puff Performance",
+    "description": "Flagship ultra-capacity disposable built for maximum endurance with stable power delivery, rich flavor output, and a premium topbar experience.",
+    "image": "/images/products/topbar-60000-showcase-home.png",
+    "showcaseImagePosition": "50% 62%",
+    "specs": ["60000 Puffs", "Rechargeable", "Mesh Coil", "Digital Display"],
+    "colorVariants": [
+      {
+        "name": "Lime Ice",
+        "hex": "#9EE05E",
+        "image": "/images/products/topbar-60000-colors/lime-ice.png"
+      },
+      {
+        "name": "Strawberry Watermelon",
+        "hex": "#F4779D",
+        "image": "/images/products/topbar-60000-colors/strawberry-watermelon.png"
+      },
+      {
+        "name": "Peach Mint",
+        "hex": "#C39BE8",
+        "image": "/images/products/topbar-60000-colors/peach-mint.png"
+      },
+      {
+        "name": "Mint Ice",
+        "hex": "#8FE0D0",
+        "image": "/images/products/topbar-60000-colors/mint-ice.png"
+      },
+      {
+        "name": "Blueberry Ice",
+        "hex": "#71A4E8",
+        "image": "/images/products/topbar-60000-colors/blueberry-ice.png"
+      }
+    ],
+    "featured": false,
     "isNew": true
   },
   {

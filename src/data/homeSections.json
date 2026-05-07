@@ -1,10 +1,34 @@
 {
   "heroSlides": [
     {
+      "tag": "TOPBAR 60000",
+      "title": "Strawberry Watermelon",
+      "subtitle": "A bright sweet blend in the latest TOPBAR 60000 series.",
+      "image": "/images/hero/topbar-60000-hero-2.webp",
+      "cta": "Discover Now",
+      "link": "/products/topbar-60000-puffs"
+    },
+    {
+      "tag": "TOPBAR 60000",
+      "title": "Blue Razz",
+      "subtitle": "Cool berry-forward notes with a smooth, balanced finish.",
+      "image": "/images/hero/topbar-60000-hero-3.webp",
+      "cta": "Discover Now",
+      "link": "/products/topbar-60000-puffs"
+    },
+    {
+      "tag": "TOPBAR 60000",
+      "title": "Sour Lemon",
+      "subtitle": "Tangy citrus profile crafted for a sharp and refreshing hit.",
+      "image": "/images/hero/topbar-60000-hero-4.webp",
+      "cta": "Discover Now",
+      "link": "/products/topbar-60000-puffs"
+    },
+    {
       "tag": "TOPBAR Disposable",
       "title": "TOPBAR 9900 Puffs",
       "subtitle": "Rechargeable disposable with digital screen, smooth draw, and all-day flavor performance.",
-      "image": "/images/hero/topbar-hero-9900-puffs.png",
+      "image": "/images/hero/topbar-hero-9900-puffs.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-9900-puffs"
     },
@@ -12,7 +36,7 @@
       "tag": "Desert Energy",
       "title": "Strawberry Ice",
       "subtitle": "Sweet strawberry flavor with a cool icy finish in a smooth disposable for all-day enjoyment.",
-      "image": "/images/hero/topbar-hero-canyon-dusk.png",
+      "image": "/images/hero/topbar-hero-canyon-dusk.webp",
       "cta": "Discover Now",
       "link": "/products"
     },
@@ -20,15 +44,15 @@
       "tag": "Fresh Drop",
       "title": "New Collection",
       "subtitle": "A modern disposable lineup with clean design, smooth draw, and consistent flavor every puff.",
-      "image": "/images/hero/topbar-hero-collapse.png",
+      "image": "/images/hero/topbar-hero-collapse.webp",
       "cta": "Discover Now",
-      "link": "/news"
+      "link": "/products"
     },
     {
       "tag": "Ice Sensation",
       "title": "Gummy Bear",
       "subtitle": "Sweet gummy candy flavor with smooth delivery and a playful finish for all-day enjoyment.",
-      "image": "/images/hero/topbar-hero-ice.png",
+      "image": "/images/hero/topbar-hero-ice.webp",
       "cta": "Discover Now",
       "link": "/products"
     },
@@ -36,7 +60,7 @@
       "tag": "Alpine Air",
       "title": "Peach Raspberry Ice",
       "subtitle": "Sweet peach and raspberry flavor with a cool icy finish for smooth everyday enjoyment.",
-      "image": "/images/hero/topbar-hero-mountain-alpine.png",
+      "image": "/images/hero/topbar-hero-mountain-alpine.webp",
       "cta": "Discover Now",
       "link": "/products"
     },
@@ -44,7 +68,7 @@
       "tag": "Volcanic Boldness",
       "title": "Coke Ice",
       "subtitle": "Classic cola flavor with a cool icy finish in a smooth disposable for all-day enjoyment.",
-      "image": "/images/hero/topbar-hero-volcano.png",
+      "image": "/images/hero/topbar-hero-volcano.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-9900-puffs"
     }
@@ -87,7 +111,7 @@
     { "keyword": "EXPERT", "text": "Expert creates the best quality." },
     { "keyword": "KNOWLEDGE", "text": "Knowledge can keep advancement." }
   ],
-  "topbarTagline": "Bold flavor. Smart design. TOPBAR keeps every moment charged with up to 9,900 puffs.",
+  "topbarTagline": "Bold flavor. Smart design. TOPBAR keeps every moment charged with up to 60,000 puffs.",
   "testimonials": [
     { "text": "The booth was packed — everyone wanted to try TOPBAR!", "author": "VapeExpo Attendee" },
     { "text": "Build quality feels solid and premium in the hand.", "author": "Tech Reviewer" },

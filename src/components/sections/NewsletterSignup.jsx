@@ -1,5 +1,10 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { useState } from 'react'
-import { isSupabaseConfigured, supabase } from '../../lib/supabaseClient'
 import { useCms } from '../../contexts/CmsContext'
 
 function NewsletterSignup() {
@@ -12,16 +17,6 @@ function NewsletterSignup() {
     e.preventDefault()
     const trimmed = email.trim()
     if (!trimmed) return
-
-    if (isSupabaseConfigured && supabase) {
-      const { error } = await supabase.from('newsletter_subscribers').insert({
-        email: trimmed.toLowerCase(),
-        source: 'website',
-      })
-      if (error && error.code !== '23505') {
-        console.error(error)
-      }
-    }
 
     setSubscribed(true)
     setEmail('')

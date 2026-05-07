@@ -1,6 +1,12 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { Link } from 'react-router-dom'
 
-const colors = ['#CCFF00', '#00FFAA', '#FF6B35']
+const colors = ['#CCFF00', '#00C2FF', '#FF6B35', '#B48CFF']
 
 function ProductShowcase({
   products,
@@ -25,7 +31,7 @@ function ProductShowcase({
               to={product.link || `/products/${product.slug}`}
               className="showcase-card"
               style={{
-                '--card-accent': colors[i % colors.length],
+                '--card-accent': product.showcaseAccentColor || colors[i % colors.length],
                 animationDelay: `${i * 0.15}s`,
                 ...(product.showcaseImagePosition
                   ? { '--showcase-img-pos': product.showcaseImagePosition }
@@ -33,7 +39,13 @@ function ProductShowcase({
               }}
             >
               <div className="showcase-card__glow" />
-              <img className="showcase-card__img" src={product.image} alt={product.name} loading="lazy" />
+              <img
+                className="showcase-card__img"
+                src={product.image}
+                alt={product.name}
+                loading="lazy"
+                decoding="async"
+              />
               <div className="showcase-card__overlay" />
               <div className="showcase-card__info">
                 {product.tagline && <span className="showcase-card__tag">{product.tagline}</span>}

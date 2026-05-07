@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { ShieldCheck } from 'lucide-react'
 
 const standards = [
@@ -28,6 +34,7 @@ function Compliance() {
     <>
       <div className="page-hero">
         <div className="container">
+          <p className="page-hero__eyebrow">Trust & Standards</p>
           <h1>Compliance</h1>
           <p>We are committed to meeting and exceeding all regulatory requirements worldwide.</p>
         </div>

@@ -1,10 +1,17 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { useState, useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { CmsProvider } from '../../contexts/CmsContext'
 import Header from './Header'
 import Footer from './Footer'
-import AgeGateModal from '../common/AgeGateModal'
 import BackToTop from '../common/BackToTop'
+import FloatingCommunityBadge from '../common/FloatingCommunityBadge'
+import AgeGateModal from '../common/AgeGateModal'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -31,21 +38,13 @@ function ScrollProgress() {
 }
 
 function SiteLayout() {
-  const [isAccepted, setIsAccepted] = useState(
-    () => sessionStorage.getItem('ageAccepted') === 'yes'
-  )
-
-  const onAccept = () => {
-    sessionStorage.setItem('ageAccepted', 'yes')
-    setIsAccepted(true)
-  }
-
   return (
     <CmsProvider>
+      <AgeGateModal />
       <ScrollToTop />
       <ScrollProgress />
       <BackToTop />
-      {!isAccepted && <AgeGateModal onAccept={onAccept} />}
+      <FloatingCommunityBadge />
       <Header />
       <main>
         <Outlet />

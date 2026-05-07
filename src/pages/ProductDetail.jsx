@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Battery, Cable, ChevronDown, Droplets, Gauge, Sparkles, Wind } from 'lucide-react'
@@ -67,7 +73,19 @@ function ProductDetail() {
   const showProductFeaturesHeading = product && product.showProductFeaturesHeading !== false
   const isTopbar9900 = product?.slug === 'topbar-9900-puffs'
   const isTopbar8000 = product?.slug === 'topbar-8000-puffs'
-  const isTopbarSeries = isTopbar9900 || isTopbar8000
+  const isTopbar50000 = product?.slug === 'topbar-50000-puffs'
+  const isTopbar60000 = product?.slug === 'topbar-60000-puffs'
+  const isTopbarSeries = isTopbar9900 || isTopbar8000 || isTopbar50000 || isTopbar60000
+  const seriesPuffCount = isTopbar9900
+    ? '9900'
+    : isTopbar8000
+      ? '8000'
+      : isTopbar50000
+        ? '50000'
+        : isTopbar60000
+          ? '60000'
+          : ''
+  const seriesSpecsTitle = `TOPBAR ${seriesPuffCount} Key Specs`
   const productFeatureCards = isTopbar9900
     ? [
         { label: 'Puffs', value: 'Up to 9900', icon: 'puffs' },
@@ -90,65 +108,54 @@ function ProductDetail() {
           { label: 'Nicotine Strength', value: '50 mg/mL', icon: 'coil' },
           { label: 'Input', value: '5V DC, 1A', icon: 'port' },
         ]
-      : []
-  const seriesPuffCount = isTopbar9900 ? '9900' : isTopbar8000 ? '8000' : ''
-  const seriesSpecsTitle = isTopbar9900 ? 'TOPBAR 9900 Key Specs' : 'TOPBAR 8000 Key Specs'
+      : [
+          { label: 'Puffs', value: `Up to ${seriesPuffCount}`, icon: 'puffs' },
+          { label: 'Charging Port', value: 'Type-C', icon: 'port' },
+          { label: 'Battery', value: 'Rechargeable', icon: 'battery' },
+          { label: 'Display', value: 'Digital Screen', icon: 'display' },
+          { label: 'Coil', value: 'Mesh Coil', icon: 'coil' },
+          { label: 'Airflow', value: 'Smooth Draw', icon: 'airflow' },
+          { label: 'Nicotine Strength', value: '50 mg/mL', icon: 'coil' },
+          { label: 'Input', value: '5V DC, 1A', icon: 'port' },
+        ]
   const seriesSpecsImage = isTopbar9900
     ? '/images/community/specs-showcase.png'
-    : '/images/products/topbar-8000-extra-2.png'
+    : isTopbar8000
+      ? '/images/products/topbar-8000-extra-2.png'
+      : activeImage
   const seriesHeroImage = isTopbar9900
-    ? '/images/community/puff-hero-device.png'
-    : '/images/products/topbar-8000-extra-1.png'
-  const seriesExploreShowcaseImage = isTopbar9900
-    ? '/images/products/topbar-9900-feature-spec-grid.png'
-    : '/images/products/topbar-8000-feature.png'
+    ? '/images/products/topbar-9900-features-1.png'
+    : isTopbar8000
+      ? '/images/products/topbar-8000-extra-1.png'
+      : activeImage
 
-  if (!product) {
-    return (
-      <div className="container section" style={{ textAlign: 'center', padding: '6rem 0' }}>
-        <h1>Product Not Found</h1>
-        <p style={{ marginBottom: '1.5rem' }}>The product you're looking for doesn't exist in our catalog.</p>
-        <Link to="/products" className="btn-primary">Browse Products</Link>
-      </div>
-    )
-  }
-
-  const related = catalog
-    .filter((p) => p.category === product.category && p.slug !== product.slug)
-    .slice(0, 3)
+  const related = useMemo(() => {
+    if (!product) return []
+    return catalog.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3)
+  }, [catalog, product])
 
   const relatedCarouselItems = useMemo(() => {
     if (!product) return []
 
     if (isTopbarSeries) {
-      const topbar9900 = catalog.find((p) => p.slug === 'topbar-9900-puffs')
-      const topbar8000 = catalog.find((p) => p.slug === 'topbar-8000-puffs')
+      const topbarSeriesSlugs = ['topbar-9900-puffs', 'topbar-8000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
+      const topbarSeriesProducts = topbarSeriesSlugs
+        .map((seriesSlug) => catalog.find((p) => p.slug === seriesSlug))
+        .filter(Boolean)
 
-      const from9900 = (topbar9900?.colorVariants || [])
-        .filter((variant) => variant?.name)
-        .slice(0, 8)
-        .map((variant) => ({
-          id: `topbar-9900-${variant.name}`,
-          slug: topbar9900.slug,
-          image: variant.image || topbar9900.image,
-          title: variant.name,
-          subtitle: 'TOPBAR 9900 Puffs',
-          accentColor: variant.hex || '#CCFF00',
-        }))
-
-      const from8000 = (topbar8000?.colorVariants || [])
-        .filter((variant) => variant?.name)
-        .slice(0, 8)
-        .map((variant) => ({
-          id: `topbar-8000-${variant.name}`,
-          slug: topbar8000.slug,
-          image: variant.image || topbar8000.image,
-          title: variant.name,
-          subtitle: 'TOPBAR 8000 Puffs',
-          accentColor: variant.hex || '#9BE15D',
-        }))
-
-      return [...from9900, ...from8000]
+      return topbarSeriesProducts.flatMap((seriesProduct) =>
+        (seriesProduct.colorVariants || [])
+          .filter((variant) => variant?.name)
+          .slice(0, 8)
+          .map((variant) => ({
+            id: `${seriesProduct.slug}-${variant.name}`,
+            slug: seriesProduct.slug,
+            image: variant.image || seriesProduct.image,
+            title: variant.name,
+            subtitle: seriesProduct.name,
+            accentColor: variant.hex || '#9BE15D',
+          }))
+      )
     }
 
     return related.map((p) => ({
@@ -179,12 +186,28 @@ function ProductDetail() {
     return () => window.clearInterval(timer)
   }, [isTopbarSeries, isCoverflowHovered, relatedCarouselItems.length])
 
+  if (!product) {
+    return (
+      <div className="container section" style={{ textAlign: 'center', padding: '6rem 0' }}>
+        <h1>Product Not Found</h1>
+        <p style={{ marginBottom: '1.5rem' }}>The product you're looking for doesn't exist in our catalog.</p>
+        <Link to="/products" className="btn-primary">Browse Products</Link>
+      </div>
+    )
+  }
+
   return (
     <section className="section product-detail-page">
       <div className="container">
         <div className="detail-layout detail-layout--hero">
           <div className="detail-image detail-image--large">
-            <img src={activeImage} alt={`${product.name} ${activeVariant?.name || ''}`} />
+            <img
+              src={activeImage}
+              alt={`${product.name} ${activeVariant?.name || ''}`}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
           <div className="detail-info">
             <h1>{product.name}</h1>
@@ -306,7 +329,7 @@ function ProductDetail() {
                     key={`${item.image}-${index}`}
                     className={`detail-feature-tile ${item.className || ''}`.trim()}
                   >
-                    <img src={item.image} alt={featureAlt} loading="lazy" />
+                    <img src={item.image} alt={featureAlt} loading="lazy" decoding="async" />
                     {showTileTitle && (
                       <div className="detail-feature-tile__overlay">
                         <h3>{item.title}</h3>
@@ -329,6 +352,7 @@ function ProductDetail() {
                     src={seriesSpecsImage}
                     alt={`${product.name} product and package`}
                     loading="lazy"
+                    decoding="async"
                   />
                 </article>
                 <div className="detail-spec-bento__cards">
@@ -353,39 +377,6 @@ function ProductDetail() {
               </div>
             </div>
           </>
-        )}
-
-        {isTopbarSeries && (
-          <section className="detail-puff-hero" aria-label={`Up to ${seriesPuffCount} puffs highlight`}>
-            <div className="detail-puff-hero__split">
-              <div className="detail-puff-hero__media">
-                <img
-                  className="detail-puff-hero__bg"
-                  src={seriesHeroImage}
-                  alt={`${product.name} visual`}
-                  loading="lazy"
-                />
-              </div>
-              <div className="detail-puff-hero__content">
-                <h2 className="detail-puff-hero__headline">
-                  <span className="detail-puff-hero__headline-number">{seriesPuffCount}</span>
-                  <span className="detail-puff-hero__headline-unit">PUFFS</span>
-                </h2>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {isTopbar8000 && (
-          <section className="detail-8000-after-hero" aria-label="TOPBAR 8000 feature image">
-            <img src="/images/products/topbar-8000-extra-3.png" alt="TOPBAR 8000 feature grid" loading="lazy" />
-          </section>
-        )}
-
-        {isTopbar9900 && (
-          <section className="detail-related__showcase" aria-label="Explore products showcase">
-            <img src={seriesExploreShowcaseImage} alt={`${product.name} feature showcase`} loading="lazy" />
-          </section>
         )}
 
         {relatedCarouselItems.length > 0 && (
@@ -434,7 +425,7 @@ function ProductDetail() {
                         >
                           <article className="product-card detail-related-card">
                             <div className="product-card__image detail-related-card__image">
-                              <img src={item.image} alt={item.title} loading="lazy" />
+                              <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
                             </div>
                             <div className="product-card__body detail-related-card__body">
                               <p className="product-card__category detail-related-card__category">{item.subtitle}</p>
@@ -462,7 +453,7 @@ function ProductDetail() {
                     <Link key={item.id} to={`/products/${item.slug}`} className="detail-related__item" style={{ textDecoration: 'none' }}>
                       <article className="product-card">
                         <div className="product-card__image">
-                          <img src={item.image} alt={item.title} loading="lazy" />
+                          <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
                           {item.isNew && <span className="product-card__badge">New</span>}
                         </div>
                         <div className="product-card__body">

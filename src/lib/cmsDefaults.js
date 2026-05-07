@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import homeSections from '../data/homeSections.json'
 import navigation from '../data/navigation.json'
 import products from '../data/products.json'
@@ -26,10 +32,12 @@ export function getDefaultCmsMap() {
     home: {
       ...homeSections,
       productShowcaseTitle: 'Our Products',
-      featuredProductSlugs: ['topbar-9900-puffs', 'topbar-8000-puffs'],
+      featuredProductSlugs: ['topbar-8000-puffs', 'topbar-9900-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs'],
       flavorOrderBySlug: {
-        'topbar-9900-puffs': ['Mango', 'Coke Ice', 'Berry Grape', 'Strawberry Ice'],
+        'topbar-9900-puffs': ['Watermelon Ice', 'Red Energy', 'Mango', 'Coke Ice', 'Berry Grape', 'Strawberry Ice'],
         'topbar-8000-puffs': ['Mango', 'Coke Ice', 'Watermelon Ice', 'Passion Fruit'],
+        'topbar-50000-puffs': ['Mint Ice', 'Grape Ice', 'Strawberry Kiwi', 'Watermelon Ice'],
+        'topbar-60000-puffs': ['Blue Device'],
       },
       lovedByYou,
       blogPreview: homeBlogPreview,
@@ -48,17 +56,15 @@ export function getDefaultCmsMap() {
           title: 'About Us',
           links: [
             { label: 'Our Brand', path: '/about' },
-            { label: 'News & Events', path: '/news' },
-            { label: 'Blog', path: '/news' },
+            { label: 'Exhibition', path: '/exhibition' },
+            { label: 'Downloads', path: '/downloads' },
             { label: 'Join Us', path: '/about' },
           ],
         },
         {
           title: 'Support',
           links: [
-            { label: 'FAQ', path: '/support' },
-            { label: 'Warranty', path: '/support' },
-            { label: 'Contact Us', path: '/support' },
+            { label: 'Support', path: '/support' },
             { label: 'Verify Products', path: '/verify-products' },
             { label: 'Downloads', path: '/downloads' },
           ],

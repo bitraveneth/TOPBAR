@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import { Link } from 'react-router-dom'
 
 function BestSellingFlavors({ groups = [] }) {
@@ -26,15 +32,15 @@ function BestSellingFlavors({ groups = [] }) {
             <div className="best-flavors-grid">
               {group.flavors.map((flavor) => (
                 <Link
-                  key={`${group.title}-${flavor.name}`}
-                  to={`/products/${group.slug}`}
+                  key={`${group.title}-${flavor.name}-${flavor._slot ?? flavor.slug ?? ''}`}
+                  to={`/products/${flavor.slug || group.slug}`}
                   className="best-flavor-card"
                 >
                   <img src={flavor.image} alt={flavor.name} loading="lazy" />
                   <div className="best-flavor-card__label">
                     <span style={{ '--flavor-color': flavor.hex }} />
                     <h3>{shortFlavorName(flavor.name)}</h3>
-                    <small>{group.title}</small>
+                    <small>{flavor.productTitle || group.title}</small>
                   </div>
                 </Link>
               ))}

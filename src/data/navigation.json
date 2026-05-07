@@ -8,7 +8,9 @@
           "title": "Disposable Series",
           "links": [
             { "label": "TOPBAR 8000 Puffs", "path": "/products/topbar-8000-puffs" },
-            { "label": "TOPBAR 9900 Puffs", "path": "/products/topbar-9900-puffs" }
+            { "label": "TOPBAR 9900 Puffs", "path": "/products/topbar-9900-puffs" },
+            { "label": "TOPBAR 50000 Puffs", "path": "/products/topbar-50000-puffs" },
+            { "label": "TOPBAR 60000 Puffs", "path": "/products/topbar-60000-puffs" }
           ]
         },
         {
@@ -23,21 +25,15 @@
       "label": "About Us",
       "path": "/about"
     },
+    {
+      "label": "Exhibition",
+      "path": "/exhibition"
+    },
     { "label": "Verify Products", "path": "/verify-products" },
     { "label": "Downloads", "path": "/downloads" },
     {
       "label": "Support",
-      "path": "/support",
-      "children": [
-        {
-          "title": "Help",
-          "links": [
-            { "label": "FAQ", "path": "/support" },
-            { "label": "Warranty", "path": "/support" },
-            { "label": "Contact Us", "path": "/support" }
-          ]
-        }
-      ]
+      "path": "/support"
     }
   ]
 }

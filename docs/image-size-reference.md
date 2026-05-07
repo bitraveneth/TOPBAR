@@ -18,9 +18,17 @@
 
 **Practical prep**
 
-- **Ratio:** no single ratio; **landscape, wide** is safe (e.g. **16:9** or **21:9** art).
-- **Export size (examples):** **1920×1080** or **2560×1440**; keep key subject **inside a safe area** (center ~70%) to survive crop and dark gradients/overlay.
+- **Ratio:** **16 : 9** landscape.
+- **Resolution:** **2560 × 1440 recommended**, **1920 × 1080 minimum**. Anything below ~1600 px wide gets visibly upscaled on common 1080p / 1440p / 4K monitors and looks soft.
+- **Color:** sRGB.
+- **Format to deliver:** PNG or JPG (q≥90). The build pipeline converts to WebP at quality 86; expect ~150–300 KB final.
+- **Safe area:** keep key subject in the **center 70%**. The bottom 35% is darkened by [`.parallax-hero__overlay`](../src/styles/global.css) and the left 35% by [`.parallax-hero__focus-overlay`](../src/styles/global.css) for text readability — content there will be partially obscured.
+- **File names** (must match exactly so JSON references don't change): `topbar-hero-{name}.webp` in `public/images/hero/`. Current slide names: `topbar-hero-9900-puffs`, `topbar-60000-hero-{2,3,4}`, `topbar-hero-beach-sunrise`, `topbar-hero-canyon-dusk`, `topbar-hero-collapse`, `topbar-hero-ice`, `topbar-hero-mountain-alpine`, `topbar-hero-volcano`.
 - **Data path:** [`homeSections.json` `heroSlides[].image`](../src/data/homeSections.json).
+- **Conversion command** (Windows, run from repo root):
+  ```powershell
+  npx --yes sharp-cli -i public/images/hero/SOURCE.png -o public/images/hero -f webp -q 86
+  ```
 
 ---
 

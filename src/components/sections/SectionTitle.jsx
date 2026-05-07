@@ -1,3 +1,9 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 function SectionTitle({ eyebrow, title, description, align = 'left' }) {
   return (
     <div className="section-header" style={align === 'center' ? { textAlign: 'center' } : undefined}>

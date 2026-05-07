@@ -1,14 +1,19 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
 import HeroCarousel from '../components/common/HeroCarousel'
-import { useMemo } from 'react'
+import { lazy, Suspense, useMemo } from 'react'
 
 import ProductShowcase from '../components/sections/ProductShowcase'
 import BestSellingFlavors from '../components/sections/BestSellingFlavors'
 import BrandValues from '../components/sections/BrandValues'
-import TopbarScrollZoom from '../components/sections/TopbarScrollZoom'
-
-import LovedByYou from '../components/sections/LovedByYou'
-import HomeBlogPreview from '../components/sections/HomeBlogPreview'
-import NewsletterSignup from '../components/sections/NewsletterSignup'
+const TopbarScrollZoom = lazy(() => import('../components/sections/TopbarScrollZoom'))
+const LovedByYou = lazy(() => import('../components/sections/LovedByYou'))
+const HomeBlogPreview = lazy(() => import('../components/sections/HomeBlogPreview'))
+const NewsletterSignup = lazy(() => import('../components/sections/NewsletterSignup'))
 
 import { useCms } from '../contexts/CmsContext'
 
@@ -16,14 +21,22 @@ function Home() {
   const { merged } = useCms()
   const home = merged.home || {}
   const productsList = merged.products?.items ?? []
+  const showcaseAccentBySlug = {
+    'topbar-8000-puffs': '#CCFF00',
+    'topbar-9900-puffs': '#00C2FF',
+    'topbar-50000-puffs': '#FF6B35',
+    'topbar-60000-puffs': '#B48CFF',
+  }
 
-  const featuredProductSlugs = home.featuredProductSlugs || ['topbar-9900-puffs', 'topbar-8000-puffs']
+  const requiredTopbarSlugs = ['topbar-8000-puffs', 'topbar-9900-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
+  const featuredProductSlugs = Array.from(new Set([...(home.featuredProductSlugs || []), ...requiredTopbarSlugs]))
   const flavorOrderBySlug = home.flavorOrderBySlug || {}
 
   const coreProducts = useMemo(
     () =>
-      productsList
-        .filter((product) => featuredProductSlugs.includes(product.slug))
+      featuredProductSlugs
+        .map((slug) => productsList.find((product) => product.slug === slug))
+        .filter(Boolean)
         .map((product) => ({
           slug: product.slug,
           name: product.name,
@@ -31,32 +44,53 @@ function Home() {
           description: '',
           image: product.image,
           showcaseImagePosition: product.showcaseImagePosition,
+          showcaseAccentColor: showcaseAccentBySlug[product.slug],
           link: `/products/${product.slug}`,
         })),
     [productsList, featuredProductSlugs],
   )
 
   const bestFlavorGroups = useMemo(() => {
-    return featuredProductSlugs
+    const products = featuredProductSlugs
       .map((slug) => productsList.find((product) => product.slug === slug))
       .filter(Boolean)
-      .map((product) => {
-        const preferredNames = flavorOrderBySlug[product.slug] || []
-        const preferredFlavors = preferredNames
-          .map((name) => (product.colorVariants || []).find((flavor) => flavor.name === name))
-          .filter(Boolean)
 
-        const fallbackFlavors = (product.colorVariants || []).filter(
-          (flavor) => !preferredNames.includes(flavor.name),
-        )
+    const flavorPool = products.flatMap((product) => {
+      const preferredNames = flavorOrderBySlug[product.slug] || []
+      const preferredFlavors = preferredNames
+        .map((name) => (product.colorVariants || []).find((flavor) => flavor.name === name))
+        .filter(Boolean)
 
-        return {
-          title: product.name,
+      const fallbackFlavors = (product.colorVariants || []).filter(
+        (flavor) => !preferredNames.includes(flavor.name),
+      )
+
+      return [...preferredFlavors, ...fallbackFlavors]
+        .filter((flavor) => flavor?.name && flavor?.image)
+        .map((flavor) => ({
+          ...flavor,
           slug: product.slug,
-          flavors: [...preferredFlavors, ...fallbackFlavors].slice(0, 4),
-        }
-      })
-      .filter((group) => group.flavors.length > 0)
+          productTitle: product.name,
+        }))
+    })
+
+    if (!flavorPool.length) return []
+
+    // Shuffle once per data change so cards are mixed across products.
+    const shuffled = [...flavorPool].sort(() => Math.random() - 0.5)
+    const targetCards = 12
+    const filledFlavors = Array.from({ length: targetCards }, (_, idx) => ({
+      ...shuffled[idx % shuffled.length],
+      _slot: idx,
+    }))
+
+    return [
+      {
+        title: 'Topbar Mix',
+        slug: 'products',
+        flavors: filledFlavors,
+      },
+    ]
   }, [productsList, featuredProductSlugs, flavorOrderBySlug])
 
   const heroSlides = home.heroSlides || []
@@ -69,15 +103,17 @@ function Home() {
       <ProductShowcase
         products={coreProducts}
         title={home.productShowcaseTitle || 'Our Products'}
-        limit={2}
+        limit={coreProducts.length}
         className="showcase-section--core"
       />
       <BestSellingFlavors groups={bestFlavorGroups} />
       <BrandValues values={brandValues} />
-      <LovedByYou />
-      <TopbarScrollZoom tagline={topbarTagline} />
-      <HomeBlogPreview />
-      <NewsletterSignup />
+      <Suspense fallback={null}>
+        <LovedByYou />
+        <TopbarScrollZoom tagline={topbarTagline} />
+        <HomeBlogPreview />
+        <NewsletterSignup />
+      </Suspense>
     </>
   )
 }

@@ -1,0 +1,1147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="813.77" height="417.01" viewBox="105.6 39.47 813.77 417.01">
+  <!-- Created using Pixel Map Generator: pixelmap.amcharts.com -->
+  <style>
+    .land { fill: #dfff00; }
+  </style>
+  <g id="pixels">
+    <g id="CA" title="Canada" class="land">
+      <circle cx="308.59" cy="44.08" r="2.61"/>
+      <circle cx="341.66" cy="44.08" r="2.61"/>
+      <circle cx="253.49" cy="55.11" r="2.61"/>
+      <circle cx="286.55" cy="55.11" r="2.61"/>
+      <circle cx="319.61" cy="55.11" r="2.61"/>
+      <circle cx="231.44" cy="66.13" r="2.61"/>
+      <circle cx="242.47" cy="66.13" r="2.61"/>
+      <circle cx="253.49" cy="66.13" r="2.61"/>
+      <circle cx="264.51" cy="66.13" r="2.61"/>
+      <circle cx="286.55" cy="66.13" r="2.61"/>
+      <circle cx="308.59" cy="66.13" r="2.61"/>
+      <circle cx="319.61" cy="66.13" r="2.61"/>
+      <circle cx="330.63" cy="66.13" r="2.61"/>
+      <circle cx="187.36" cy="77.15" r="2.61"/>
+      <circle cx="198.38" cy="77.15" r="2.61"/>
+      <circle cx="209.4" cy="77.15" r="2.61"/>
+      <circle cx="220.42" cy="77.15" r="2.61"/>
+      <circle cx="231.44" cy="77.15" r="2.61"/>
+      <circle cx="242.47" cy="77.15" r="2.61"/>
+      <circle cx="253.49" cy="77.15" r="2.61"/>
+      <circle cx="264.51" cy="77.15" r="2.61"/>
+      <circle cx="275.53" cy="77.15" r="2.61"/>
+      <circle cx="286.55" cy="77.15" r="2.61"/>
+      <circle cx="297.57" cy="77.15" r="2.61"/>
+      <circle cx="330.63" cy="77.15" r="2.61"/>
+      <circle cx="341.66" cy="77.15" r="2.61"/>
+      <circle cx="176.34" cy="88.17" r="2.61"/>
+      <circle cx="187.36" cy="88.17" r="2.61"/>
+      <circle cx="198.38" cy="88.17" r="2.61"/>
+      <circle cx="209.4" cy="88.17" r="2.61"/>
+      <circle cx="220.42" cy="88.17" r="2.61"/>
+      <circle cx="231.44" cy="88.17" r="2.61"/>
+      <circle cx="242.47" cy="88.17" r="2.61"/>
+      <circle cx="253.49" cy="88.17" r="2.61"/>
+      <circle cx="264.51" cy="88.17" r="2.61"/>
+      <circle cx="275.53" cy="88.17" r="2.61"/>
+      <circle cx="330.63" cy="88.17" r="2.61"/>
+      <circle cx="187.36" cy="99.19" r="2.61"/>
+      <circle cx="198.38" cy="99.19" r="2.61"/>
+      <circle cx="209.4" cy="99.19" r="2.61"/>
+      <circle cx="220.42" cy="99.19" r="2.61"/>
+      <circle cx="231.44" cy="99.19" r="2.61"/>
+      <circle cx="242.47" cy="99.19" r="2.61"/>
+      <circle cx="253.49" cy="99.19" r="2.61"/>
+      <circle cx="264.51" cy="99.19" r="2.61"/>
+      <circle cx="308.59" cy="99.19" r="2.61"/>
+      <circle cx="319.61" cy="99.19" r="2.61"/>
+      <circle cx="187.36" cy="110.21" r="2.61"/>
+      <circle cx="198.38" cy="110.21" r="2.61"/>
+      <circle cx="209.4" cy="110.21" r="2.61"/>
+      <circle cx="220.42" cy="110.21" r="2.61"/>
+      <circle cx="231.44" cy="110.21" r="2.61"/>
+      <circle cx="242.47" cy="110.21" r="2.61"/>
+      <circle cx="253.49" cy="110.21" r="2.61"/>
+      <circle cx="264.51" cy="110.21" r="2.61"/>
+      <circle cx="275.53" cy="110.21" r="2.61"/>
+      <circle cx="308.59" cy="110.21" r="2.61"/>
+      <circle cx="319.61" cy="110.21" r="2.61"/>
+      <circle cx="330.63" cy="110.21" r="2.61"/>
+      <circle cx="187.36" cy="121.23" r="2.61"/>
+      <circle cx="198.38" cy="121.23" r="2.61"/>
+      <circle cx="209.4" cy="121.23" r="2.61"/>
+      <circle cx="220.42" cy="121.23" r="2.61"/>
+      <circle cx="231.44" cy="121.23" r="2.61"/>
+      <circle cx="242.47" cy="121.23" r="2.61"/>
+      <circle cx="253.49" cy="121.23" r="2.61"/>
+      <circle cx="264.51" cy="121.23" r="2.61"/>
+      <circle cx="275.53" cy="121.23" r="2.61"/>
+      <circle cx="286.55" cy="121.23" r="2.61"/>
+      <circle cx="297.57" cy="121.23" r="2.61"/>
+      <circle cx="308.59" cy="121.23" r="2.61"/>
+      <circle cx="319.61" cy="121.23" r="2.61"/>
+      <circle cx="330.63" cy="121.23" r="2.61"/>
+      <circle cx="341.66" cy="121.23" r="2.61"/>
+      <circle cx="264.51" cy="132.25" r="2.61"/>
+      <circle cx="275.53" cy="132.25" r="2.61"/>
+      <circle cx="286.55" cy="132.25" r="2.61"/>
+      <circle cx="297.57" cy="132.25" r="2.61"/>
+      <circle cx="308.59" cy="132.25" r="2.61"/>
+      <circle cx="341.66" cy="132.25" r="2.61"/>
+      <circle cx="286.55" cy="143.27" r="2.61"/>
+      <circle cx="319.61" cy="143.27" r="2.61"/>
+    </g>
+    <g id="GL" title="Greenland" class="land">
+      <circle cx="363.7" cy="44.08" r="2.61"/>
+      <circle cx="374.72" cy="44.08" r="2.61"/>
+      <circle cx="385.74" cy="44.08" r="2.61"/>
+      <circle cx="396.76" cy="44.08" r="2.61"/>
+      <circle cx="407.78" cy="44.08" r="2.61"/>
+      <circle cx="418.8" cy="44.08" r="2.61"/>
+      <circle cx="429.82" cy="44.08" r="2.61"/>
+      <circle cx="440.85" cy="44.08" r="2.61"/>
+      <circle cx="374.72" cy="55.11" r="2.61"/>
+      <circle cx="385.74" cy="55.11" r="2.61"/>
+      <circle cx="396.76" cy="55.11" r="2.61"/>
+      <circle cx="407.78" cy="55.11" r="2.61"/>
+      <circle cx="418.8" cy="55.11" r="2.61"/>
+      <circle cx="429.82" cy="55.11" r="2.61"/>
+      <circle cx="374.72" cy="66.13" r="2.61"/>
+      <circle cx="385.74" cy="66.13" r="2.61"/>
+      <circle cx="396.76" cy="66.13" r="2.61"/>
+      <circle cx="407.78" cy="66.13" r="2.61"/>
+      <circle cx="418.8" cy="66.13" r="2.61"/>
+      <circle cx="429.82" cy="66.13" r="2.61"/>
+      <circle cx="374.72" cy="77.15" r="2.61"/>
+      <circle cx="385.74" cy="77.15" r="2.61"/>
+      <circle cx="396.76" cy="77.15" r="2.61"/>
+      <circle cx="374.72" cy="88.17" r="2.61"/>
+      <circle cx="385.74" cy="88.17" r="2.61"/>
+    </g>
+    <g id="RU" title="Russia" class="land">
+      <circle cx="650.25" cy="44.08" r="2.61"/>
+      <circle cx="595.14" cy="55.11" r="2.61"/>
+      <circle cx="661.27" cy="55.11" r="2.61"/>
+      <circle cx="672.29" cy="55.11" r="2.61"/>
+      <circle cx="683.31" cy="55.11" r="2.61"/>
+      <circle cx="694.33" cy="55.11" r="2.61"/>
+      <circle cx="749.44" cy="55.11" r="2.61"/>
+      <circle cx="617.18" cy="66.13" r="2.61"/>
+      <circle cx="628.21" cy="66.13" r="2.61"/>
+      <circle cx="639.23" cy="66.13" r="2.61"/>
+      <circle cx="650.25" cy="66.13" r="2.61"/>
+      <circle cx="661.27" cy="66.13" r="2.61"/>
+      <circle cx="672.29" cy="66.13" r="2.61"/>
+      <circle cx="683.31" cy="66.13" r="2.61"/>
+      <circle cx="694.33" cy="66.13" r="2.61"/>
+      <circle cx="705.35" cy="66.13" r="2.61"/>
+      <circle cx="716.37" cy="66.13" r="2.61"/>
+      <circle cx="727.4" cy="66.13" r="2.61"/>
+      <circle cx="749.44" cy="66.13" r="2.61"/>
+      <circle cx="760.46" cy="66.13" r="2.61"/>
+      <circle cx="771.48" cy="66.13" r="2.61"/>
+      <circle cx="110.21" cy="77.15" r="2.61"/>
+      <circle cx="540.04" cy="77.15" r="2.61"/>
+      <circle cx="551.06" cy="77.15" r="2.61"/>
+      <circle cx="562.08" cy="77.15" r="2.61"/>
+      <circle cx="584.12" cy="77.15" r="2.61"/>
+      <circle cx="595.14" cy="77.15" r="2.61"/>
+      <circle cx="606.16" cy="77.15" r="2.61"/>
+      <circle cx="617.18" cy="77.15" r="2.61"/>
+      <circle cx="639.23" cy="77.15" r="2.61"/>
+      <circle cx="650.25" cy="77.15" r="2.61"/>
+      <circle cx="661.27" cy="77.15" r="2.61"/>
+      <circle cx="672.29" cy="77.15" r="2.61"/>
+      <circle cx="683.31" cy="77.15" r="2.61"/>
+      <circle cx="694.33" cy="77.15" r="2.61"/>
+      <circle cx="705.35" cy="77.15" r="2.61"/>
+      <circle cx="716.37" cy="77.15" r="2.61"/>
+      <circle cx="727.4" cy="77.15" r="2.61"/>
+      <circle cx="738.42" cy="77.15" r="2.61"/>
+      <circle cx="749.44" cy="77.15" r="2.61"/>
+      <circle cx="760.46" cy="77.15" r="2.61"/>
+      <circle cx="771.48" cy="77.15" r="2.61"/>
+      <circle cx="782.5" cy="77.15" r="2.61"/>
+      <circle cx="793.52" cy="77.15" r="2.61"/>
+      <circle cx="804.54" cy="77.15" r="2.61"/>
+      <circle cx="815.56" cy="77.15" r="2.61"/>
+      <circle cx="826.59" cy="77.15" r="2.61"/>
+      <circle cx="837.61" cy="77.15" r="2.61"/>
+      <circle cx="848.63" cy="77.15" r="2.61"/>
+      <circle cx="551.06" cy="88.17" r="2.61"/>
+      <circle cx="562.08" cy="88.17" r="2.61"/>
+      <circle cx="573.1" cy="88.17" r="2.61"/>
+      <circle cx="584.12" cy="88.17" r="2.61"/>
+      <circle cx="595.14" cy="88.17" r="2.61"/>
+      <circle cx="606.16" cy="88.17" r="2.61"/>
+      <circle cx="617.18" cy="88.17" r="2.61"/>
+      <circle cx="628.21" cy="88.17" r="2.61"/>
+      <circle cx="639.23" cy="88.17" r="2.61"/>
+      <circle cx="650.25" cy="88.17" r="2.61"/>
+      <circle cx="661.27" cy="88.17" r="2.61"/>
+      <circle cx="672.29" cy="88.17" r="2.61"/>
+      <circle cx="683.31" cy="88.17" r="2.61"/>
+      <circle cx="694.33" cy="88.17" r="2.61"/>
+      <circle cx="705.35" cy="88.17" r="2.61"/>
+      <circle cx="716.37" cy="88.17" r="2.61"/>
+      <circle cx="727.4" cy="88.17" r="2.61"/>
+      <circle cx="738.42" cy="88.17" r="2.61"/>
+      <circle cx="749.44" cy="88.17" r="2.61"/>
+      <circle cx="760.46" cy="88.17" r="2.61"/>
+      <circle cx="771.48" cy="88.17" r="2.61"/>
+      <circle cx="782.5" cy="88.17" r="2.61"/>
+      <circle cx="793.52" cy="88.17" r="2.61"/>
+      <circle cx="804.54" cy="88.17" r="2.61"/>
+      <circle cx="815.56" cy="88.17" r="2.61"/>
+      <circle cx="826.59" cy="88.17" r="2.61"/>
+      <circle cx="837.61" cy="88.17" r="2.61"/>
+      <circle cx="848.63" cy="88.17" r="2.61"/>
+      <circle cx="859.65" cy="88.17" r="2.61"/>
+      <circle cx="540.04" cy="99.19" r="2.61"/>
+      <circle cx="551.06" cy="99.19" r="2.61"/>
+      <circle cx="562.08" cy="99.19" r="2.61"/>
+      <circle cx="573.1" cy="99.19" r="2.61"/>
+      <circle cx="584.12" cy="99.19" r="2.61"/>
+      <circle cx="595.14" cy="99.19" r="2.61"/>
+      <circle cx="606.16" cy="99.19" r="2.61"/>
+      <circle cx="617.18" cy="99.19" r="2.61"/>
+      <circle cx="628.21" cy="99.19" r="2.61"/>
+      <circle cx="639.23" cy="99.19" r="2.61"/>
+      <circle cx="650.25" cy="99.19" r="2.61"/>
+      <circle cx="661.27" cy="99.19" r="2.61"/>
+      <circle cx="672.29" cy="99.19" r="2.61"/>
+      <circle cx="683.31" cy="99.19" r="2.61"/>
+      <circle cx="694.33" cy="99.19" r="2.61"/>
+      <circle cx="705.35" cy="99.19" r="2.61"/>
+      <circle cx="716.37" cy="99.19" r="2.61"/>
+      <circle cx="727.4" cy="99.19" r="2.61"/>
+      <circle cx="738.42" cy="99.19" r="2.61"/>
+      <circle cx="749.44" cy="99.19" r="2.61"/>
+      <circle cx="760.46" cy="99.19" r="2.61"/>
+      <circle cx="771.48" cy="99.19" r="2.61"/>
+      <circle cx="782.5" cy="99.19" r="2.61"/>
+      <circle cx="793.52" cy="99.19" r="2.61"/>
+      <circle cx="815.56" cy="99.19" r="2.61"/>
+      <circle cx="837.61" cy="99.19" r="2.61"/>
+      <circle cx="551.06" cy="110.21" r="2.61"/>
+      <circle cx="562.08" cy="110.21" r="2.61"/>
+      <circle cx="573.1" cy="110.21" r="2.61"/>
+      <circle cx="584.12" cy="110.21" r="2.61"/>
+      <circle cx="595.14" cy="110.21" r="2.61"/>
+      <circle cx="606.16" cy="110.21" r="2.61"/>
+      <circle cx="617.18" cy="110.21" r="2.61"/>
+      <circle cx="628.21" cy="110.21" r="2.61"/>
+      <circle cx="639.23" cy="110.21" r="2.61"/>
+      <circle cx="650.25" cy="110.21" r="2.61"/>
+      <circle cx="661.27" cy="110.21" r="2.61"/>
+      <circle cx="672.29" cy="110.21" r="2.61"/>
+      <circle cx="683.31" cy="110.21" r="2.61"/>
+      <circle cx="694.33" cy="110.21" r="2.61"/>
+      <circle cx="705.35" cy="110.21" r="2.61"/>
+      <circle cx="716.37" cy="110.21" r="2.61"/>
+      <circle cx="727.4" cy="110.21" r="2.61"/>
+      <circle cx="738.42" cy="110.21" r="2.61"/>
+      <circle cx="749.44" cy="110.21" r="2.61"/>
+      <circle cx="760.46" cy="110.21" r="2.61"/>
+      <circle cx="771.48" cy="110.21" r="2.61"/>
+      <circle cx="782.5" cy="110.21" r="2.61"/>
+      <circle cx="837.61" cy="110.21" r="2.61"/>
+      <circle cx="562.08" cy="121.23" r="2.61"/>
+      <circle cx="573.1" cy="121.23" r="2.61"/>
+      <circle cx="584.12" cy="121.23" r="2.61"/>
+      <circle cx="595.14" cy="121.23" r="2.61"/>
+      <circle cx="606.16" cy="121.23" r="2.61"/>
+      <circle cx="617.18" cy="121.23" r="2.61"/>
+      <circle cx="672.29" cy="121.23" r="2.61"/>
+      <circle cx="683.31" cy="121.23" r="2.61"/>
+      <circle cx="694.33" cy="121.23" r="2.61"/>
+      <circle cx="705.35" cy="121.23" r="2.61"/>
+      <circle cx="716.37" cy="121.23" r="2.61"/>
+      <circle cx="727.4" cy="121.23" r="2.61"/>
+      <circle cx="738.42" cy="121.23" r="2.61"/>
+      <circle cx="749.44" cy="121.23" r="2.61"/>
+      <circle cx="782.5" cy="121.23" r="2.61"/>
+      <circle cx="793.52" cy="121.23" r="2.61"/>
+      <circle cx="804.54" cy="121.23" r="2.61"/>
+      <circle cx="573.1" cy="132.25" r="2.61"/>
+      <circle cx="584.12" cy="132.25" r="2.61"/>
+      <circle cx="793.52" cy="132.25" r="2.61"/>
+      <circle cx="804.54" cy="132.25" r="2.61"/>
+      <circle cx="573.1" cy="143.27" r="2.61"/>
+      <circle cx="584.12" cy="143.27" r="2.61"/>
+      <circle cx="804.54" cy="143.27" r="2.61"/>
+    </g>
+    <g id="US" title="United States" class="land">
+      <circle cx="143.27" cy="77.15" r="2.61"/>
+      <circle cx="154.3" cy="77.15" r="2.61"/>
+      <circle cx="165.32" cy="77.15" r="2.61"/>
+      <circle cx="176.34" cy="77.15" r="2.61"/>
+      <circle cx="110.21" cy="88.17" r="2.61"/>
+      <circle cx="132.25" cy="88.17" r="2.61"/>
+      <circle cx="143.27" cy="88.17" r="2.61"/>
+      <circle cx="154.3" cy="88.17" r="2.61"/>
+      <circle cx="165.32" cy="88.17" r="2.61"/>
+      <circle cx="121.23" cy="99.19" r="2.61"/>
+      <circle cx="132.25" cy="99.19" r="2.61"/>
+      <circle cx="176.34" cy="99.19" r="2.61"/>
+      <circle cx="176.34" cy="110.21" r="2.61"/>
+      <circle cx="187.36" cy="132.25" r="2.61"/>
+      <circle cx="198.38" cy="132.25" r="2.61"/>
+      <circle cx="209.4" cy="132.25" r="2.61"/>
+      <circle cx="220.42" cy="132.25" r="2.61"/>
+      <circle cx="231.44" cy="132.25" r="2.61"/>
+      <circle cx="242.47" cy="132.25" r="2.61"/>
+      <circle cx="253.49" cy="132.25" r="2.61"/>
+      <circle cx="176.34" cy="143.27" r="2.61"/>
+      <circle cx="187.36" cy="143.27" r="2.61"/>
+      <circle cx="198.38" cy="143.27" r="2.61"/>
+      <circle cx="209.4" cy="143.27" r="2.61"/>
+      <circle cx="220.42" cy="143.27" r="2.61"/>
+      <circle cx="231.44" cy="143.27" r="2.61"/>
+      <circle cx="242.47" cy="143.27" r="2.61"/>
+      <circle cx="253.49" cy="143.27" r="2.61"/>
+      <circle cx="264.51" cy="143.27" r="2.61"/>
+      <circle cx="275.53" cy="143.27" r="2.61"/>
+      <circle cx="297.57" cy="143.27" r="2.61"/>
+      <circle cx="308.59" cy="143.27" r="2.61"/>
+      <circle cx="176.34" cy="154.3" r="2.61"/>
+      <circle cx="187.36" cy="154.3" r="2.61"/>
+      <circle cx="198.38" cy="154.3" r="2.61"/>
+      <circle cx="209.4" cy="154.3" r="2.61"/>
+      <circle cx="220.42" cy="154.3" r="2.61"/>
+      <circle cx="231.44" cy="154.3" r="2.61"/>
+      <circle cx="242.47" cy="154.3" r="2.61"/>
+      <circle cx="253.49" cy="154.3" r="2.61"/>
+      <circle cx="264.51" cy="154.3" r="2.61"/>
+      <circle cx="275.53" cy="154.3" r="2.61"/>
+      <circle cx="286.55" cy="154.3" r="2.61"/>
+      <circle cx="176.34" cy="165.32" r="2.61"/>
+      <circle cx="187.36" cy="165.32" r="2.61"/>
+      <circle cx="198.38" cy="165.32" r="2.61"/>
+      <circle cx="209.4" cy="165.32" r="2.61"/>
+      <circle cx="220.42" cy="165.32" r="2.61"/>
+      <circle cx="231.44" cy="165.32" r="2.61"/>
+      <circle cx="242.47" cy="165.32" r="2.61"/>
+      <circle cx="253.49" cy="165.32" r="2.61"/>
+      <circle cx="264.51" cy="165.32" r="2.61"/>
+      <circle cx="275.53" cy="165.32" r="2.61"/>
+      <circle cx="176.34" cy="176.34" r="2.61"/>
+      <circle cx="187.36" cy="176.34" r="2.61"/>
+      <circle cx="198.38" cy="176.34" r="2.61"/>
+      <circle cx="209.4" cy="176.34" r="2.61"/>
+      <circle cx="220.42" cy="176.34" r="2.61"/>
+      <circle cx="231.44" cy="176.34" r="2.61"/>
+      <circle cx="242.47" cy="176.34" r="2.61"/>
+      <circle cx="253.49" cy="176.34" r="2.61"/>
+      <circle cx="264.51" cy="176.34" r="2.61"/>
+      <circle cx="275.53" cy="176.34" r="2.61"/>
+      <circle cx="209.4" cy="187.36" r="2.61"/>
+      <circle cx="220.42" cy="187.36" r="2.61"/>
+      <circle cx="231.44" cy="187.36" r="2.61"/>
+      <circle cx="242.47" cy="187.36" r="2.61"/>
+      <circle cx="253.49" cy="187.36" r="2.61"/>
+      <circle cx="264.51" cy="187.36" r="2.61"/>
+      <circle cx="220.42" cy="198.38" r="2.61"/>
+      <circle cx="264.51" cy="198.38" r="2.61"/>
+    </g>
+    <g id="SE" title="Sweden" class="land">
+      <circle cx="517.99" cy="77.15" r="2.61"/>
+      <circle cx="506.97" cy="88.17" r="2.61"/>
+      <circle cx="517.99" cy="88.17" r="2.61"/>
+      <circle cx="506.97" cy="99.19" r="2.61"/>
+    </g>
+    <g id="FI" title="Finland" class="land">
+      <circle cx="529.02" cy="77.15" r="2.61"/>
+      <circle cx="529.02" cy="88.17" r="2.61"/>
+      <circle cx="540.04" cy="88.17" r="2.61"/>
+    </g>
+    <g id="NO" title="Norway" class="land">
+      <circle cx="495.95" cy="88.17" r="2.61"/>
+      <circle cx="495.95" cy="99.19" r="2.61"/>
+    </g>
+    <g id="LT" title="Lithuania" class="land">
+      <circle cx="529.02" cy="110.21" r="2.61"/>
+    </g>
+    <g id="BY" title="Belarus" class="land">
+      <circle cx="540.04" cy="110.21" r="2.61"/>
+      <circle cx="540.04" cy="121.23" r="2.61"/>
+    </g>
+    <g id="GB" title="United Kingdom" class="land">
+      <circle cx="473.91" cy="121.23" r="2.61"/>
+    </g>
+    <g id="DE" title="Germany" class="land">
+      <circle cx="495.95" cy="121.23" r="2.61"/>
+      <circle cx="506.97" cy="121.23" r="2.61"/>
+      <circle cx="495.95" cy="132.25" r="2.61"/>
+      <circle cx="506.97" cy="132.25" r="2.61"/>
+    </g>
+    <g id="PL" title="Poland" class="land">
+      <circle cx="517.99" cy="121.23" r="2.61"/>
+      <circle cx="529.02" cy="121.23" r="2.61"/>
+    </g>
+    <g id="UA" title="Ukraine" class="land">
+      <circle cx="551.06" cy="121.23" r="2.61"/>
+      <circle cx="540.04" cy="132.25" r="2.61"/>
+      <circle cx="551.06" cy="132.25" r="2.61"/>
+      <circle cx="562.08" cy="132.25" r="2.61"/>
+    </g>
+    <g id="KZ" title="Kazakhstan" class="land">
+      <circle cx="628.21" cy="121.23" r="2.61"/>
+      <circle cx="639.23" cy="121.23" r="2.61"/>
+      <circle cx="650.25" cy="121.23" r="2.61"/>
+      <circle cx="661.27" cy="121.23" r="2.61"/>
+      <circle cx="595.14" cy="132.25" r="2.61"/>
+      <circle cx="606.16" cy="132.25" r="2.61"/>
+      <circle cx="617.18" cy="132.25" r="2.61"/>
+      <circle cx="628.21" cy="132.25" r="2.61"/>
+      <circle cx="639.23" cy="132.25" r="2.61"/>
+      <circle cx="650.25" cy="132.25" r="2.61"/>
+      <circle cx="661.27" cy="132.25" r="2.61"/>
+      <circle cx="672.29" cy="132.25" r="2.61"/>
+      <circle cx="606.16" cy="143.27" r="2.61"/>
+      <circle cx="628.21" cy="143.27" r="2.61"/>
+      <circle cx="639.23" cy="143.27" r="2.61"/>
+      <circle cx="650.25" cy="143.27" r="2.61"/>
+      <circle cx="661.27" cy="143.27" r="2.61"/>
+      <circle cx="672.29" cy="143.27" r="2.61"/>
+    </g>
+    <g id="CN" title="China" class="land">
+      <circle cx="760.46" cy="121.23" r="2.61"/>
+      <circle cx="771.48" cy="121.23" r="2.61"/>
+      <circle cx="683.31" cy="132.25" r="2.61"/>
+      <circle cx="760.46" cy="132.25" r="2.61"/>
+      <circle cx="771.48" cy="132.25" r="2.61"/>
+      <circle cx="782.5" cy="132.25" r="2.61"/>
+      <circle cx="683.31" cy="143.27" r="2.61"/>
+      <circle cx="694.33" cy="143.27" r="2.61"/>
+      <circle cx="705.35" cy="143.27" r="2.61"/>
+      <circle cx="749.44" cy="143.27" r="2.61"/>
+      <circle cx="760.46" cy="143.27" r="2.61"/>
+      <circle cx="771.48" cy="143.27" r="2.61"/>
+      <circle cx="782.5" cy="143.27" r="2.61"/>
+      <circle cx="793.52" cy="143.27" r="2.61"/>
+      <circle cx="672.29" cy="154.3" r="2.61"/>
+      <circle cx="683.31" cy="154.3" r="2.61"/>
+      <circle cx="694.33" cy="154.3" r="2.61"/>
+      <circle cx="705.35" cy="154.3" r="2.61"/>
+      <circle cx="716.37" cy="154.3" r="2.61"/>
+      <circle cx="727.4" cy="154.3" r="2.61"/>
+      <circle cx="738.42" cy="154.3" r="2.61"/>
+      <circle cx="749.44" cy="154.3" r="2.61"/>
+      <circle cx="760.46" cy="154.3" r="2.61"/>
+      <circle cx="771.48" cy="154.3" r="2.61"/>
+      <circle cx="782.5" cy="154.3" r="2.61"/>
+      <circle cx="672.29" cy="165.32" r="2.61"/>
+      <circle cx="683.31" cy="165.32" r="2.61"/>
+      <circle cx="694.33" cy="165.32" r="2.61"/>
+      <circle cx="705.35" cy="165.32" r="2.61"/>
+      <circle cx="716.37" cy="165.32" r="2.61"/>
+      <circle cx="727.4" cy="165.32" r="2.61"/>
+      <circle cx="738.42" cy="165.32" r="2.61"/>
+      <circle cx="749.44" cy="165.32" r="2.61"/>
+      <circle cx="760.46" cy="165.32" r="2.61"/>
+      <circle cx="771.48" cy="165.32" r="2.61"/>
+      <circle cx="782.5" cy="165.32" r="2.61"/>
+      <circle cx="683.31" cy="176.34" r="2.61"/>
+      <circle cx="694.33" cy="176.34" r="2.61"/>
+      <circle cx="705.35" cy="176.34" r="2.61"/>
+      <circle cx="716.37" cy="176.34" r="2.61"/>
+      <circle cx="727.4" cy="176.34" r="2.61"/>
+      <circle cx="738.42" cy="176.34" r="2.61"/>
+      <circle cx="749.44" cy="176.34" r="2.61"/>
+      <circle cx="760.46" cy="176.34" r="2.61"/>
+      <circle cx="771.48" cy="176.34" r="2.61"/>
+      <circle cx="782.5" cy="176.34" r="2.61"/>
+      <circle cx="694.33" cy="187.36" r="2.61"/>
+      <circle cx="705.35" cy="187.36" r="2.61"/>
+      <circle cx="716.37" cy="187.36" r="2.61"/>
+      <circle cx="727.4" cy="187.36" r="2.61"/>
+      <circle cx="738.42" cy="187.36" r="2.61"/>
+      <circle cx="749.44" cy="187.36" r="2.61"/>
+      <circle cx="760.46" cy="187.36" r="2.61"/>
+      <circle cx="771.48" cy="187.36" r="2.61"/>
+      <circle cx="782.5" cy="187.36" r="2.61"/>
+      <circle cx="738.42" cy="198.38" r="2.61"/>
+      <circle cx="749.44" cy="198.38" r="2.61"/>
+      <circle cx="760.46" cy="198.38" r="2.61"/>
+      <circle cx="771.48" cy="198.38" r="2.61"/>
+      <circle cx="782.5" cy="198.38" r="2.61"/>
+      <circle cx="738.42" cy="209.4" r="2.61"/>
+      <circle cx="749.44" cy="209.4" r="2.61"/>
+      <circle cx="760.46" cy="209.4" r="2.61"/>
+      <circle cx="771.48" cy="209.4" r="2.61"/>
+      <circle cx="782.5" cy="209.4" r="2.61"/>
+    </g>
+    <g id="FR" title="France" class="land">
+      <circle cx="473.91" cy="132.25" r="2.61"/>
+      <circle cx="484.93" cy="132.25" r="2.61"/>
+      <circle cx="484.93" cy="143.27" r="2.61"/>
+    </g>
+    <g id="AT" title="Austria" class="land">
+      <circle cx="517.99" cy="132.25" r="2.61"/>
+    </g>
+    <g id="HU" title="Hungary" class="land">
+      <circle cx="529.02" cy="132.25" r="2.61"/>
+    </g>
+    <g id="MN" title="Mongolia" class="land">
+      <circle cx="694.33" cy="132.25" r="2.61"/>
+      <circle cx="705.35" cy="132.25" r="2.61"/>
+      <circle cx="716.37" cy="132.25" r="2.61"/>
+      <circle cx="727.4" cy="132.25" r="2.61"/>
+      <circle cx="738.42" cy="132.25" r="2.61"/>
+      <circle cx="749.44" cy="132.25" r="2.61"/>
+      <circle cx="716.37" cy="143.27" r="2.61"/>
+      <circle cx="727.4" cy="143.27" r="2.61"/>
+      <circle cx="738.42" cy="143.27" r="2.61"/>
+    </g>
+    <g id="IT" title="Italy" class="land">
+      <circle cx="495.95" cy="143.27" r="2.61"/>
+      <circle cx="506.97" cy="143.27" r="2.61"/>
+      <circle cx="517.99" cy="154.3" r="2.61"/>
+    </g>
+    <g id="BA" title="Bosnia and Herzegovina" class="land">
+      <circle cx="517.99" cy="143.27" r="2.61"/>
+    </g>
+    <g id="RS" title="Serbia" class="land">
+      <circle cx="529.02" cy="143.27" r="2.61"/>
+    </g>
+    <g id="RO" title="Romania" class="land">
+      <circle cx="540.04" cy="143.27" r="2.61"/>
+    </g>
+    <g id="UZ" title="Uzbekistan" class="land">
+      <circle cx="617.18" cy="143.27" r="2.61"/>
+      <circle cx="639.23" cy="154.3" r="2.61"/>
+      <circle cx="650.25" cy="154.3" r="2.61"/>
+    </g>
+    <g id="ES" title="Spain" class="land">
+      <circle cx="462.89" cy="154.3" r="2.61"/>
+      <circle cx="473.91" cy="154.3" r="2.61"/>
+      <circle cx="462.89" cy="165.32" r="2.61"/>
+    </g>
+    <g id="MK" title="North Macedonia" class="land">
+      <circle cx="529.02" cy="154.3" r="2.61"/>
+    </g>
+    <g id="GR" title="Greece" class="land">
+      <circle cx="540.04" cy="154.3" r="2.61"/>
+    </g>
+    <g id="TR" title="Türkiye" class="land">
+      <circle cx="551.06" cy="154.3" r="2.61"/>
+      <circle cx="562.08" cy="154.3" r="2.61"/>
+      <circle cx="584.12" cy="154.3" r="2.61"/>
+      <circle cx="551.06" cy="165.32" r="2.61"/>
+      <circle cx="562.08" cy="165.32" r="2.61"/>
+      <circle cx="573.1" cy="165.32" r="2.61"/>
+      <circle cx="584.12" cy="165.32" r="2.61"/>
+    </g>
+    <g id="AZ" title="Azerbaijan" class="land">
+      <circle cx="595.14" cy="154.3" r="2.61"/>
+    </g>
+    <g id="TM" title="Turkmenistan" class="land">
+      <circle cx="617.18" cy="154.3" r="2.61"/>
+      <circle cx="628.21" cy="154.3" r="2.61"/>
+      <circle cx="628.21" cy="165.32" r="2.61"/>
+      <circle cx="639.23" cy="165.32" r="2.61"/>
+    </g>
+    <g id="KG" title="Kyrgyzstan" class="land">
+      <circle cx="661.27" cy="154.3" r="2.61"/>
+    </g>
+    <g id="KP" title="North Korea" class="land">
+      <circle cx="793.52" cy="154.3" r="2.61"/>
+    </g>
+    <g id="IR" title="Iran" class="land">
+      <circle cx="595.14" cy="165.32" r="2.61"/>
+      <circle cx="617.18" cy="165.32" r="2.61"/>
+      <circle cx="595.14" cy="176.34" r="2.61"/>
+      <circle cx="606.16" cy="176.34" r="2.61"/>
+      <circle cx="617.18" cy="176.34" r="2.61"/>
+      <circle cx="628.21" cy="176.34" r="2.61"/>
+      <circle cx="606.16" cy="187.36" r="2.61"/>
+      <circle cx="617.18" cy="187.36" r="2.61"/>
+      <circle cx="628.21" cy="187.36" r="2.61"/>
+      <circle cx="617.18" cy="198.38" r="2.61"/>
+      <circle cx="628.21" cy="198.38" r="2.61"/>
+      <circle cx="639.23" cy="198.38" r="2.61"/>
+    </g>
+    <g id="TJ" title="Tajikistan" class="land">
+      <circle cx="650.25" cy="165.32" r="2.61"/>
+      <circle cx="661.27" cy="165.32" r="2.61"/>
+    </g>
+    <g id="JP" title="Japan" class="land">
+      <circle cx="826.59" cy="165.32" r="2.61"/>
+    </g>
+    <g id="MA" title="Morocco" class="land">
+      <circle cx="462.89" cy="176.34" r="2.61"/>
+      <circle cx="462.89" cy="187.36" r="2.61"/>
+    </g>
+    <g id="DZ" title="Algeria" class="land">
+      <circle cx="473.91" cy="176.34" r="2.61"/>
+      <circle cx="484.93" cy="176.34" r="2.61"/>
+      <circle cx="495.95" cy="176.34" r="2.61"/>
+      <circle cx="473.91" cy="187.36" r="2.61"/>
+      <circle cx="484.93" cy="187.36" r="2.61"/>
+      <circle cx="495.95" cy="187.36" r="2.61"/>
+      <circle cx="462.89" cy="198.38" r="2.61"/>
+      <circle cx="473.91" cy="198.38" r="2.61"/>
+      <circle cx="484.93" cy="198.38" r="2.61"/>
+      <circle cx="495.95" cy="198.38" r="2.61"/>
+      <circle cx="473.91" cy="209.4" r="2.61"/>
+      <circle cx="484.93" cy="209.4" r="2.61"/>
+      <circle cx="495.95" cy="209.4" r="2.61"/>
+      <circle cx="506.97" cy="209.4" r="2.61"/>
+      <circle cx="484.93" cy="220.42" r="2.61"/>
+    </g>
+    <g id="SY" title="Syria" class="land">
+      <circle cx="573.1" cy="176.34" r="2.61"/>
+    </g>
+    <g id="IQ" title="Iraq" class="land">
+      <circle cx="584.12" cy="176.34" r="2.61"/>
+      <circle cx="595.14" cy="187.36" r="2.61"/>
+    </g>
+    <g id="AF" title="Afghanistan" class="land">
+      <circle cx="639.23" cy="176.34" r="2.61"/>
+      <circle cx="650.25" cy="176.34" r="2.61"/>
+      <circle cx="639.23" cy="187.36" r="2.61"/>
+    </g>
+    <g id="PK" title="Pakistan" class="land">
+      <circle cx="661.27" cy="176.34" r="2.61"/>
+      <circle cx="650.25" cy="187.36" r="2.61"/>
+      <circle cx="661.27" cy="187.36" r="2.61"/>
+      <circle cx="650.25" cy="198.38" r="2.61"/>
+    </g>
+    <g id="IN" title="India" class="land">
+      <circle cx="672.29" cy="176.34" r="2.61"/>
+      <circle cx="672.29" cy="187.36" r="2.61"/>
+      <circle cx="683.31" cy="187.36" r="2.61"/>
+      <circle cx="661.27" cy="198.38" r="2.61"/>
+      <circle cx="672.29" cy="198.38" r="2.61"/>
+      <circle cx="683.31" cy="198.38" r="2.61"/>
+      <circle cx="694.33" cy="198.38" r="2.61"/>
+      <circle cx="661.27" cy="209.4" r="2.61"/>
+      <circle cx="672.29" cy="209.4" r="2.61"/>
+      <circle cx="683.31" cy="209.4" r="2.61"/>
+      <circle cx="694.33" cy="209.4" r="2.61"/>
+      <circle cx="705.35" cy="209.4" r="2.61"/>
+      <circle cx="672.29" cy="220.42" r="2.61"/>
+      <circle cx="683.31" cy="220.42" r="2.61"/>
+      <circle cx="694.33" cy="220.42" r="2.61"/>
+      <circle cx="705.35" cy="220.42" r="2.61"/>
+      <circle cx="683.31" cy="231.44" r="2.61"/>
+      <circle cx="694.33" cy="231.44" r="2.61"/>
+      <circle cx="683.31" cy="242.47" r="2.61"/>
+      <circle cx="683.31" cy="253.49" r="2.61"/>
+    </g>
+    <g id="MX" title="Mexico" class="land">
+      <circle cx="187.36" cy="187.36" r="2.61"/>
+      <circle cx="198.38" cy="187.36" r="2.61"/>
+      <circle cx="198.38" cy="198.38" r="2.61"/>
+      <circle cx="209.4" cy="198.38" r="2.61"/>
+      <circle cx="187.36" cy="209.4" r="2.61"/>
+      <circle cx="198.38" cy="209.4" r="2.61"/>
+      <circle cx="209.4" cy="209.4" r="2.61"/>
+      <circle cx="198.38" cy="220.42" r="2.61"/>
+      <circle cx="209.4" cy="220.42" r="2.61"/>
+      <circle cx="220.42" cy="220.42" r="2.61"/>
+      <circle cx="242.47" cy="220.42" r="2.61"/>
+      <circle cx="220.42" cy="231.44" r="2.61"/>
+      <circle cx="231.44" cy="231.44" r="2.61"/>
+    </g>
+    <g id="LY" title="Libya" class="land">
+      <circle cx="506.97" cy="187.36" r="2.61"/>
+      <circle cx="517.99" cy="187.36" r="2.61"/>
+      <circle cx="529.02" cy="187.36" r="2.61"/>
+      <circle cx="540.04" cy="187.36" r="2.61"/>
+      <circle cx="506.97" cy="198.38" r="2.61"/>
+      <circle cx="517.99" cy="198.38" r="2.61"/>
+      <circle cx="529.02" cy="198.38" r="2.61"/>
+      <circle cx="540.04" cy="198.38" r="2.61"/>
+      <circle cx="517.99" cy="209.4" r="2.61"/>
+      <circle cx="529.02" cy="209.4" r="2.61"/>
+      <circle cx="540.04" cy="209.4" r="2.61"/>
+      <circle cx="540.04" cy="220.42" r="2.61"/>
+    </g>
+    <g id="EG" title="Egypt" class="land">
+      <circle cx="551.06" cy="187.36" r="2.61"/>
+      <circle cx="562.08" cy="187.36" r="2.61"/>
+      <circle cx="551.06" cy="198.38" r="2.61"/>
+      <circle cx="562.08" cy="198.38" r="2.61"/>
+      <circle cx="551.06" cy="209.4" r="2.61"/>
+      <circle cx="562.08" cy="209.4" r="2.61"/>
+    </g>
+    <g id="JO" title="Jordan" class="land">
+      <circle cx="573.1" cy="187.36" r="2.61"/>
+    </g>
+    <g id="SA" title="Saudi Arabia" class="land">
+      <circle cx="584.12" cy="187.36" r="2.61"/>
+      <circle cx="573.1" cy="198.38" r="2.61"/>
+      <circle cx="584.12" cy="198.38" r="2.61"/>
+      <circle cx="595.14" cy="198.38" r="2.61"/>
+      <circle cx="606.16" cy="198.38" r="2.61"/>
+      <circle cx="584.12" cy="209.4" r="2.61"/>
+      <circle cx="595.14" cy="209.4" r="2.61"/>
+      <circle cx="606.16" cy="209.4" r="2.61"/>
+      <circle cx="595.14" cy="220.42" r="2.61"/>
+      <circle cx="606.16" cy="220.42" r="2.61"/>
+      <circle cx="617.18" cy="220.42" r="2.61"/>
+    </g>
+    <g id="EH" title="Western Sahara" class="land">
+      <circle cx="451.87" cy="198.38" r="2.61"/>
+      <circle cx="440.85" cy="209.4" r="2.61"/>
+    </g>
+    <g id="NP" title="Nepal" class="land">
+      <circle cx="705.35" cy="198.38" r="2.61"/>
+    </g>
+    <g id="BT" title="Bhutan" class="land">
+      <circle cx="716.37" cy="198.38" r="2.61"/>
+    </g>
+    <g id="MM" title="Myanmar" class="land">
+      <circle cx="727.4" cy="198.38" r="2.61"/>
+      <circle cx="727.4" cy="209.4" r="2.61"/>
+      <circle cx="727.4" cy="220.42" r="2.61"/>
+      <circle cx="738.42" cy="220.42" r="2.61"/>
+      <circle cx="738.42" cy="231.44" r="2.61"/>
+    </g>
+    <g id="MR" title="Mauritania" class="land">
+      <circle cx="451.87" cy="209.4" r="2.61"/>
+      <circle cx="440.85" cy="220.42" r="2.61"/>
+      <circle cx="451.87" cy="220.42" r="2.61"/>
+      <circle cx="440.85" cy="231.44" r="2.61"/>
+      <circle cx="451.87" cy="231.44" r="2.61"/>
+    </g>
+    <g id="ML" title="Mali" class="land">
+      <circle cx="462.89" cy="209.4" r="2.61"/>
+      <circle cx="462.89" cy="220.42" r="2.61"/>
+      <circle cx="473.91" cy="220.42" r="2.61"/>
+      <circle cx="462.89" cy="231.44" r="2.61"/>
+      <circle cx="473.91" cy="231.44" r="2.61"/>
+      <circle cx="484.93" cy="231.44" r="2.61"/>
+      <circle cx="451.87" cy="242.47" r="2.61"/>
+      <circle cx="462.89" cy="242.47" r="2.61"/>
+    </g>
+    <g id="AE" title="United Arab Emirates" class="land">
+      <circle cx="617.18" cy="209.4" r="2.61"/>
+    </g>
+    <g id="OM" title="Oman" class="land">
+      <circle cx="628.21" cy="209.4" r="2.61"/>
+      <circle cx="628.21" cy="220.42" r="2.61"/>
+    </g>
+    <g id="BD" title="Bangladesh" class="land">
+      <circle cx="716.37" cy="209.4" r="2.61"/>
+    </g>
+    <g id="TW" title="Taiwan" class="land">
+      <circle cx="793.52" cy="209.4" r="2.61"/>
+    </g>
+    <g id="NE" title="Niger" class="land">
+      <circle cx="495.95" cy="220.42" r="2.61"/>
+      <circle cx="506.97" cy="220.42" r="2.61"/>
+      <circle cx="517.99" cy="220.42" r="2.61"/>
+      <circle cx="495.95" cy="231.44" r="2.61"/>
+      <circle cx="506.97" cy="231.44" r="2.61"/>
+      <circle cx="484.93" cy="242.47" r="2.61"/>
+    </g>
+    <g id="TD" title="Chad" class="land">
+      <circle cx="529.02" cy="220.42" r="2.61"/>
+      <circle cx="517.99" cy="231.44" r="2.61"/>
+      <circle cx="529.02" cy="231.44" r="2.61"/>
+      <circle cx="540.04" cy="231.44" r="2.61"/>
+      <circle cx="517.99" cy="242.47" r="2.61"/>
+      <circle cx="529.02" cy="242.47" r="2.61"/>
+      <circle cx="517.99" cy="253.49" r="2.61"/>
+      <circle cx="529.02" cy="253.49" r="2.61"/>
+    </g>
+    <g id="SD" title="Sudan" class="land">
+      <circle cx="551.06" cy="220.42" r="2.61"/>
+      <circle cx="562.08" cy="220.42" r="2.61"/>
+      <circle cx="573.1" cy="220.42" r="2.61"/>
+      <circle cx="551.06" cy="231.44" r="2.61"/>
+      <circle cx="562.08" cy="231.44" r="2.61"/>
+      <circle cx="573.1" cy="231.44" r="2.61"/>
+      <circle cx="540.04" cy="242.47" r="2.61"/>
+      <circle cx="551.06" cy="242.47" r="2.61"/>
+      <circle cx="562.08" cy="242.47" r="2.61"/>
+      <circle cx="573.1" cy="242.47" r="2.61"/>
+    </g>
+    <g id="LA" title="Lao People's Democratic Republic" class="land">
+      <circle cx="749.44" cy="220.42" r="2.61"/>
+      <circle cx="760.46" cy="231.44" r="2.61"/>
+    </g>
+    <g id="YE" title="Yemen" class="land">
+      <circle cx="595.14" cy="231.44" r="2.61"/>
+      <circle cx="606.16" cy="231.44" r="2.61"/>
+      <circle cx="617.18" cy="231.44" r="2.61"/>
+      <circle cx="595.14" cy="242.47" r="2.61"/>
+    </g>
+    <g id="TH" title="Thailand" class="land">
+      <circle cx="749.44" cy="231.44" r="2.61"/>
+      <circle cx="749.44" cy="242.47" r="2.61"/>
+    </g>
+    <g id="SN" title="Senegal" class="land">
+      <circle cx="440.85" cy="242.47" r="2.61"/>
+    </g>
+    <g id="BF" title="Burkina Faso" class="land">
+      <circle cx="473.91" cy="242.47" r="2.61"/>
+    </g>
+    <g id="NG" title="Nigeria" class="land">
+      <circle cx="495.95" cy="242.47" r="2.61"/>
+      <circle cx="506.97" cy="242.47" r="2.61"/>
+      <circle cx="495.95" cy="253.49" r="2.61"/>
+      <circle cx="506.97" cy="253.49" r="2.61"/>
+      <circle cx="495.95" cy="264.51" r="2.61"/>
+    </g>
+    <g id="ET" title="Ethiopia" class="land">
+      <circle cx="584.12" cy="242.47" r="2.61"/>
+      <circle cx="573.1" cy="253.49" r="2.61"/>
+      <circle cx="584.12" cy="253.49" r="2.61"/>
+      <circle cx="573.1" cy="264.51" r="2.61"/>
+      <circle cx="584.12" cy="264.51" r="2.61"/>
+      <circle cx="595.14" cy="264.51" r="2.61"/>
+    </g>
+    <g id="KH" title="Cambodia" class="land">
+      <circle cx="760.46" cy="242.47" r="2.61"/>
+    </g>
+    <g id="CR" title="Costa Rica" class="land">
+      <circle cx="253.49" cy="253.49" r="2.61"/>
+    </g>
+    <g id="PA" title="Panama" class="land">
+      <circle cx="264.51" cy="253.49" r="2.61"/>
+    </g>
+    <g id="CO" title="Colombia" class="land">
+      <circle cx="275.53" cy="253.49" r="2.61"/>
+      <circle cx="275.53" cy="264.51" r="2.61"/>
+      <circle cx="286.55" cy="264.51" r="2.61"/>
+      <circle cx="275.53" cy="275.53" r="2.61"/>
+      <circle cx="286.55" cy="275.53" r="2.61"/>
+      <circle cx="286.55" cy="286.55" r="2.61"/>
+    </g>
+    <g id="VE" title="Venezuela" class="land">
+      <circle cx="286.55" cy="253.49" r="2.61"/>
+      <circle cx="297.57" cy="253.49" r="2.61"/>
+      <circle cx="308.59" cy="253.49" r="2.61"/>
+      <circle cx="297.57" cy="264.51" r="2.61"/>
+      <circle cx="308.59" cy="264.51" r="2.61"/>
+      <circle cx="297.57" cy="275.53" r="2.61"/>
+    </g>
+    <g id="GN" title="Guinea" class="land">
+      <circle cx="451.87" cy="253.49" r="2.61"/>
+    </g>
+    <g id="CI" title="Côte d'Ivoire" class="land">
+      <circle cx="462.89" cy="253.49" r="2.61"/>
+      <circle cx="462.89" cy="264.51" r="2.61"/>
+    </g>
+    <g id="GH" title="Ghana" class="land">
+      <circle cx="473.91" cy="253.49" r="2.61"/>
+      <circle cx="473.91" cy="264.51" r="2.61"/>
+    </g>
+    <g id="BJ" title="Benin" class="land">
+      <circle cx="484.93" cy="253.49" r="2.61"/>
+    </g>
+    <g id="CF" title="Central African Republic" class="land">
+      <circle cx="540.04" cy="253.49" r="2.61"/>
+      <circle cx="517.99" cy="264.51" r="2.61"/>
+      <circle cx="529.02" cy="264.51" r="2.61"/>
+      <circle cx="540.04" cy="264.51" r="2.61"/>
+    </g>
+    <g id="SS" title="South Sudan" class="land">
+      <circle cx="551.06" cy="253.49" r="2.61"/>
+      <circle cx="562.08" cy="253.49" r="2.61"/>
+      <circle cx="551.06" cy="264.51" r="2.61"/>
+      <circle cx="562.08" cy="264.51" r="2.61"/>
+    </g>
+    <g id="SO" title="Somalia" class="land">
+      <circle cx="595.14" cy="253.49" r="2.61"/>
+      <circle cx="606.16" cy="253.49" r="2.61"/>
+      <circle cx="606.16" cy="264.51" r="2.61"/>
+      <circle cx="595.14" cy="275.53" r="2.61"/>
+    </g>
+    <g id="VN" title="Vietnam" class="land">
+      <circle cx="760.46" cy="253.49" r="2.61"/>
+    </g>
+    <g id="PH" title="Philippines" class="land">
+      <circle cx="815.56" cy="253.49" r="2.61"/>
+      <circle cx="815.56" cy="264.51" r="2.61"/>
+    </g>
+    <g id="GY" title="Guyana" class="land">
+      <circle cx="319.61" cy="264.51" r="2.61"/>
+      <circle cx="319.61" cy="275.53" r="2.61"/>
+    </g>
+    <g id="LR" title="Liberia" class="land">
+      <circle cx="451.87" cy="264.51" r="2.61"/>
+    </g>
+    <g id="CM" title="Cameroon" class="land">
+      <circle cx="506.97" cy="264.51" r="2.61"/>
+      <circle cx="506.97" cy="275.53" r="2.61"/>
+      <circle cx="517.99" cy="275.53" r="2.61"/>
+    </g>
+    <g id="MY" title="Malaysia" class="land">
+      <circle cx="749.44" cy="264.51" r="2.61"/>
+      <circle cx="793.52" cy="264.51" r="2.61"/>
+      <circle cx="782.5" cy="275.53" r="2.61"/>
+    </g>
+    <g id="BR" title="Brazil" class="land">
+      <circle cx="308.59" cy="275.53" r="2.61"/>
+      <circle cx="297.57" cy="286.55" r="2.61"/>
+      <circle cx="308.59" cy="286.55" r="2.61"/>
+      <circle cx="319.61" cy="286.55" r="2.61"/>
+      <circle cx="330.63" cy="286.55" r="2.61"/>
+      <circle cx="341.66" cy="286.55" r="2.61"/>
+      <circle cx="352.68" cy="286.55" r="2.61"/>
+      <circle cx="286.55" cy="297.57" r="2.61"/>
+      <circle cx="297.57" cy="297.57" r="2.61"/>
+      <circle cx="308.59" cy="297.57" r="2.61"/>
+      <circle cx="319.61" cy="297.57" r="2.61"/>
+      <circle cx="330.63" cy="297.57" r="2.61"/>
+      <circle cx="341.66" cy="297.57" r="2.61"/>
+      <circle cx="352.68" cy="297.57" r="2.61"/>
+      <circle cx="363.7" cy="297.57" r="2.61"/>
+      <circle cx="374.72" cy="297.57" r="2.61"/>
+      <circle cx="286.55" cy="308.59" r="2.61"/>
+      <circle cx="297.57" cy="308.59" r="2.61"/>
+      <circle cx="308.59" cy="308.59" r="2.61"/>
+      <circle cx="319.61" cy="308.59" r="2.61"/>
+      <circle cx="330.63" cy="308.59" r="2.61"/>
+      <circle cx="341.66" cy="308.59" r="2.61"/>
+      <circle cx="352.68" cy="308.59" r="2.61"/>
+      <circle cx="363.7" cy="308.59" r="2.61"/>
+      <circle cx="374.72" cy="308.59" r="2.61"/>
+      <circle cx="308.59" cy="319.61" r="2.61"/>
+      <circle cx="319.61" cy="319.61" r="2.61"/>
+      <circle cx="330.63" cy="319.61" r="2.61"/>
+      <circle cx="341.66" cy="319.61" r="2.61"/>
+      <circle cx="352.68" cy="319.61" r="2.61"/>
+      <circle cx="363.7" cy="319.61" r="2.61"/>
+      <circle cx="374.72" cy="319.61" r="2.61"/>
+      <circle cx="319.61" cy="330.63" r="2.61"/>
+      <circle cx="330.63" cy="330.63" r="2.61"/>
+      <circle cx="341.66" cy="330.63" r="2.61"/>
+      <circle cx="352.68" cy="330.63" r="2.61"/>
+      <circle cx="363.7" cy="330.63" r="2.61"/>
+      <circle cx="330.63" cy="341.66" r="2.61"/>
+      <circle cx="341.66" cy="341.66" r="2.61"/>
+      <circle cx="352.68" cy="341.66" r="2.61"/>
+      <circle cx="363.7" cy="341.66" r="2.61"/>
+      <circle cx="330.63" cy="352.68" r="2.61"/>
+      <circle cx="341.66" cy="352.68" r="2.61"/>
+      <circle cx="352.68" cy="352.68" r="2.61"/>
+      <circle cx="363.7" cy="352.68" r="2.61"/>
+      <circle cx="341.66" cy="363.7" r="2.61"/>
+      <circle cx="330.63" cy="374.72" r="2.61"/>
+      <circle cx="341.66" cy="374.72" r="2.61"/>
+      <circle cx="341.66" cy="385.74" r="2.61"/>
+    </g>
+    <g id="GF" title="French Guiana" class="land">
+      <circle cx="330.63" cy="275.53" r="2.61"/>
+    </g>
+    <g id="CD" title="Democratic Republic of Congo" class="land">
+      <circle cx="529.02" cy="275.53" r="2.61"/>
+      <circle cx="540.04" cy="275.53" r="2.61"/>
+      <circle cx="551.06" cy="275.53" r="2.61"/>
+      <circle cx="529.02" cy="286.55" r="2.61"/>
+      <circle cx="540.04" cy="286.55" r="2.61"/>
+      <circle cx="551.06" cy="286.55" r="2.61"/>
+      <circle cx="517.99" cy="297.57" r="2.61"/>
+      <circle cx="529.02" cy="297.57" r="2.61"/>
+      <circle cx="540.04" cy="297.57" r="2.61"/>
+      <circle cx="551.06" cy="297.57" r="2.61"/>
+      <circle cx="540.04" cy="308.59" r="2.61"/>
+      <circle cx="551.06" cy="308.59" r="2.61"/>
+      <circle cx="551.06" cy="319.61" r="2.61"/>
+    </g>
+    <g id="UG" title="Uganda" class="land">
+      <circle cx="562.08" cy="275.53" r="2.61"/>
+    </g>
+    <g id="KE" title="Kenya" class="land">
+      <circle cx="573.1" cy="275.53" r="2.61"/>
+      <circle cx="584.12" cy="275.53" r="2.61"/>
+      <circle cx="573.1" cy="286.55" r="2.61"/>
+      <circle cx="584.12" cy="286.55" r="2.61"/>
+    </g>
+    <g id="ID" title="Indonesia" class="land">
+      <circle cx="793.52" cy="275.53" r="2.61"/>
+      <circle cx="749.44" cy="286.55" r="2.61"/>
+      <circle cx="782.5" cy="286.55" r="2.61"/>
+      <circle cx="837.61" cy="286.55" r="2.61"/>
+      <circle cx="760.46" cy="297.57" r="2.61"/>
+      <circle cx="848.63" cy="297.57" r="2.61"/>
+      <circle cx="782.5" cy="308.59" r="2.61"/>
+      <circle cx="848.63" cy="308.59" r="2.61"/>
+    </g>
+    <g id="EC" title="Ecuador" class="land">
+      <circle cx="264.51" cy="286.55" r="2.61"/>
+    </g>
+    <g id="PE" title="Peru" class="land">
+      <circle cx="275.53" cy="286.55" r="2.61"/>
+      <circle cx="264.51" cy="297.57" r="2.61"/>
+      <circle cx="275.53" cy="297.57" r="2.61"/>
+      <circle cx="264.51" cy="308.59" r="2.61"/>
+      <circle cx="275.53" cy="308.59" r="2.61"/>
+      <circle cx="275.53" cy="319.61" r="2.61"/>
+      <circle cx="286.55" cy="319.61" r="2.61"/>
+      <circle cx="286.55" cy="330.63" r="2.61"/>
+    </g>
+    <g id="GA" title="Gabon" class="land">
+      <circle cx="506.97" cy="286.55" r="2.61"/>
+    </g>
+    <g id="CG" title="Republic of Congo" class="land">
+      <circle cx="517.99" cy="286.55" r="2.61"/>
+    </g>
+    <g id="TZ" title="Tanzania" class="land">
+      <circle cx="562.08" cy="286.55" r="2.61"/>
+      <circle cx="562.08" cy="297.57" r="2.61"/>
+      <circle cx="573.1" cy="297.57" r="2.61"/>
+      <circle cx="562.08" cy="308.59" r="2.61"/>
+      <circle cx="573.1" cy="308.59" r="2.61"/>
+    </g>
+    <g id="PG" title="Papua New Guinea" class="land">
+      <circle cx="859.65" cy="297.57" r="2.61"/>
+      <circle cx="859.65" cy="308.59" r="2.61"/>
+    </g>
+    <g id="AO" title="Angola" class="land">
+      <circle cx="517.99" cy="308.59" r="2.61"/>
+      <circle cx="529.02" cy="308.59" r="2.61"/>
+      <circle cx="517.99" cy="319.61" r="2.61"/>
+      <circle cx="529.02" cy="319.61" r="2.61"/>
+      <circle cx="540.04" cy="319.61" r="2.61"/>
+      <circle cx="517.99" cy="330.63" r="2.61"/>
+      <circle cx="529.02" cy="330.63" r="2.61"/>
+    </g>
+    <g id="BO" title="Bolivia" class="land">
+      <circle cx="297.57" cy="319.61" r="2.61"/>
+      <circle cx="297.57" cy="330.63" r="2.61"/>
+      <circle cx="308.59" cy="330.63" r="2.61"/>
+      <circle cx="297.57" cy="341.66" r="2.61"/>
+      <circle cx="308.59" cy="341.66" r="2.61"/>
+      <circle cx="319.61" cy="341.66" r="2.61"/>
+    </g>
+    <g id="ZM" title="Zambia" class="land">
+      <circle cx="562.08" cy="319.61" r="2.61"/>
+      <circle cx="540.04" cy="330.63" r="2.61"/>
+      <circle cx="551.06" cy="330.63" r="2.61"/>
+    </g>
+    <g id="MZ" title="Mozambique" class="land">
+      <circle cx="573.1" cy="319.61" r="2.61"/>
+      <circle cx="584.12" cy="319.61" r="2.61"/>
+      <circle cx="562.08" cy="330.63" r="2.61"/>
+      <circle cx="573.1" cy="330.63" r="2.61"/>
+      <circle cx="584.12" cy="330.63" r="2.61"/>
+      <circle cx="573.1" cy="341.66" r="2.61"/>
+      <circle cx="562.08" cy="352.68" r="2.61"/>
+      <circle cx="562.08" cy="363.7" r="2.61"/>
+    </g>
+    <g id="AU" title="Australia" class="land">
+      <circle cx="859.65" cy="319.61" r="2.61"/>
+      <circle cx="815.56" cy="330.63" r="2.61"/>
+      <circle cx="826.59" cy="330.63" r="2.61"/>
+      <circle cx="837.61" cy="330.63" r="2.61"/>
+      <circle cx="859.65" cy="330.63" r="2.61"/>
+      <circle cx="804.54" cy="341.66" r="2.61"/>
+      <circle cx="815.56" cy="341.66" r="2.61"/>
+      <circle cx="826.59" cy="341.66" r="2.61"/>
+      <circle cx="837.61" cy="341.66" r="2.61"/>
+      <circle cx="848.63" cy="341.66" r="2.61"/>
+      <circle cx="859.65" cy="341.66" r="2.61"/>
+      <circle cx="782.5" cy="352.68" r="2.61"/>
+      <circle cx="793.52" cy="352.68" r="2.61"/>
+      <circle cx="804.54" cy="352.68" r="2.61"/>
+      <circle cx="815.56" cy="352.68" r="2.61"/>
+      <circle cx="826.59" cy="352.68" r="2.61"/>
+      <circle cx="837.61" cy="352.68" r="2.61"/>
+      <circle cx="848.63" cy="352.68" r="2.61"/>
+      <circle cx="859.65" cy="352.68" r="2.61"/>
+      <circle cx="870.67" cy="352.68" r="2.61"/>
+      <circle cx="782.5" cy="363.7" r="2.61"/>
+      <circle cx="793.52" cy="363.7" r="2.61"/>
+      <circle cx="804.54" cy="363.7" r="2.61"/>
+      <circle cx="815.56" cy="363.7" r="2.61"/>
+      <circle cx="826.59" cy="363.7" r="2.61"/>
+      <circle cx="837.61" cy="363.7" r="2.61"/>
+      <circle cx="848.63" cy="363.7" r="2.61"/>
+      <circle cx="859.65" cy="363.7" r="2.61"/>
+      <circle cx="870.67" cy="363.7" r="2.61"/>
+      <circle cx="782.5" cy="374.72" r="2.61"/>
+      <circle cx="793.52" cy="374.72" r="2.61"/>
+      <circle cx="804.54" cy="374.72" r="2.61"/>
+      <circle cx="815.56" cy="374.72" r="2.61"/>
+      <circle cx="826.59" cy="374.72" r="2.61"/>
+      <circle cx="837.61" cy="374.72" r="2.61"/>
+      <circle cx="848.63" cy="374.72" r="2.61"/>
+      <circle cx="859.65" cy="374.72" r="2.61"/>
+      <circle cx="870.67" cy="374.72" r="2.61"/>
+      <circle cx="782.5" cy="385.74" r="2.61"/>
+      <circle cx="793.52" cy="385.74" r="2.61"/>
+      <circle cx="826.59" cy="385.74" r="2.61"/>
+      <circle cx="837.61" cy="385.74" r="2.61"/>
+      <circle cx="848.63" cy="385.74" r="2.61"/>
+      <circle cx="859.65" cy="385.74" r="2.61"/>
+      <circle cx="837.61" cy="396.76" r="2.61"/>
+      <circle cx="848.63" cy="396.76" r="2.61"/>
+      <circle cx="837.61" cy="418.8" r="2.61"/>
+    </g>
+    <g id="MG" title="Madagascar" class="land">
+      <circle cx="606.16" cy="330.63" r="2.61"/>
+      <circle cx="595.14" cy="341.66" r="2.61"/>
+      <circle cx="606.16" cy="341.66" r="2.61"/>
+      <circle cx="595.14" cy="352.68" r="2.61"/>
+    </g>
+    <g id="NA" title="Namibia" class="land">
+      <circle cx="517.99" cy="341.66" r="2.61"/>
+      <circle cx="529.02" cy="341.66" r="2.61"/>
+      <circle cx="517.99" cy="352.68" r="2.61"/>
+      <circle cx="529.02" cy="352.68" r="2.61"/>
+      <circle cx="517.99" cy="363.7" r="2.61"/>
+      <circle cx="529.02" cy="363.7" r="2.61"/>
+    </g>
+    <g id="BW" title="Botswana" class="land">
+      <circle cx="540.04" cy="341.66" r="2.61"/>
+      <circle cx="540.04" cy="352.68" r="2.61"/>
+      <circle cx="551.06" cy="352.68" r="2.61"/>
+    </g>
+    <g id="ZW" title="Zimbabwe" class="land">
+      <circle cx="551.06" cy="341.66" r="2.61"/>
+      <circle cx="562.08" cy="341.66" r="2.61"/>
+    </g>
+    <g id="CL" title="Chile" class="land">
+      <circle cx="297.57" cy="352.68" r="2.61"/>
+      <circle cx="297.57" cy="363.7" r="2.61"/>
+      <circle cx="297.57" cy="396.76" r="2.61"/>
+      <circle cx="297.57" cy="407.78" r="2.61"/>
+    </g>
+    <g id="AR" title="Argentina" class="land">
+      <circle cx="308.59" cy="352.68" r="2.61"/>
+      <circle cx="308.59" cy="363.7" r="2.61"/>
+      <circle cx="319.61" cy="363.7" r="2.61"/>
+      <circle cx="297.57" cy="374.72" r="2.61"/>
+      <circle cx="308.59" cy="374.72" r="2.61"/>
+      <circle cx="319.61" cy="374.72" r="2.61"/>
+      <circle cx="297.57" cy="385.74" r="2.61"/>
+      <circle cx="308.59" cy="385.74" r="2.61"/>
+      <circle cx="319.61" cy="385.74" r="2.61"/>
+      <circle cx="308.59" cy="396.76" r="2.61"/>
+      <circle cx="319.61" cy="396.76" r="2.61"/>
+      <circle cx="330.63" cy="396.76" r="2.61"/>
+      <circle cx="308.59" cy="407.78" r="2.61"/>
+      <circle cx="319.61" cy="407.78" r="2.61"/>
+      <circle cx="308.59" cy="418.8" r="2.61"/>
+      <circle cx="308.59" cy="429.82" r="2.61"/>
+      <circle cx="308.59" cy="440.85" r="2.61"/>
+      <circle cx="319.61" cy="451.87" r="2.61"/>
+    </g>
+    <g id="PY" title="Paraguay" class="land">
+      <circle cx="319.61" cy="352.68" r="2.61"/>
+      <circle cx="330.63" cy="363.7" r="2.61"/>
+    </g>
+    <g id="ZA" title="South Africa" class="land">
+      <circle cx="540.04" cy="363.7" r="2.61"/>
+      <circle cx="551.06" cy="363.7" r="2.61"/>
+      <circle cx="529.02" cy="374.72" r="2.61"/>
+      <circle cx="540.04" cy="374.72" r="2.61"/>
+      <circle cx="529.02" cy="385.74" r="2.61"/>
+      <circle cx="540.04" cy="385.74" r="2.61"/>
+    </g>
+    <g id="LS" title="Lesotho" class="land">
+      <circle cx="551.06" cy="374.72" r="2.61"/>
+    </g>
+    <g id="UY" title="Uruguay" class="land">
+      <circle cx="330.63" cy="385.74" r="2.61"/>
+    </g>
+    <g id="NZ" title="New Zealand" class="land">
+      <circle cx="914.76" cy="407.78" r="2.61"/>
+    </g>
+  </g>
+</svg>

@@ -11,27 +11,19 @@ npm run dev
 
 Built with [React](https://react.dev) and [Vite](https://vite.dev).
 
-## CMS Modes
+For **where to change routes, JSON content, images, and styles**, see [`docs/project-guide.md`](./docs/project-guide.md).
 
-The storefront can read CMS content from Strapi, Supabase, or both.
-
-Configure in `.env`:
+## Build
 
 ```bash
-VITE_CMS_SOURCE=auto
-VITE_STRAPI_URL=http://localhost:1337
+npm run build       # production bundle in dist/
+npm run preview     # local preview of the production build
 ```
 
-`VITE_CMS_SOURCE` values:
+## Content
 
-- `auto`: default fallback chain `defaults -> Strapi -> Supabase`
-- `strapi`: `defaults -> Strapi`
-- `supabase`: `defaults -> Supabase`
+Site content is sourced from the JSON files in [`src/data/`](./src/data) (navigation, products, home sections, etc.) with defaults defined in [`src/lib/cmsDefaults.js`](./src/lib/cmsDefaults.js). Edit those files to update the storefront.
 
-For Strapi-driven content, enable `find` permission for the `Public` role on:
+## Image asset reference
 
-- `navigation`
-- `homepage`
-- `footer`
-- `site-setting`
-- `product`
+See [`docs/image-size-reference.md`](./docs/image-size-reference.md) for the recommended dimensions and aspect ratios for hero, product, and showcase imagery.
