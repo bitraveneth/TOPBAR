@@ -1046,6 +1046,108 @@ p { color: var(--text-secondary); }
   padding-top: 1rem;
 }
 
+/* ===== Home brand video (click-to-play) ===== */
+.brand-video-section {
+  padding-top: 0.5rem;
+}
+
+.brand-video-section__sub {
+  margin: -0.5rem auto 1.75rem;
+  max-width: 36rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.brand-video-stage {
+  max-width: 960px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-md);
+}
+
+.brand-video-poster {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background: #0a0a12;
+  aspect-ratio: 16 / 9;
+}
+
+.brand-video-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.brand-video-poster__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+
+.brand-video-poster__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1rem 1.35rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--bg-elevated) 82%, transparent);
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.brand-video-poster:hover .brand-video-poster__play,
+.brand-video-poster:focus-visible .brand-video-poster__play {
+  transform: translate(-50%, -50%) scale(1.04);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.brand-video-poster:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.brand-video-player__el {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.brand-video-player__error {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  background: color-mix(in srgb, #ef4444 12%, var(--bg-card));
+  border-top: 1px solid var(--border);
+}
+
+.brand-video-player__error code {
+  font-size: 0.8em;
+}
+
 .best-flavors-title {
   text-align: center;
   position: relative;

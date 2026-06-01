@@ -35,7 +35,7 @@ export function getDefaultCmsMap() {
       featuredProductSlugs: ['topbar-8000-puffs', 'topbar-9900-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs'],
       flavorOrderBySlug: {
         'topbar-9900-puffs': ['Watermelon Ice', 'Red Energy', 'Mango', 'Coke Ice', 'Berry Grape', 'Strawberry Ice'],
-        'topbar-8000-puffs': ['Mango', 'Coke Ice', 'Watermelon Ice', 'Passion Fruit'],
+        'topbar-8000-puffs': ['Watermelon Kiwi', 'Coke Ice', 'Watermelon Ice', 'Grape Ice', 'Passion Fruit'],
         'topbar-50000-puffs': ['Mint Ice', 'Grape Ice', 'Strawberry Kiwi', 'Watermelon Ice'],
         'topbar-60000-puffs': ['Blue Device'],
       },

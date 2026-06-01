@@ -9,6 +9,7 @@ import { lazy, Suspense, useMemo } from 'react'
 
 import ProductShowcase from '../components/sections/ProductShowcase'
 import BestSellingFlavors from '../components/sections/BestSellingFlavors'
+import HomeBrandVideo from '../components/sections/HomeBrandVideo'
 import BrandValues from '../components/sections/BrandValues'
 const TopbarScrollZoom = lazy(() => import('../components/sections/TopbarScrollZoom'))
 const LovedByYou = lazy(() => import('../components/sections/LovedByYou'))
@@ -94,6 +95,7 @@ function Home() {
   }, [productsList, featuredProductSlugs, flavorOrderBySlug])
 
   const heroSlides = home.heroSlides || []
+  const brandVideo = home.brandVideo || {}
   const brandValues = home.brandValues || []
   const topbarTagline = home.topbarTagline
 
@@ -107,6 +109,13 @@ function Home() {
         className="showcase-section--core"
       />
       <BestSellingFlavors groups={bestFlavorGroups} />
+      <HomeBrandVideo
+        title={brandVideo.title}
+        subtitle={brandVideo.subtitle}
+        poster={brandVideo.poster}
+        mp4={brandVideo.mp4}
+        mov={brandVideo.mov}
+      />
       <BrandValues values={brandValues} />
       <Suspense fallback={null}>
         <LovedByYou />

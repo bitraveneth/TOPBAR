@@ -105,6 +105,12 @@
     { "label": "10th Anniversary", "link": "/about" },
     { "label": "Peak 2", "link": "/products" }
   ],
+  "brandVideo": {
+    "title": "TOPBAR in Motion",
+    "subtitle": "See the brand story — tap play to watch.",
+    "poster": "/images/video/topbar-brand-poster.webp",
+    "mp4": "/videos/topbar-brand-promo.mp4"
+  },
   "brandValues": [
     { "keyword": "GENUINE", "text": "Genuine innovation can be respected." },
     { "keyword": "WANT", "text": "Enthusiast knows what users want." },
