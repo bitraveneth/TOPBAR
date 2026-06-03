@@ -7456,6 +7456,15 @@ p { color: var(--text-secondary); }
   filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
 }
 
+.detail-spec-bento__hero--40000 {
+  background: linear-gradient(165deg, #f4f4f4, #e8e8e8);
+  border-color: color-mix(in srgb, var(--border) 55%, transparent);
+}
+
+.detail-spec-bento__hero--40000 img {
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.14));
+}
+
 .detail-spec-bento__hero--8000 img {
   width: min(118%, 620px);
   height: min(118%, 700px);
@@ -8697,6 +8706,10 @@ p { color: var(--text-secondary); }
 :root[data-theme='light'] .detail-spec-bento__hero {
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
   background: linear-gradient(160deg, var(--bg-card), var(--bg-secondary));
+}
+
+:root[data-theme='light'] .detail-spec-bento__hero--40000 {
+  background: linear-gradient(165deg, #fff, #f0f0f0);
 }
 
 :root[data-theme='light'] .detail-spec-bento__card {

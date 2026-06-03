@@ -140,7 +140,7 @@ function ProductDetail() {
           { label: 'Input', value: '5V DC, 1A', icon: 'port' },
         ]
   const seriesSpecsImage = isTopbar40000
-    ? '/images/community/specs-showcase.png'
+    ? '/images/products/topbar-40000-key-specs.png'
     : isTopbar8000
       ? '/images/products/topbar-8000-extra-2.png'
       : activeImage
@@ -377,7 +377,9 @@ function ProductDetail() {
             <h1 className="detail-spec-bento__title">{seriesSpecsTitle}</h1>
             <div className="detail-spec-bento">
               <div className="detail-spec-bento__grid">
-                <article className={`detail-spec-bento__hero${isTopbar8000 ? ' detail-spec-bento__hero--8000' : ''}`}>
+                <article
+                  className={`detail-spec-bento__hero${isTopbar40000 ? ' detail-spec-bento__hero--40000' : ''}${isTopbar8000 ? ' detail-spec-bento__hero--8000' : ''}`}
+                >
                   <img
                     src={seriesSpecsImage}
                     alt={`${product.name} product and package`}
