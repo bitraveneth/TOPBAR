@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { Cpu, Shield, Zap, Award, Rocket, Sparkles, ShieldCheck } from 'lucide-react'
 
 const aboutHeroSlides = [
-  '/images/hero/topbar-hero-9900-puffs.webp',
+  '/images/hero/topbar-hero-40000-puffs.webp',
   '/images/hero/topbar-hero-ice.webp',
   '/images/hero/topbar-hero-volcano.webp',
   '/images/hero/topbar-60000-hero-2.webp',

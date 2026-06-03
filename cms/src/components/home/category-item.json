@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_home_category_items",
+  "info": {
+    "displayName": "Category Item"
+  },
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "image": { "type": "string" },
+    "link": { "type": "string" }
+  }
+}

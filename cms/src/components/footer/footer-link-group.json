@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_footer_footer_link_groups",
+  "info": {
+    "displayName": "Footer Link Group"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "links": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.nav-link"
+    }
+  }
+}

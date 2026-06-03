@@ -377,7 +377,7 @@ function Support() {
                     <select required defaultValue="">
                       <option value="" disabled>Select a product</option>
                       <option>TOPBAR 8000 Puffs</option>
-                      <option>TOPBAR 9900 Puffs</option>
+                      <option>TOPBAR 40000 Puffs</option>
                       <option>TOPBAR 50000 Puffs</option>
                       <option>TOPBAR 60000 Puffs</option>
                     </select>

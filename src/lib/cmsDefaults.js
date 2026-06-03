@@ -32,9 +32,9 @@ export function getDefaultCmsMap() {
     home: {
       ...homeSections,
       productShowcaseTitle: 'Our Products',
-      featuredProductSlugs: ['topbar-8000-puffs', 'topbar-9900-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs'],
+      featuredProductSlugs: ['topbar-8000-puffs', 'topbar-40000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs'],
       flavorOrderBySlug: {
-        'topbar-9900-puffs': ['Watermelon Ice', 'Red Energy', 'Mango', 'Coke Ice', 'Berry Grape', 'Strawberry Ice'],
+        'topbar-40000-puffs': ['Watermelon Ice', 'Berry Grape', 'Coke Ice', 'Gummy Bear', 'Strawberry Ice', 'Red Energy'],
         'topbar-8000-puffs': ['Watermelon Kiwi', 'Coke Ice', 'Watermelon Ice', 'Grape Ice', 'Passion Fruit'],
         'topbar-50000-puffs': ['Mint Ice', 'Grape Ice', 'Strawberry Kiwi', 'Watermelon Ice'],
         'topbar-60000-puffs': ['Blue Device'],
@@ -48,7 +48,7 @@ export function getDefaultCmsMap() {
           title: 'Products',
           links: [
             { label: 'TOPBAR 8000 Puffs', path: '/products/topbar-8000-puffs' },
-            { label: 'TOPBAR 9900 Puffs', path: '/products/topbar-9900-puffs' },
+            { label: 'TOPBAR 40000 Puffs', path: '/products/topbar-40000-puffs' },
             { label: 'All Products', path: '/products' },
           ],
         },
@@ -81,8 +81,9 @@ export function getDefaultCmsMap() {
     products: {
       items: products,
       slugAliases: {
-        'aegis-legend-5': 'topbar-9900-puffs',
-        'topbar-mango': 'topbar-9900-puffs',
+        'topbar-9900-puffs': 'topbar-40000-puffs',
+        'aegis-legend-5': 'topbar-40000-puffs',
+        'topbar-mango': 'topbar-40000-puffs',
       },
     },
     newsletter: {

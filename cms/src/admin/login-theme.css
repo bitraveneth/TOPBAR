@@ -1,0 +1,90 @@
+body.topbar-auth-page {
+  background: #050805 !important;
+}
+
+body.topbar-auth-page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.82)),
+    url('./extensions/login-side.png') center center / cover no-repeat;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body.topbar-auth-page #strapi {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+body.topbar-auth-page #strapi > div:first-child {
+  min-height: 100vh !important;
+  width: 100% !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.5rem !important;
+}
+
+/* simple centered card */
+body.topbar-auth-page form {
+  width: min(460px, 92vw) !important;
+  max-width: 460px !important;
+  margin: 0 !important;
+  background: rgba(10, 14, 10, 0.86) !important;
+  border: 1px solid rgba(204, 255, 0, 0.26) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 1rem !important;
+}
+
+/* welcome block simple */
+body.topbar-auth-page [data-strapi-header="true"],
+body.topbar-auth-page [class*='AuthPage__Header'],
+body.topbar-auth-page [class*='AuthLayoutHeader'] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 0 0.85rem 0 !important;
+}
+
+body.topbar-auth-page h1,
+body.topbar-auth-page h2,
+body.topbar-auth-page h3,
+body.topbar-auth-page label,
+body.topbar-auth-page [class*='Label'],
+body.topbar-auth-page [class*='Typography'] {
+  color: #ffffff !important;
+}
+
+/* remove subtitle if shown */
+body.topbar-auth-page p {
+  display: none !important;
+}
+
+body.topbar-auth-page input {
+  background: rgba(255, 255, 255, 0.96) !important;
+  color: #0f170f !important;
+  border: 1px solid #a9c89c !important;
+}
+
+body.topbar-auth-page input::placeholder {
+  color: #607760 !important;
+}
+
+body.topbar-auth-page button[type='submit'],
+body.topbar-auth-page button {
+  background: #ccff00 !important;
+  border-color: #ccff00 !important;
+  color: #0c120c !important;
+  font-weight: 700 !important;
+}
+
+body.topbar-auth-page a {
+  color: #ccff00 !important;
+}

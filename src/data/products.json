@@ -58,91 +58,91 @@
     "isNew": true
   },
   {
-    "slug": "topbar-9900-puffs",
-    "name": "TOPBAR 9900 Puffs",
+    "slug": "topbar-40000-puffs",
+    "name": "TOPBAR 40000 Puffs",
     "category": "Disposable",
-    "tagline": "Watermelon Ice, Max Puff Count",
-    "description": "High-capacity disposable with a vivid finish, vertical display for battery and e-liquid at a glance, and a crisp watermelon ice profile — 9900 puffs in a pocket-friendly form.",
-    "image": "/images/products/topbar-9900-showcase-home.png",
-    "showcaseImagePosition": "50% 62%",
-    "specs": ["9900 Puffs", "Watermelon Ice", "Battery & Liquid Display", "Disposable"],
+    "tagline": "Five Bold Flavors, One Lineup",
+    "description": "High-capacity disposable with a vivid finish, vertical display for battery and e-liquid at a glance, and a full flavor range — up to 40,000 puffs in a pocket-friendly form.",
+    "image": "/images/products/topbar-40000-showcase-home.png",
+    "showcaseImagePosition": "50% 50%",
+    "specs": ["40000 Puffs", "Watermelon Ice", "Battery & Liquid Display", "Disposable"],
     "showProductFeaturesHeading": false,
     "featureShowcase": [],
     "colorVariants": [
       {
         "name": "Watermelon Ice",
         "hex": "#F6505A",
-        "image": "/images/products/topbar-9900-colors/watermelon-ice.png"
+        "image": "/images/products/topbar-40000-colors/watermelon-ice.webp"
       },
       {
         "name": "Red Energy",
         "hex": "#F44852",
-        "image": "/images/products/topbar-9900-colors-v2/red-energy.png"
-      },
-      {
-        "name": "Mango",
-        "hex": "#E6AA1A",
-        "image": "/images/products/topbar-9900-colors-v2/mango.png"
+        "image": "/images/products/topbar-40000-colors/red-energy.webp"
       },
       {
         "name": "Pomegranate Berry",
         "hex": "#E97D8E",
-        "image": "/images/products/topbar-9900-colors-v2/pomegranate-berry.png"
+        "image": "/images/products/topbar-40000-colors/pomegranate-berry.webp"
       },
       {
         "name": "Strawberry Ice",
         "hex": "#EF7088",
-        "image": "/images/products/topbar-9900-colors-v2/strawberry-ice.png"
+        "image": "/images/products/topbar-40000-colors/strawberry-ice.webp"
       },
       {
         "name": "Pineapple Ice",
         "hex": "#E8D150",
-        "image": "/images/products/topbar-9900-colors-v2/pineapple-ice.png"
+        "image": "/images/products/topbar-40000-colors/pineapple-ice.webp"
       },
       {
         "name": "Strawberry Mint Lemonade",
         "hex": "#4AC9C4",
-        "image": "/images/products/topbar-9900-colors-v2/strawberry-mint-lemonade.png"
+        "image": "/images/products/topbar-40000-colors/strawberry-mint-lemonade.webp"
       },
       {
         "name": "Berry Grape",
         "hex": "#8C5ED5",
-        "image": "/images/products/topbar-9900-colors-v2/berry-grape.png"
+        "image": "/images/products/topbar-40000-colors/berry-grape.webp"
       },
       {
         "name": "White Peach Raspberry",
         "hex": "#5EA6E9",
-        "image": "/images/products/topbar-9900-colors-v2/white-peach-raspberry.png"
+        "image": "/images/products/topbar-40000-colors/white-peach-raspberry.webp"
       },
       {
         "name": "Cherry Peach Lemon",
         "hex": "#D98CA9",
-        "image": "/images/products/topbar-9900-colors-v2/cherry-peach-lemon.png"
+        "image": "/images/products/topbar-40000-colors/cherry-peach-lemon.webp"
       },
       {
         "name": "Blue Raspberry Lemonade",
         "hex": "#67A7E0",
-        "image": "/images/products/topbar-9900-colors-v2/blue-raspberry-lemonade.png"
+        "image": "/images/products/topbar-40000-colors/blue-raspberry-lemonade.webp"
       },
       {
         "name": "Coke Ice",
         "hex": "#AE2225",
-        "image": "/images/products/topbar-9900-colors-v2/coke-ice.png"
+        "image": "/images/products/topbar-40000-colors/coke-ice.webp"
       },
       {
         "name": "Kiwi Passion Guava",
         "hex": "#58BE4E",
-        "image": "/images/products/topbar-9900-colors-v2/kiwi-passion-guava.png"
+        "image": "/images/products/topbar-40000-colors/kiwi-passion-guava.webp"
       },
       {
         "name": "Gummy Bear",
         "hex": "#79A9D9",
-        "image": "/images/products/topbar-9900-colors-v2/gummy-bear.png"
+        "image": "/images/products/topbar-40000-colors/gummy-bear.webp"
       },
       {
         "name": "Fizzy Cherry",
         "hex": "#D94B98",
-        "image": "/images/products/topbar-9900-colors-v2/fizzy-cherry.png"
+        "image": "/images/products/topbar-40000-colors/fizzy-cherry.webp"
+      },
+      {
+        "name": "Peach Ice",
+        "hex": "#F2A65A",
+        "image": "/images/products/topbar-40000-colors/peach-ice.webp"
       }
     ],
     "featured": false,

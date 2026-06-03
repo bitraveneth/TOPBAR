@@ -1,0 +1,11 @@
+{
+  "collectionName": "components_product_color_variants",
+  "info": {
+    "displayName": "Color Variant"
+  },
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "hex": { "type": "string" },
+    "image": { "type": "string" }
+  }
+}

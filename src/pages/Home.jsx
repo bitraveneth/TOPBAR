@@ -24,12 +24,12 @@ function Home() {
   const productsList = merged.products?.items ?? []
   const showcaseAccentBySlug = {
     'topbar-8000-puffs': '#CCFF00',
-    'topbar-9900-puffs': '#00C2FF',
+    'topbar-40000-puffs': '#00C2FF',
     'topbar-50000-puffs': '#FF6B35',
     'topbar-60000-puffs': '#B48CFF',
   }
 
-  const requiredTopbarSlugs = ['topbar-8000-puffs', 'topbar-9900-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
+  const requiredTopbarSlugs = ['topbar-8000-puffs', 'topbar-40000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
   const featuredProductSlugs = Array.from(new Set([...(home.featuredProductSlugs || []), ...requiredTopbarSlugs]))
   const flavorOrderBySlug = home.flavorOrderBySlug || {}
 
@@ -115,6 +115,12 @@ function Home() {
         poster={brandVideo.poster}
         mp4={brandVideo.mp4}
         mov={brandVideo.mov}
+        stats={brandVideo.stats}
+        ctaLabel={brandVideo.ctaLabel}
+        ctaLink={brandVideo.ctaLink}
+        ctaTagline={brandVideo.ctaTagline}
+        fallbackTitle={brandVideo.fallbackTitle}
+        fallbackMessage={brandVideo.fallbackMessage}
       />
       <BrandValues values={brandValues} />
       <Suspense fallback={null}>

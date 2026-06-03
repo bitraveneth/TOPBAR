@@ -1,0 +1,57 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepages",
+  "info": {
+    "singularName": "homepage",
+    "pluralName": "homepages",
+    "displayName": "Homepage",
+    "description": "Homepage sections and blocks"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "heroSlidesEditor": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.hero-slide"
+    },
+    "featuredProductsEditor": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.featured-product"
+    },
+    "categoriesEditor": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.category-item"
+    },
+    "trendingEditor": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.text-link-item"
+    },
+    "brandValuesEditor": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.brand-value"
+    },
+    "testimonialsEditor": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.testimonial"
+    },
+    "topbarTagline": {
+      "type": "text"
+    },
+    "newsletter": {
+      "type": "json"
+    },
+    "homeBlogPreview": {
+      "type": "json"
+    },
+    "lovedByYou": {
+      "type": "json"
+    }
+  }
+}

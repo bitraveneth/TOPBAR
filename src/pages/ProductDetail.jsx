@@ -8,6 +8,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Battery, Cable, ChevronDown, Droplets, Gauge, Sparkles, Wind } from 'lucide-react'
 import { useCms } from '../contexts/CmsContext'
+import { getProductShareUrl } from '../lib/brandFilmShare'
+import ShareMenu from '../components/shared/ShareMenu'
 
 function ProductDetail() {
   const { merged } = useCms()
@@ -51,6 +53,25 @@ function ProductDetail() {
   const activeVariant = colorVariants.find((variant) => variant.name === activeColorName) || colorVariants[0]
   const activeImage = activeVariant?.image || product?.image
 
+  const productShareUrl = useMemo(() => {
+    if (!product) return ''
+    const flavor =
+      multiFlavour && activeVariant?.name && activeVariant.name !== 'Default'
+        ? activeVariant.name
+        : undefined
+    return getProductShareUrl(resolvedSlug, { flavor })
+  }, [product, resolvedSlug, multiFlavour, activeVariant?.name])
+
+  const productShareText = useMemo(() => {
+    if (!product) return ''
+    const flavorLine =
+      multiFlavour && activeVariant?.name && activeVariant.name !== 'Default'
+        ? ` — ${activeVariant.name} flavour`
+        : ''
+    const tagline = product.tagline ? `. ${product.tagline}` : ''
+    return `Check out ${product.name}${flavorLine} on TOPBAR${tagline}`
+  }, [product, multiFlavour, activeVariant?.name])
+
   const featureShowcaseTiles = useMemo(() => {
     if (!product) return []
     const fallbackImage = 'https://placehold.co/1200x800/0b1120/9fb3d8?text=Feature+Image'
@@ -71,13 +92,13 @@ function ProductDetail() {
   }, [product])
   const isSingleFeature = featureShowcaseTiles.length === 1
   const showProductFeaturesHeading = product && product.showProductFeaturesHeading !== false
-  const isTopbar9900 = product?.slug === 'topbar-9900-puffs'
+  const isTopbar40000 = product?.slug === 'topbar-40000-puffs'
   const isTopbar8000 = product?.slug === 'topbar-8000-puffs'
   const isTopbar50000 = product?.slug === 'topbar-50000-puffs'
   const isTopbar60000 = product?.slug === 'topbar-60000-puffs'
-  const isTopbarSeries = isTopbar9900 || isTopbar8000 || isTopbar50000 || isTopbar60000
-  const seriesPuffCount = isTopbar9900
-    ? '9900'
+  const isTopbarSeries = isTopbar40000 || isTopbar8000 || isTopbar50000 || isTopbar60000
+  const seriesPuffCount = isTopbar40000
+    ? '40000'
     : isTopbar8000
       ? '8000'
       : isTopbar50000
@@ -86,9 +107,9 @@ function ProductDetail() {
           ? '60000'
           : ''
   const seriesSpecsTitle = `TOPBAR ${seriesPuffCount} Key Specs`
-  const productFeatureCards = isTopbar9900
+  const productFeatureCards = isTopbar40000
     ? [
-        { label: 'Puffs', value: 'Up to 9900', icon: 'puffs' },
+        { label: 'Puffs', value: 'Up to 40000', icon: 'puffs' },
         { label: 'Charging Port', value: 'Type-C', icon: 'port' },
         { label: 'Battery Capacity', value: '500 mAh', icon: 'battery' },
         { label: 'Display', value: 'Battery + E-liquid', icon: 'display' },
@@ -118,17 +139,11 @@ function ProductDetail() {
           { label: 'Nicotine Strength', value: '50 mg/mL', icon: 'coil' },
           { label: 'Input', value: '5V DC, 1A', icon: 'port' },
         ]
-  const seriesSpecsImage = isTopbar9900
+  const seriesSpecsImage = isTopbar40000
     ? '/images/community/specs-showcase.png'
     : isTopbar8000
       ? '/images/products/topbar-8000-extra-2.png'
       : activeImage
-  const seriesHeroImage = isTopbar9900
-    ? '/images/products/topbar-9900-features-1.png'
-    : isTopbar8000
-      ? '/images/products/topbar-8000-extra-1.png'
-      : activeImage
-
   const related = useMemo(() => {
     if (!product) return []
     return catalog.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3)
@@ -138,7 +153,7 @@ function ProductDetail() {
     if (!product) return []
 
     if (isTopbarSeries) {
-      const topbarSeriesSlugs = ['topbar-9900-puffs', 'topbar-8000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
+      const topbarSeriesSlugs = ['topbar-40000-puffs', 'topbar-8000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
       const topbarSeriesProducts = topbarSeriesSlugs
         .map((seriesSlug) => catalog.find((p) => p.slug === seriesSlug))
         .filter(Boolean)
@@ -200,7 +215,7 @@ function ProductDetail() {
     <section className="section product-detail-page">
       <div className="container">
         <div className="detail-layout detail-layout--hero">
-          <div className="detail-image detail-image--large">
+          <div className="detail-image detail-image--large detail-image--shareable">
             <img
               src={activeImage}
               alt={`${product.name} ${activeVariant?.name || ''}`}
@@ -208,6 +223,21 @@ function ProductDetail() {
               fetchPriority="high"
               decoding="async"
             />
+            <div className="detail-image__hover" aria-hidden="true" />
+            <div className="detail-image__share">
+              <ShareMenu
+                title={
+                  activeVariant?.name && activeVariant.name !== 'Default'
+                    ? `${product.name} — ${activeVariant.name}`
+                    : product.name
+                }
+                shareText={productShareText}
+                shareUrl={productShareUrl}
+                sheetLabel="Share this product"
+                placement="inline"
+                triggerLabel="Share"
+              />
+            </div>
           </div>
           <div className="detail-info">
             <h1>{product.name}</h1>

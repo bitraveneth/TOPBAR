@@ -1,0 +1,31 @@
+{
+  "kind": "singleType",
+  "collectionName": "footers",
+  "info": {
+    "singularName": "footer",
+    "pluralName": "footers",
+    "displayName": "Footer",
+    "description": "Footer links, legal and social blocks"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "columns": {
+      "type": "component",
+      "repeatable": true,
+      "component": "footer.footer-link-group"
+    },
+    "legalLinks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.nav-link"
+    },
+    "copyright": {
+      "type": "string"
+    },
+    "giantWordmark": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "navigations",
+  "info": {
+    "singularName": "navigation",
+    "pluralName": "navigations",
+    "displayName": "Navigation",
+    "description": "Primary website navigation tree"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "menuItems": {
+      "type": "component",
+      "repeatable": true,
+      "component": "navigation.nav-item"
+    }
+  }
+}

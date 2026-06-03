@@ -15,10 +15,10 @@ const productDownloads = [
     ],
   },
   {
-    product: 'TOPBAR 9900 Puffs',
+    product: 'TOPBAR 40000 Puffs',
     files: [
-      { name: 'TOPBAR 9900 User Manual', type: 'PDF', size: '3.6 MB' },
-      { name: 'TOPBAR 9900 Quick Start Guide', type: 'PDF', size: '1.7 MB' },
+      { name: 'TOPBAR 40000 User Manual', type: 'PDF', size: '3.6 MB' },
+      { name: 'TOPBAR 40000 Quick Start Guide', type: 'PDF', size: '1.7 MB' },
     ],
   },
   {

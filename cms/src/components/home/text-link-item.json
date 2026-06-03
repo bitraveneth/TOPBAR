@@ -1,0 +1,10 @@
+{
+  "collectionName": "components_home_text_link_items",
+  "info": {
+    "displayName": "Text Link Item"
+  },
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "link": { "type": "string" }
+  }
+}

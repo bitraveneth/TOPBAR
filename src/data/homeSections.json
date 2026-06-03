@@ -12,7 +12,7 @@
       "tag": "TOPBAR 60000",
       "title": "Blue Razz",
       "subtitle": "Cool berry-forward notes with a smooth, balanced finish.",
-      "image": "/images/hero/topbar-60000-hero-3.webp",
+      "image": "/images/hero/topbar-60000-hero-4.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-60000-puffs"
     },
@@ -20,17 +20,17 @@
       "tag": "TOPBAR 60000",
       "title": "Sour Lemon",
       "subtitle": "Tangy citrus profile crafted for a sharp and refreshing hit.",
-      "image": "/images/hero/topbar-60000-hero-4.webp",
+      "image": "/images/hero/topbar-60000-hero-3.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-60000-puffs"
     },
     {
       "tag": "TOPBAR Disposable",
-      "title": "TOPBAR 9900 Puffs",
-      "subtitle": "Rechargeable disposable with digital screen, smooth draw, and all-day flavor performance.",
-      "image": "/images/hero/topbar-hero-9900-puffs.webp",
+      "title": "TOPBAR 40000 Puffs",
+      "subtitle": "Rechargeable disposable with digital screen, smooth draw, and up to 40,000 puffs of all-day flavor.",
+      "image": "/images/hero/topbar-hero-40000-puffs.webp",
       "cta": "Discover Now",
-      "link": "/products/topbar-9900-puffs"
+      "link": "/products/topbar-40000-puffs"
     },
     {
       "tag": "Desert Energy",
@@ -44,7 +44,7 @@
       "tag": "Fresh Drop",
       "title": "New Collection",
       "subtitle": "A modern disposable lineup with clean design, smooth draw, and consistent flavor every puff.",
-      "image": "/images/hero/topbar-hero-collapse.webp",
+      "image": "/images/hero/topbar-hero-new-collection.webp",
       "cta": "Discover Now",
       "link": "/products"
     },
@@ -58,9 +58,9 @@
     },
     {
       "tag": "Alpine Air",
-      "title": "Peach Raspberry Ice",
-      "subtitle": "Sweet peach and raspberry flavor with a cool icy finish for smooth everyday enjoyment.",
-      "image": "/images/hero/topbar-hero-mountain-alpine.webp",
+      "title": "White Peach Raspberry",
+      "subtitle": "Juicy white peach and raspberry blend with a cool finish on the TOPBAR 40000 series.",
+      "image": "/images/hero/topbar-hero-collapse.webp",
       "cta": "Discover Now",
       "link": "/products"
     },
@@ -70,7 +70,7 @@
       "subtitle": "Classic cola flavor with a cool icy finish in a smooth disposable for all-day enjoyment.",
       "image": "/images/hero/topbar-hero-volcano.webp",
       "cta": "Discover Now",
-      "link": "/products/topbar-9900-puffs"
+      "link": "/products/topbar-40000-puffs"
     }
   ],
   "featuredProducts": [
@@ -86,7 +86,7 @@
       "title": "Aegis Legend 5",
       "subtitle": "200W summit-class power with IP68 tri-proof body. Peak performance.",
       "image": "/images/products/legend-5.png",
-      "link": "/products/topbar-9900-puffs"
+      "link": "/products/topbar-40000-puffs"
     }
   ],
   "categories": [
@@ -97,7 +97,7 @@
     { "name": "Platform", "image": "https://placehold.co/400x300/14140d/333333?text=Platform", "link": "/products" }
   ],
   "trending": [
-    { "label": "TOPBAR 9900 PUFFS", "link": "/products/topbar-9900-puffs" },
+    { "label": "TOPBAR 40000 PUFFS", "link": "/products/topbar-40000-puffs" },
     { "label": "WENAX Q2", "link": "/products/wenax-q2" },
     { "label": "TOPBAR NewVI", "link": "/products" },
     { "label": "Aegis Boost III", "link": "/products" },
@@ -107,9 +107,20 @@
   ],
   "brandVideo": {
     "title": "TOPBAR in Motion",
-    "subtitle": "See the brand story — tap play to watch.",
+    "subtitle": "",
     "poster": "/images/video/topbar-brand-poster.webp",
-    "mp4": "/videos/topbar-brand-promo.mp4"
+    "mp4": "/videos/topbar-brand-promo.mp4",
+    "stats": [
+      { "target": 32, "suffix": "+", "label": "Flavors", "desc": "Bold profiles across the TOPBAR lineup" },
+      { "target": 4, "suffix": "", "label": "Devices", "desc": "From 8K to 60K flagship disposables" },
+      { "target": 30, "suffix": "+", "label": "Countries", "desc": "Markets across the Americas, Europe, and Asia" },
+      { "target": 10, "suffix": "M+", "label": "Units sold", "desc": "Trusted by vapers across our global markets" }
+    ],
+    "ctaLabel": "Explore the lineup",
+    "ctaLink": "/products",
+    "ctaTagline": "Explore the full TOPBAR range — devices, flavors, and everyday carry.",
+    "fallbackTitle": "Preview the TOPBAR story",
+    "fallbackMessage": "Tap play to watch the brand film, or browse the lineup below."
   },
   "brandValues": [
     { "keyword": "GENUINE", "text": "Genuine innovation can be respected." },

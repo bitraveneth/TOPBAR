@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_home_featured_products",
+  "info": {
+    "displayName": "Featured Product"
+  },
+  "attributes": {
+    "tag": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "subtitle": { "type": "text" },
+    "image": { "type": "string" },
+    "link": { "type": "string" }
+  }
+}

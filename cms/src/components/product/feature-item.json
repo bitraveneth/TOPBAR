@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_product_feature_items",
+  "info": {
+    "displayName": "Feature Item"
+  },
+  "attributes": {
+    "title": { "type": "string" },
+    "description": { "type": "text" },
+    "image": { "type": "string" },
+    "alt": { "type": "string" },
+    "className": { "type": "string" },
+    "showTitle": { "type": "boolean", "default": true }
+  }
+}
