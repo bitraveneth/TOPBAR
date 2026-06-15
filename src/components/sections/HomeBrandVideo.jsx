@@ -4,13 +4,13 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
   Compass,
   Droplets,
-  Film,
+  Gauge,
   Globe,
   Layers,
   Package,
@@ -19,6 +19,7 @@ import {
   Pause,
   Play,
   Share2,
+  Video,
   Volume2,
   VolumeX,
 } from 'lucide-react'
@@ -42,6 +43,61 @@ const DEFAULT_STATS = [
 ]
 
 const HIGHLIGHT_ICONS = [Droplets, Layers, Globe, Package]
+
+const FILM_TAB_ICONS = {
+  'topbar-8000-video': Droplets,
+  'topbar-40000-video': Gauge,
+}
+
+const SWIPE_THRESHOLD = 48
+
+function normalizeBrandFilms({
+  films,
+  poster,
+  mp4,
+  mov,
+  fallbackTitle,
+  fallbackMessage,
+}) {
+  if (Array.isArray(films) && films.length) {
+    return films
+      .map((film, index) => ({
+        id: film.id || `brand-film-${index + 1}`,
+        label: film.label || film.title || `Video ${index + 1}`,
+        shortLabel: film.shortLabel || film.label?.replace(/^TOPBAR\s+/i, '') || film.label,
+        title: film.title || '',
+        poster: film.poster || poster,
+        mp4: film.mp4,
+        mov: film.mov,
+        fallbackTitle: film.fallbackTitle || fallbackTitle,
+        fallbackMessage: film.fallbackMessage || fallbackMessage,
+      }))
+      .filter((film) => film.mp4 || film.mov)
+  }
+
+  if (mp4 || mov) {
+    return [{
+      id: 'brand-film-1',
+      label: 'Product video',
+      shortLabel: 'Video',
+      title: '',
+      poster,
+      mp4,
+      mov,
+      fallbackTitle,
+      fallbackMessage,
+    }]
+  }
+
+  return []
+}
+
+function getFilmSources(film) {
+  return [
+    film.mp4 && { src: film.mp4, type: 'video/mp4' },
+    film.mov && { src: film.mov, type: 'video/quicktime' },
+  ].filter(Boolean)
+}
 
 function useCountUp(target, duration = 2200, start = false) {
   const [count, setCount] = useState(0)
@@ -85,6 +141,7 @@ function BrandMotionStatValue({ target, suffix = '', inView, reduceMotion }) {
 function HomeBrandVideo({
   title = 'TOPBAR in Motion',
   subtitle = '',
+  films,
   poster = '/images/video/topbar-brand-poster.webp',
   mp4,
   mov,
@@ -92,12 +149,21 @@ function HomeBrandVideo({
   ctaLabel = 'Explore the lineup',
   ctaLink = '/products',
   ctaTagline = 'Discover the full TOPBAR range — devices, flavors, and everyday carry.',
-  fallbackTitle = 'Preview the TOPBAR story',
-  fallbackMessage = 'Tap play to watch the brand film, or browse the lineup below.',
+  fallbackTitle = 'Preview TOPBAR in Motion',
+  fallbackMessage = 'Tap play to watch the product video, or explore the lineup below.',
 }) {
+  const brandFilms = useMemo(
+    () => normalizeBrandFilms({ films, poster, mp4, mov, fallbackTitle, fallbackMessage }),
+    [films, poster, mp4, mov, fallbackTitle, fallbackMessage],
+  )
+
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
   const frameRef = useRef(null)
+  const touchStartX = useRef(null)
+  const touchStartY = useRef(null)
+  const swipedRef = useRef(false)
+  const [activeFilmIndex, setActiveFilmIndex] = useState(0)
   const [inView, setInView] = useState(false)
   const [ready, setReady] = useState(false)
   const [mediaError, setMediaError] = useState(false)
@@ -109,12 +175,50 @@ function HomeBrandVideo({
   const [shareOpen, setShareOpen] = useState(false)
   const [shareFeedback, setShareFeedback] = useState(null)
 
-  const sources = [
-    mp4 && { src: mp4, type: 'video/mp4' },
-    mov && { src: mov, type: 'video/quicktime' },
-  ].filter(Boolean)
-
+  const activeFilm = brandFilms[activeFilmIndex] || brandFilms[0]
+  const sources = activeFilm ? getFilmSources(activeFilm) : []
+  const hasMultipleFilms = brandFilms.length > 1
   const statItems = stats?.length ? stats : DEFAULT_STATS
+  const activeFilmTitle = activeFilm?.title || activeFilm?.label || title
+
+  const goToFilm = useCallback((index) => {
+    if (!brandFilms.length) return
+    const nextIndex = (index + brandFilms.length) % brandFilms.length
+    setActiveFilmIndex(nextIndex)
+    setReady(false)
+    setMediaError(false)
+    setPaused(true)
+    setProgress(0)
+    setShareOpen(false)
+    setShareFeedback(null)
+  }, [brandFilms.length])
+
+  const handleTouchStart = useCallback((event) => {
+    const touch = event.touches[0]
+    touchStartX.current = touch.clientX
+    touchStartY.current = touch.clientY
+  }, [])
+
+  const handleTouchEnd = useCallback((event) => {
+    if (!hasMultipleFilms || touchStartX.current == null || touchStartY.current == null) return
+
+    const touch = event.changedTouches[0]
+    const deltaX = touch.clientX - touchStartX.current
+    const deltaY = touch.clientY - touchStartY.current
+    touchStartX.current = null
+    touchStartY.current = null
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD) return
+    if (Math.abs(deltaX) < Math.abs(deltaY)) return
+
+    swipedRef.current = true
+    if (deltaX < 0) goToFilm(activeFilmIndex + 1)
+    else goToFilm(activeFilmIndex - 1)
+
+    window.setTimeout(() => {
+      swipedRef.current = false
+    }, 320)
+  }, [activeFilmIndex, goToFilm, hasMultipleFilms])
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -146,7 +250,7 @@ function HomeBrandVideo({
 
     observer.observe(section)
     return () => observer.disconnect()
-  }, [reduceMotion, sources.length])
+  }, [reduceMotion, sources.length, activeFilmIndex])
 
   useEffect(() => {
     const syncFullscreen = () => {
@@ -163,6 +267,7 @@ function HomeBrandVideo({
   }, [])
 
   const togglePlay = useCallback(() => {
+    if (swipedRef.current) return
     const video = videoRef.current
     if (!video) return
     if (video.paused) {
@@ -228,7 +333,7 @@ function HomeBrandVideo({
     video.play().then(() => setPaused(false)).catch(() => setPaused(true))
   }, [])
 
-  if (!sources.length) return null
+  if (!brandFilms.length || !activeFilm || !sources.length) return null
 
   const isPlaying = inView && !paused && !reduceMotion && !mediaError
   const showCenterPlay = (ready || mediaError) && paused && !isPlaying
@@ -237,15 +342,15 @@ function HomeBrandVideo({
     <section
       ref={sectionRef}
       id="brand-motion"
-      className={`brand-motion section${inView ? ' brand-motion--in-view' : ''}${isPlaying ? ' brand-motion--playing' : ''}${paused ? ' brand-motion--paused' : ''}${mediaError ? ' brand-motion--fallback' : ''}${isFullscreen ? ' brand-motion--fullscreen' : ''}${shareOpen ? ' brand-motion--share-open' : ''}`}
+      className={`brand-motion section${inView ? ' brand-motion--in-view' : ''}${isPlaying ? ' brand-motion--playing' : ''}${paused ? ' brand-motion--paused' : ''}${mediaError ? ' brand-motion--fallback' : ''}${isFullscreen ? ' brand-motion--fullscreen' : ''}${shareOpen ? ' brand-motion--share-open' : ''}${hasMultipleFilms ? ' brand-motion--multi' : ''}`}
       aria-labelledby="brand-motion-heading"
     >
       <div className="brand-motion__ambient" aria-hidden="true" />
       <div className="container">
         <header className="brand-motion__header">
           <span className="brand-motion__eyebrow">
-            <Film size={16} aria-hidden="true" />
-            Brand film
+            <Video size={16} aria-hidden="true" />
+            Product videos
           </span>
           <h2 id="brand-motion-heading" className="section-hero-title brand-motion__title">
             {title}
@@ -253,13 +358,61 @@ function HomeBrandVideo({
           {subtitle && <p className="brand-motion__sub">{subtitle}</p>}
         </header>
 
+        {hasMultipleFilms && (
+          <div
+            className="brand-motion__film-switch brand-motion__film-switch--desktop"
+            role="tablist"
+            aria-label="Choose product video"
+          >
+            <div className="brand-motion__film-track">
+              {brandFilms.map((film, index) => {
+                const TabIcon = FILM_TAB_ICONS[film.id] || Video
+                return (
+                  <button
+                    key={film.id}
+                    type="button"
+                    role="tab"
+                    className={`brand-motion__film-tab${index === activeFilmIndex ? ' brand-motion__film-tab--active' : ''}`}
+                    aria-selected={index === activeFilmIndex}
+                    aria-controls="brand-motion-player"
+                    onClick={() => goToFilm(index)}
+                  >
+                    <span className="brand-motion__film-tab-icon" aria-hidden="true">
+                      <TabIcon size={18} strokeWidth={1.85} />
+                    </span>
+                    <span className="brand-motion__film-tab-copy">
+                      <span className="brand-motion__film-tab-label">{film.label}</span>
+                      {film.title && (
+                        <span className="brand-motion__film-tab-sub">{film.title}</span>
+                      )}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         <div className="brand-motion__stage">
-          <div ref={frameRef} className="brand-motion__frame">
+          <div
+            ref={frameRef}
+            id="brand-motion-player"
+            className={`brand-motion__frame${hasMultipleFilms ? ' brand-motion__frame--swipeable' : ''}`}
+            role="tabpanel"
+            onTouchStart={hasMultipleFilms ? handleTouchStart : undefined}
+            onTouchEnd={hasMultipleFilms ? handleTouchEnd : undefined}
+          >
             <span className="brand-motion__corner brand-motion__corner--tl" aria-hidden="true" />
             <span className="brand-motion__corner brand-motion__corner--tr" aria-hidden="true" />
             <span className="brand-motion__corner brand-motion__corner--bl" aria-hidden="true" />
             <span className="brand-motion__corner brand-motion__corner--br" aria-hidden="true" />
             <div className="brand-motion__scan" aria-hidden="true" />
+
+            {hasMultipleFilms && (
+              <p className="brand-motion__swipe-hint" aria-hidden="true">
+                Swipe to switch
+              </p>
+            )}
 
             <div
               role="button"
@@ -272,12 +425,13 @@ function HomeBrandVideo({
                   togglePlay()
                 }
               }}
-              aria-label={paused ? 'Play brand film' : 'Pause brand film'}
+              aria-label={paused ? `Play ${activeFilmTitle}` : `Pause ${activeFilmTitle}`}
             >
               <video
+                key={activeFilm.id}
                 ref={videoRef}
                 className="brand-motion__video"
-                poster={poster}
+                poster={activeFilm.poster}
                 muted={muted}
                 playsInline
                 loop
@@ -306,18 +460,18 @@ function HomeBrandVideo({
               </div>
             )}
 
-            {mediaError && poster && (
+            {mediaError && activeFilm.poster && (
               <div className="brand-motion__fallback" role="status">
                 <img
                   className="brand-motion__fallback-img"
-                  src={poster}
+                  src={activeFilm.poster}
                   alt=""
                   loading="lazy"
                   decoding="async"
                 />
                 <div className="brand-motion__fallback-panel">
-                  <p className="brand-motion__fallback-title">{fallbackTitle}</p>
-                  <p className="brand-motion__fallback-msg">{fallbackMessage}</p>
+                  <p className="brand-motion__fallback-title">{activeFilm.fallbackTitle || fallbackTitle}</p>
+                  <p className="brand-motion__fallback-msg">{activeFilm.fallbackMessage || fallbackMessage}</p>
                   <button
                     type="button"
                     className="brand-motion__fallback-btn"
@@ -327,7 +481,7 @@ function HomeBrandVideo({
                     }}
                   >
                     <Play size={16} aria-hidden="true" />
-                    Play brand film
+                    Play video
                   </button>
                 </div>
               </div>
@@ -373,10 +527,10 @@ function HomeBrandVideo({
                 setShareOpen(false)
                 setShareFeedback(null)
               }}
-              title={title || 'TOPBAR in Motion'}
+              title={activeFilmTitle || title || 'TOPBAR in Motion'}
               shareText={DEFAULT_SHARE_TEXT}
               shareUrl={getBrandFilmShareUrl()}
-              sheetLabel="Share film"
+              sheetLabel="Share video"
               placement="video"
               feedback={shareFeedback}
               onFeedback={setShareFeedback}
@@ -418,7 +572,7 @@ function HomeBrandVideo({
                   onClick={toggleShareSheet}
                   aria-expanded={shareOpen}
                   aria-haspopup="dialog"
-                  aria-label={shareOpen ? 'Close share menu' : 'Share brand film'}
+                  aria-label={shareOpen ? 'Close share menu' : 'Share product video'}
                 >
                   <Share2 size={18} />
                 </button>
@@ -447,6 +601,50 @@ function HomeBrandVideo({
               <span className="brand-motion__progress-fill" style={{ width: `${progress}%` }} />
             </div>
           </div>
+
+          {hasMultipleFilms && (
+            <div className="brand-motion__film-mobile-bar">
+              <div
+                className="brand-motion__film-compact"
+                role="tablist"
+                aria-label="Choose product video"
+              >
+                {brandFilms.map((film, index) => (
+                  <button
+                    key={film.id}
+                    type="button"
+                    role="tab"
+                    className={`brand-motion__film-compact-btn${index === activeFilmIndex ? ' brand-motion__film-compact-btn--active' : ''}`}
+                    aria-selected={index === activeFilmIndex}
+                    aria-controls="brand-motion-player"
+                    onClick={() => goToFilm(index)}
+                  >
+                    <span className="brand-motion__film-compact-puff">{film.shortLabel}</span>
+                    <span className="brand-motion__film-compact-sub">{film.title}</span>
+                  </button>
+                ))}
+              </div>
+              <div className="brand-motion__film-dots brand-motion__film-dots--mobile" aria-hidden="true">
+                {brandFilms.map((film, index) => (
+                  <span
+                    key={film.id}
+                    className={`brand-motion__film-dot${index === activeFilmIndex ? ' brand-motion__film-dot--active' : ''}`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {hasMultipleFilms && (
+            <div className="brand-motion__film-dots brand-motion__film-dots--desktop" aria-hidden="true">
+              {brandFilms.map((film, index) => (
+                <span
+                  key={film.id}
+                  className={`brand-motion__film-dot${index === activeFilmIndex ? ' brand-motion__film-dot--active' : ''}`}
+                />
+              ))}
+            </div>
+          )}
 
           {statItems.length > 0 && (
             <div className="brand-motion__deck">

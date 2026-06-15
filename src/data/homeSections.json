@@ -107,7 +107,30 @@
   ],
   "brandVideo": {
     "title": "TOPBAR in Motion",
-    "subtitle": "",
+    "subtitle": "See the 8000 and 40000 puff disposables in action.",
+    "films": [
+      {
+        "id": "topbar-8000-video",
+        "label": "TOPBAR 8000",
+        "shortLabel": "8000 Puffs",
+        "title": "Compact rechargeable disposable",
+        "poster": "/images/video/topbar-brand-poster.webp",
+        "mp4": "/videos/topbar-brand-promo.mp4",
+        "fallbackTitle": "Preview TOPBAR 8000",
+        "fallbackMessage": "Tap play to watch the 8000 puff product video."
+      },
+      {
+        "id": "topbar-40000-video",
+        "label": "TOPBAR 40000",
+        "shortLabel": "40000 Puffs",
+        "title": "Digital screen flagship device",
+        "poster": "/images/video/topbar-lw04-poster.jpg",
+        "mp4": "/videos/topbar-lw04-promo.mp4",
+        "mov": "/videos/topbar-lw04-promo.mov",
+        "fallbackTitle": "Preview TOPBAR 40000",
+        "fallbackMessage": "Tap play to watch the 40000 puff product video."
+      }
+    ],
     "poster": "/images/video/topbar-brand-poster.webp",
     "mp4": "/videos/topbar-brand-promo.mp4",
     "stats": [
@@ -119,8 +142,8 @@
     "ctaLabel": "Explore the lineup",
     "ctaLink": "/products",
     "ctaTagline": "Explore the full TOPBAR range — devices, flavors, and everyday carry.",
-    "fallbackTitle": "Preview the TOPBAR story",
-    "fallbackMessage": "Tap play to watch the brand film, or browse the lineup below."
+    "fallbackTitle": "Preview TOPBAR in Motion",
+    "fallbackMessage": "Tap play to watch the product video, or explore the lineup below."
   },
   "brandValues": [
     { "keyword": "GENUINE", "text": "Genuine innovation can be respected." },

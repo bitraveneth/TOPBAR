@@ -142,7 +142,7 @@ function ProductDetail() {
   const seriesSpecsImage = isTopbar40000
     ? '/images/products/topbar-40000-key-specs.png'
     : isTopbar8000
-      ? '/images/products/topbar-8000-extra-2.png'
+      ? '/images/products/topbar-8000-key-specs.png'
       : activeImage
   const related = useMemo(() => {
     if (!product) return []

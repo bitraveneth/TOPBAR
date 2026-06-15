@@ -1044,26 +1044,71 @@ p { color: var(--text-secondary); }
 
 .best-flavors-section {
   padding-top: 1rem;
+  position: relative;
+}
+
+.best-flavors-section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(3.5rem, 9vw, 6rem);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bg-primary) 88%, var(--accent) 12%) 100%
+  );
+  opacity: 0.55;
 }
 
 /* ===== TOPBAR in Motion (cinematic full-width video) ===== */
 .brand-motion {
   position: relative;
-  padding-top: 0.25rem;
+  padding-top: clamp(1.75rem, 4.5vw, 3rem);
   overflow: hidden;
   overflow-x: clip;
+  background: var(--bg-primary);
+  isolation: isolate;
+}
+
+.brand-motion::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(5.5rem, 16vw, 10rem);
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--bg-primary) 0%,
+    color-mix(in srgb, var(--bg-primary) 94%, transparent) 38%,
+    transparent 100%
+  );
+}
+
+.brand-motion > .container {
+  position: relative;
+  z-index: 2;
 }
 
 .brand-motion__ambient {
   position: absolute;
-  inset: -20% -10% auto;
-  height: 70%;
+  top: 0;
+  left: -10%;
+  right: -10%;
+  height: 72%;
   background:
     radial-gradient(ellipse 55% 45% at 18% 20%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
     radial-gradient(ellipse 40% 35% at 82% 30%, color-mix(in srgb, #00c2ff 16%, transparent), transparent 72%);
   pointer-events: none;
   opacity: 0.85;
   transition: opacity 0.8s ease;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 18%, #000 46%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 18%, #000 46%);
 }
 
 .brand-motion--in-view .brand-motion__ambient {
@@ -1101,6 +1146,180 @@ p { color: var(--text-secondary); }
   font-size: 0.95rem;
   color: var(--text-secondary);
   line-height: 1.55;
+}
+
+.brand-motion__film-switch {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  max-width: 40rem;
+  padding: 0 0.25rem;
+}
+
+.brand-motion__film-track {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.4rem;
+  border-radius: calc(var(--radius-lg) + 6px);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--bg-card) 92%, #000), color-mix(in srgb, var(--bg-secondary) 96%, #000));
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+}
+
+.brand-motion__film-tab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-width: 0;
+  padding: 0.9rem 1rem;
+  border-radius: calc(var(--radius-lg) + 2px);
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.brand-motion__film-tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    transparent 58%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .brand-motion__film-tab:hover {
+    color: var(--text-primary);
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    background: color-mix(in srgb, var(--bg-elevated) 55%, transparent);
+  }
+
+  .brand-motion__film-tab:hover::before {
+    opacity: 0.65;
+  }
+}
+
+.brand-motion__film-tab--active {
+  border-color: color-mix(in srgb, var(--accent) 52%, transparent);
+  background:
+    linear-gradient(145deg, color-mix(in srgb, var(--accent) 18%, var(--bg-card)), color-mix(in srgb, var(--accent) 8%, var(--bg-secondary)));
+  color: var(--text-primary);
+  box-shadow:
+    0 10px 26px color-mix(in srgb, var(--accent) 18%, transparent),
+    inset 0 1px 0 color-mix(in srgb, #fff 10%, transparent);
+  transform: translateY(-1px);
+}
+
+.brand-motion__film-tab--active::before {
+  opacity: 1;
+}
+
+.brand-motion__film-tab-icon {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  background: color-mix(in srgb, var(--bg-elevated) 80%, transparent);
+  color: var(--text-muted);
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.brand-motion__film-tab--active .brand-motion__film-tab-icon {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, var(--bg-card));
+  color: var(--accent);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.brand-motion__film-tab-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.brand-motion__film-tab-label {
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.brand-motion__film-tab-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-motion__film-tab--active .brand-motion__film-tab-sub {
+  color: color-mix(in srgb, var(--text-secondary) 82%, var(--accent));
+}
+
+.brand-motion__film-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+}
+
+.brand-motion__film-dots--mobile {
+  display: none;
+  margin-top: 0;
+}
+
+.brand-motion__film-mobile-bar {
+  display: none;
+}
+
+.brand-motion__swipe-hint {
+  display: none;
+}
+
+.brand-motion__film-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--text-muted) 55%, transparent);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.brand-motion__film-dot--active {
+  transform: scale(1.2);
+  background: var(--accent);
 }
 
 .brand-motion__stage {
@@ -1311,6 +1530,13 @@ p { color: var(--text-secondary); }
   justify-content: space-between;
   padding: 1rem;
   pointer-events: none;
+  background: transparent;
+  transition: background 0.35s ease;
+}
+
+.brand-motion--paused .brand-motion__overlay,
+.brand-motion__frame:hover .brand-motion__overlay,
+.brand-motion--share-open .brand-motion__overlay {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, transparent 35%, transparent 55%, rgba(0, 0, 0, 0.5) 100%);
 }
 
@@ -1590,6 +1816,119 @@ p { color: var(--text-secondary); }
   background: color-mix(in srgb, var(--accent) 22%, var(--bg-elevated));
   color: var(--accent);
   box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+@media (max-width: 768px) {
+  .brand-motion__film-switch--desktop {
+    display: none;
+  }
+
+  .brand-motion__film-dots--desktop {
+    display: none;
+  }
+
+  .brand-motion__film-mobile-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.55rem;
+    margin-top: 0.7rem;
+  }
+
+  .brand-motion__film-compact {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem;
+    padding: 0.32rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+    background: color-mix(in srgb, var(--bg-card) 90%, #000);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+  }
+
+  .brand-motion__film-compact-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    min-height: 2.55rem;
+    padding: 0.45rem 0.55rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition:
+      background 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .brand-motion__film-compact-btn--active {
+    border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+    background: color-mix(in srgb, var(--accent) 16%, var(--bg-card));
+    color: var(--text-primary);
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+
+  .brand-motion__film-compact-puff {
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .brand-motion__film-compact-sub {
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    line-height: 1.2;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .brand-motion__film-compact-btn--active .brand-motion__film-compact-sub {
+    color: color-mix(in srgb, var(--text-secondary) 80%, var(--accent));
+  }
+
+  .brand-motion__film-dots--mobile {
+    display: flex;
+    justify-content: center;
+  }
+
+  .brand-motion__frame--swipeable .brand-motion__swipe-hint {
+    display: block;
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    z-index: 5;
+    margin: 0;
+    padding: 0.28rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    background: color-mix(in srgb, #050508 72%, transparent);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--accent) 88%, #fff);
+    pointer-events: none;
+    opacity: 0.85;
+  }
+
+  .brand-motion--playing .brand-motion__swipe-hint {
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
 }
 
 @media (max-width: 640px) {
@@ -2314,6 +2653,19 @@ p { color: var(--text-secondary); }
 }
 
 @media (max-width: 380px) {
+  .brand-motion__film-compact-btn {
+    min-height: 2.35rem;
+    padding: 0.4rem 0.45rem;
+  }
+
+  .brand-motion__film-compact-puff {
+    font-size: 0.76rem;
+  }
+
+  .brand-motion__film-compact-sub {
+    font-size: 0.58rem;
+  }
+
   .brand-motion__control-btn {
     width: 36px;
     height: 36px;
@@ -7456,13 +7808,8 @@ p { color: var(--text-secondary); }
   filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
 }
 
-.detail-spec-bento__hero--40000 {
-  background: linear-gradient(165deg, #f4f4f4, #e8e8e8);
-  border-color: color-mix(in srgb, var(--border) 55%, transparent);
-}
-
 .detail-spec-bento__hero--40000 img {
-  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.14));
+  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.35));
 }
 
 .detail-spec-bento__hero--8000 img {
@@ -8708,10 +9055,6 @@ p { color: var(--text-secondary); }
   background: linear-gradient(160deg, var(--bg-card), var(--bg-secondary));
 }
 
-:root[data-theme='light'] .detail-spec-bento__hero--40000 {
-  background: linear-gradient(165deg, #fff, #f0f0f0);
-}
-
 :root[data-theme='light'] .detail-spec-bento__card {
   border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
   background: linear-gradient(165deg, color-mix(in srgb, var(--bg-card) 94%, #fff), color-mix(in srgb, var(--bg-secondary) 94%, #fff));
@@ -8859,6 +9202,50 @@ p { color: var(--text-secondary); }
 }
 
 /* Light mode: improve Topbar video section blend/readability */
+:root[data-theme='light'] .brand-motion__ambient {
+  background:
+    radial-gradient(ellipse 58% 48% at 18% 22%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 72%),
+    radial-gradient(ellipse 42% 38% at 82% 28%, color-mix(in srgb, var(--accent) 8%, #7dd3fc 12%), transparent 74%);
+  opacity: 0.72;
+}
+
+:root[data-theme='light'] .brand-motion::before {
+  background: linear-gradient(
+    180deg,
+    var(--bg-primary) 0%,
+    color-mix(in srgb, var(--bg-primary) 96%, var(--accent) 4%) 45%,
+    transparent 100%
+  );
+}
+
+:root[data-theme='light'] .best-flavors-section::after {
+  opacity: 0.7;
+}
+
+:root[data-theme='light'] .brand-motion__film-track {
+  border-color: color-mix(in srgb, var(--accent) 18%, var(--border));
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-secondary));
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme='light'] .brand-motion__film-compact {
+  background: linear-gradient(180deg, var(--bg-card), var(--bg-secondary));
+  box-shadow: var(--shadow-sm);
+}
+
+:root[data-theme='light'] .brand-motion__film-compact-btn--active {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 12%, #fff), color-mix(in srgb, var(--accent) 5%, var(--bg-card)));
+}
+
+:root[data-theme='light'] .brand-motion__film-tab {
+  background: color-mix(in srgb, var(--bg-card) 88%, #fff);
+}
+
+:root[data-theme='light'] .brand-motion__film-tab--active {
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 14%, #fff), color-mix(in srgb, var(--accent) 6%, var(--bg-card)));
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
 :root[data-theme='light'] .topbar-zoom-section {
   background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
 }

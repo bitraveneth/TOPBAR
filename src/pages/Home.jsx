@@ -112,6 +112,7 @@ function Home() {
       <HomeBrandVideo
         title={brandVideo.title}
         subtitle={brandVideo.subtitle}
+        films={brandVideo.films}
         poster={brandVideo.poster}
         mp4={brandVideo.mp4}
         mov={brandVideo.mov}
