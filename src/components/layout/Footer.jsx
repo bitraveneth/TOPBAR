@@ -5,7 +5,7 @@
  * Contact: meetalex@protonmail.com
  */
 import { Link } from 'react-router-dom'
-import { useCms } from '../../contexts/CmsContext'
+import { useCms } from '../../contexts/useCms'
 
 function Footer() {
   const { merged } = useCms()

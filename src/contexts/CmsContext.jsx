@@ -4,10 +4,9 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { getDefaultCmsMap } from '../lib/cmsDefaults'
-
-const CmsContext = createContext(null)
+import { CmsContext } from './cmsSharedContext'
 
 export function CmsProvider({ children }) {
   const defaults = useMemo(() => getDefaultCmsMap(), [])
@@ -21,12 +20,4 @@ export function CmsProvider({ children }) {
   )
 
   return <CmsContext.Provider value={value}>{children}</CmsContext.Provider>
-}
-
-export function useCms() {
-  const ctx = useContext(CmsContext)
-  if (!ctx) {
-    throw new Error('useCms must be used under CmsProvider')
-  }
-  return ctx
 }

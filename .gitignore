@@ -26,3 +26,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local dev / import artifacts (not shipped)
+.lighthouse-tmp/
+lighthouse-reports/
+_import-preview/
+_import-sorted/
+updatedimage/
+_filelist.txt

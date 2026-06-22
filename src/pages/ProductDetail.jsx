@@ -7,9 +7,89 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Battery, Cable, ChevronDown, Droplets, Gauge, Sparkles, Wind } from 'lucide-react'
-import { useCms } from '../contexts/CmsContext'
+import { useCms } from '../contexts/useCms'
 import { getProductShareUrl } from '../lib/brandFilmShare'
+import { productDetailImageProps } from '../lib/responsiveImage'
+import { clearProductImagePreload, preloadProductImage } from '../lib/productImagePreload'
 import ShareMenu from '../components/shared/ShareMenu'
+
+function DetailCoverflow({ items }) {
+  const [coverflowIndex, setCoverflowIndex] = useState(0)
+  const [isCoverflowHovered, setIsCoverflowHovered] = useState(false)
+
+  useEffect(() => {
+    if (items.length <= 1) return undefined
+    if (isCoverflowHovered) return undefined
+    const timer = window.setInterval(() => {
+      setCoverflowIndex((prev) => (prev + 1) % items.length)
+    }, 3800)
+    return () => window.clearInterval(timer)
+  }, [isCoverflowHovered, items.length])
+
+  return (
+    <div
+      className="detail-coverflow"
+      aria-label="Explore more flavours"
+      onMouseEnter={() => setIsCoverflowHovered(true)}
+      onMouseLeave={() => setIsCoverflowHovered(false)}
+    >
+      <button
+        type="button"
+        className="detail-coverflow__nav detail-coverflow__nav--prev"
+        onClick={() => setCoverflowIndex((prev) => (prev - 1 + items.length) % items.length)}
+        aria-label="Previous flavour"
+      >
+        ‹
+      </button>
+      <div className="detail-coverflow__stage">
+        {items.map((item, idx) => {
+          const total = items.length
+          const rawOffset = idx - coverflowIndex
+          const circularOffset =
+            Math.abs(rawOffset) > total / 2
+              ? rawOffset > 0
+                ? rawOffset - total
+                : rawOffset + total
+              : rawOffset
+          const absOffset = Math.abs(circularOffset)
+          const isActive = circularOffset === 0
+          if (absOffset > 2) return null
+
+          return (
+            <Link
+              key={item.id}
+              to={`/products/${item.slug}`}
+              className={`detail-coverflow__item ${isActive ? 'is-active' : ''}`}
+              style={{
+                '--offset': circularOffset,
+                '--abs-offset': absOffset,
+                '--flavour-color': item.accentColor || '#CCFF00',
+              }}
+            >
+              <article className="product-card detail-related-card">
+                <div className="product-card__image detail-related-card__image">
+                  <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
+                </div>
+                <div className="product-card__body detail-related-card__body">
+                  <p className="product-card__category detail-related-card__category">{item.subtitle}</p>
+                  <h3 className="product-card__name detail-related-card__name">{item.title}</h3>
+                </div>
+              </article>
+            </Link>
+          )
+        })}
+      </div>
+      <button
+        type="button"
+        className="detail-coverflow__nav detail-coverflow__nav--next"
+        onClick={() => setCoverflowIndex((prev) => (prev + 1) % items.length)}
+        aria-label="Next flavour"
+      >
+        ›
+      </button>
+    </div>
+  )
+}
 
 function ProductDetail() {
   const { merged } = useCms()
@@ -27,17 +107,18 @@ function ProductDetail() {
     return [{ name: 'Default', hex: '#CCFF00', image: product.image }]
   }, [product])
 
-  const [activeColorName, setActiveColorName] = useState(colorVariants[0]?.name)
+  const [colorSelection, setColorSelection] = useState({ slug: '', name: '' })
   const [isDesktop, setIsDesktop] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches
   )
   const multiFlavour = colorVariants.length > 1
   const flavourCollapsible = multiFlavour && !isDesktop
   const [flavourOpen, setFlavourOpen] = useState(false)
-
-  useEffect(() => {
-    setActiveColorName(colorVariants[0]?.name)
-  }, [colorVariants])
+  const activeColorName =
+    colorSelection.slug === resolvedSlug && colorVariants.some((variant) => variant.name === colorSelection.name)
+      ? colorSelection.name
+      : colorVariants[0]?.name
+  const setActiveColorName = (name) => setColorSelection({ slug: resolvedSlug, name })
 
   useEffect(() => {
     const mq = window.matchMedia('(min-width: 768px)')
@@ -46,12 +127,15 @@ function ProductDetail() {
     return () => mq.removeEventListener('change', onChange)
   }, [])
 
-  useEffect(() => {
-    if (flavourCollapsible) setFlavourOpen(false)
-  }, [product?.slug, flavourCollapsible])
-
   const activeVariant = colorVariants.find((variant) => variant.name === activeColorName) || colorVariants[0]
   const activeImage = activeVariant?.image || product?.image
+  const detailImage = productDetailImageProps(activeImage)
+
+  useEffect(() => {
+    if (!product || !activeImage) return undefined
+    preloadProductImage(resolvedSlug, activeImage)
+    return () => clearProductImagePreload(resolvedSlug)
+  }, [product, resolvedSlug, activeImage])
 
   const productShareUrl = useMemo(() => {
     if (!product) return ''
@@ -60,7 +144,7 @@ function ProductDetail() {
         ? activeVariant.name
         : undefined
     return getProductShareUrl(resolvedSlug, { flavor })
-  }, [product, resolvedSlug, multiFlavour, activeVariant?.name])
+  }, [product, resolvedSlug, multiFlavour, activeVariant])
 
   const productShareText = useMemo(() => {
     if (!product) return ''
@@ -70,7 +154,7 @@ function ProductDetail() {
         : ''
     const tagline = product.tagline ? `. ${product.tagline}` : ''
     return `Check out ${product.name}${flavorLine} on TOPBAR${tagline}`
-  }, [product, multiFlavour, activeVariant?.name])
+  }, [product, multiFlavour, activeVariant])
 
   const featureShowcaseTiles = useMemo(() => {
     if (!product) return []
@@ -140,17 +224,19 @@ function ProductDetail() {
           { label: 'Input', value: '5V DC, 1A', icon: 'port' },
         ]
   const seriesSpecsImage = isTopbar40000
-    ? '/images/products/topbar-40000-key-specs.png'
+    ? '/images/products/topbar-40000-key-specs.webp'
     : isTopbar8000
       ? '/images/products/topbar-8000-key-specs.png'
       : activeImage
   const related = useMemo(() => {
     if (!product) return []
+    const catalog = merged.products?.items ?? []
     return catalog.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3)
-  }, [catalog, product])
+  }, [merged.products?.items, product])
 
   const relatedCarouselItems = useMemo(() => {
     if (!product) return []
+    const catalog = merged.products?.items ?? []
 
     if (isTopbarSeries) {
       const topbarSeriesSlugs = ['topbar-40000-puffs', 'topbar-8000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
@@ -182,24 +268,9 @@ function ProductDetail() {
       isNew: p.isNew,
       accentColor: '#CCFF00',
     }))
-  }, [catalog, isTopbarSeries, product, related])
+  }, [merged.products?.items, isTopbarSeries, product, related])
 
   const relatedHeading = isTopbarSeries ? 'Explore More Products' : 'Related Products'
-  const [coverflowIndex, setCoverflowIndex] = useState(0)
-  const [isCoverflowHovered, setIsCoverflowHovered] = useState(false)
-
-  useEffect(() => {
-    setCoverflowIndex(0)
-  }, [product?.slug])
-
-  useEffect(() => {
-    if (!isTopbarSeries || relatedCarouselItems.length <= 1) return undefined
-    if (isCoverflowHovered) return undefined
-    const timer = window.setInterval(() => {
-      setCoverflowIndex((prev) => (prev + 1) % relatedCarouselItems.length)
-    }, 3800)
-    return () => window.clearInterval(timer)
-  }, [isTopbarSeries, isCoverflowHovered, relatedCarouselItems.length])
 
   if (!product) {
     return (
@@ -217,7 +288,9 @@ function ProductDetail() {
         <div className="detail-layout detail-layout--hero">
           <div className="detail-image detail-image--large detail-image--shareable">
             <img
-              src={activeImage}
+              src={detailImage.src || activeImage}
+              srcSet={detailImage.srcSet}
+              sizes={detailImage.sizes}
               alt={`${product.name} ${activeVariant?.name || ''}`}
               loading="eager"
               fetchPriority="high"
@@ -245,6 +318,7 @@ function ProductDetail() {
 
             {!flavourCollapsible && <h3 className="detail-flavour-heading">Choose Flavour</h3>}
             <div
+              key={`flavour-picker-${resolvedSlug}`}
               className={`detail-color-picker${flavourCollapsible ? ' detail-color-picker--collapsible' : ' detail-color-picker--desktop'}${flavourCollapsible && flavourOpen ? ' is-flavour-open' : ''}${flavourCollapsible && !flavourOpen ? ' is-flavour-closed' : ''}`}
               aria-label="Choose product flavour"
             >
@@ -415,69 +489,7 @@ function ProductDetail() {
           <div className="detail-related">
             {isTopbarSeries ? <h1 className="detail-related__title">{relatedHeading}</h1> : <h3>{relatedHeading}</h3>}
             {isTopbarSeries ? (
-              <>
-                <div
-                  className="detail-coverflow"
-                  aria-label="Explore more flavours"
-                  onMouseEnter={() => setIsCoverflowHovered(true)}
-                  onMouseLeave={() => setIsCoverflowHovered(false)}
-                >
-                  <button
-                    type="button"
-                    className="detail-coverflow__nav detail-coverflow__nav--prev"
-                    onClick={() => setCoverflowIndex((prev) => (prev - 1 + relatedCarouselItems.length) % relatedCarouselItems.length)}
-                    aria-label="Previous flavour"
-                  >
-                    ‹
-                  </button>
-                  <div className="detail-coverflow__stage">
-                    {relatedCarouselItems.map((item, idx) => {
-                      const total = relatedCarouselItems.length
-                      const rawOffset = idx - coverflowIndex
-                      const circularOffset =
-                        Math.abs(rawOffset) > total / 2
-                          ? rawOffset > 0
-                            ? rawOffset - total
-                            : rawOffset + total
-                          : rawOffset
-                      const absOffset = Math.abs(circularOffset)
-                      const isActive = circularOffset === 0
-                      if (absOffset > 2) return null
-
-                      return (
-                        <Link
-                          key={item.id}
-                          to={`/products/${item.slug}`}
-                          className={`detail-coverflow__item ${isActive ? 'is-active' : ''}`}
-                          style={{
-                            '--offset': circularOffset,
-                            '--abs-offset': absOffset,
-                            '--flavour-color': item.accentColor || '#CCFF00',
-                          }}
-                        >
-                          <article className="product-card detail-related-card">
-                            <div className="product-card__image detail-related-card__image">
-                              <img src={item.image} alt={item.title} loading="lazy" decoding="async" />
-                            </div>
-                            <div className="product-card__body detail-related-card__body">
-                              <p className="product-card__category detail-related-card__category">{item.subtitle}</p>
-                              <h3 className="product-card__name detail-related-card__name">{item.title}</h3>
-                            </div>
-                          </article>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                  <button
-                    type="button"
-                    className="detail-coverflow__nav detail-coverflow__nav--next"
-                    onClick={() => setCoverflowIndex((prev) => (prev + 1) % relatedCarouselItems.length)}
-                    aria-label="Next flavour"
-                  >
-                    ›
-                  </button>
-                </div>
-              </>
+              <DetailCoverflow key={resolvedSlug} items={relatedCarouselItems} />
             ) : (
               <div className="detail-related__viewport">
                 <div className="detail-related__track">

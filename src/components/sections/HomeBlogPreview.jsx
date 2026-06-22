@@ -4,7 +4,7 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useCms } from '../../contexts/CmsContext'
+import { useCms } from '../../contexts/useCms'
 
 function HomeBlogPreview() {
   const { merged } = useCms()

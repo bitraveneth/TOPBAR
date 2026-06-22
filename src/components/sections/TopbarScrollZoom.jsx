@@ -47,12 +47,12 @@ function TopbarScrollZoom({ tagline = '' }) {
   }, [tagline, progress, pastWordmarkFade, revealProgress])
 
   useEffect(() => {
-    if (!pastWordmarkFade) {
-      setScrollHintAfterDelay(false)
-      return
-    }
+    if (!pastWordmarkFade) return undefined
     const id = window.setTimeout(() => setScrollHintAfterDelay(true), SCROLL_HINT_DELAY_MS)
-    return () => clearTimeout(id)
+    return () => {
+      window.clearTimeout(id)
+      setScrollHintAfterDelay(false)
+    }
   }, [pastWordmarkFade])
 
   useEffect(() => {
@@ -203,12 +203,12 @@ function TopbarScrollZoom({ tagline = '' }) {
           <div
             className="topbar-scroll-hint topbar-scroll-hint--under-tagline"
             style={{
-              opacity: scrollHintAfterDelay ? 1 : 0,
-              transform: `translateY(${scrollHintAfterDelay ? 0 : 12}px)`,
-              pointerEvents: scrollHintAfterDelay ? undefined : 'none',
+              opacity: pastWordmarkFade && scrollHintAfterDelay ? 1 : 0,
+              transform: `translateY(${pastWordmarkFade && scrollHintAfterDelay ? 0 : 12}px)`,
+              pointerEvents: pastWordmarkFade && scrollHintAfterDelay ? undefined : 'none',
               transition: 'opacity 0.55s ease, transform 0.55s ease',
             }}
-            aria-hidden={!scrollHintAfterDelay}
+            aria-hidden={!pastWordmarkFade || !scrollHintAfterDelay}
             aria-label="Scroll down for more"
           >
             <span className="topbar-scroll-hint__label" aria-hidden="true">

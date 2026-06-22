@@ -5,7 +5,7 @@
  * Contact: meetalex@protonmail.com
  */
 import HeroCarousel from '../components/common/HeroCarousel'
-import { lazy, Suspense, useMemo } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 
 import ProductShowcase from '../components/sections/ProductShowcase'
 import BestSellingFlavors from '../components/sections/BestSellingFlavors'
@@ -16,26 +16,32 @@ const LovedByYou = lazy(() => import('../components/sections/LovedByYou'))
 const HomeBlogPreview = lazy(() => import('../components/sections/HomeBlogPreview'))
 const NewsletterSignup = lazy(() => import('../components/sections/NewsletterSignup'))
 
-import { useCms } from '../contexts/CmsContext'
+import { useCms } from '../contexts/useCms'
+import { buildFlavorShuffleSeed, seededShuffle } from '../lib/shuffleFlavors'
+
+const DESKTOP_TOPBAR_ZOOM_MQ = '(min-width: 769px)'
+
+const SHOWCASE_ACCENT_BY_SLUG = {
+  'topbar-8000-puffs': '#CCFF00',
+  'topbar-40000-puffs': '#00C2FF',
+  'topbar-50000-puffs': '#FF6B35',
+  'topbar-60000-puffs': '#B48CFF',
+}
+
+const REQUIRED_TOPBAR_SLUGS = ['topbar-8000-puffs', 'topbar-40000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
 
 function Home() {
   const { merged } = useCms()
   const home = merged.home || {}
-  const productsList = merged.products?.items ?? []
-  const showcaseAccentBySlug = {
-    'topbar-8000-puffs': '#CCFF00',
-    'topbar-40000-puffs': '#00C2FF',
-    'topbar-50000-puffs': '#FF6B35',
-    'topbar-60000-puffs': '#B48CFF',
-  }
-
-  const requiredTopbarSlugs = ['topbar-8000-puffs', 'topbar-40000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
-  const featuredProductSlugs = Array.from(new Set([...(home.featuredProductSlugs || []), ...requiredTopbarSlugs]))
-  const flavorOrderBySlug = home.flavorOrderBySlug || {}
+  const featuredProductSlugs = useMemo(
+    () => Array.from(new Set([...(home.featuredProductSlugs || []), ...REQUIRED_TOPBAR_SLUGS])),
+    [home.featuredProductSlugs],
+  )
 
   const coreProducts = useMemo(
-    () =>
-      featuredProductSlugs
+    () => {
+      const productsList = merged.products?.items ?? []
+      return featuredProductSlugs
         .map((slug) => productsList.find((product) => product.slug === slug))
         .filter(Boolean)
         .map((product) => ({
@@ -45,13 +51,16 @@ function Home() {
           description: '',
           image: product.image,
           showcaseImagePosition: product.showcaseImagePosition,
-          showcaseAccentColor: showcaseAccentBySlug[product.slug],
+          showcaseAccentColor: SHOWCASE_ACCENT_BY_SLUG[product.slug],
           link: `/products/${product.slug}`,
-        })),
-    [productsList, featuredProductSlugs],
+        }))
+    },
+    [merged.products?.items, featuredProductSlugs],
   )
 
   const bestFlavorGroups = useMemo(() => {
+    const productsList = merged.products?.items ?? []
+    const flavorOrderBySlug = home.flavorOrderBySlug || {}
     const products = featuredProductSlugs
       .map((slug) => productsList.find((product) => product.slug === slug))
       .filter(Boolean)
@@ -77,8 +86,8 @@ function Home() {
 
     if (!flavorPool.length) return []
 
-    // Shuffle once per data change so cards are mixed across products.
-    const shuffled = [...flavorPool].sort(() => Math.random() - 0.5)
+    const shuffleSeed = buildFlavorShuffleSeed(featuredProductSlugs, flavorOrderBySlug)
+    const shuffled = seededShuffle(flavorPool, shuffleSeed)
     const targetCards = 12
     const filledFlavors = Array.from({ length: targetCards }, (_, idx) => ({
       ...shuffled[idx % shuffled.length],
@@ -92,12 +101,23 @@ function Home() {
         flavors: filledFlavors,
       },
     ]
-  }, [productsList, featuredProductSlugs, flavorOrderBySlug])
+  }, [merged.products?.items, featuredProductSlugs, home.flavorOrderBySlug])
 
   const heroSlides = home.heroSlides || []
   const brandVideo = home.brandVideo || {}
   const brandValues = home.brandValues || []
   const topbarTagline = home.topbarTagline
+  const [showTopbarZoom, setShowTopbarZoom] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(DESKTOP_TOPBAR_ZOOM_MQ).matches,
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia(DESKTOP_TOPBAR_ZOOM_MQ)
+    const sync = () => setShowTopbarZoom(mq.matches)
+    sync()
+    mq.addEventListener('change', sync)
+    return () => mq.removeEventListener('change', sync)
+  }, [])
 
   return (
     <>
@@ -126,7 +146,7 @@ function Home() {
       <BrandValues values={brandValues} />
       <Suspense fallback={null}>
         <LovedByYou />
-        <TopbarScrollZoom tagline={topbarTagline} />
+        {showTopbarZoom ? <TopbarScrollZoom tagline={topbarTagline} /> : null}
         <HomeBlogPreview />
         <NewsletterSignup />
       </Suspense>

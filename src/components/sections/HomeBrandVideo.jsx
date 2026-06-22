@@ -24,6 +24,11 @@ import {
   VolumeX,
 } from 'lucide-react'
 import { DEFAULT_SHARE_TEXT, getBrandFilmShareUrl } from '../../lib/brandFilmShare'
+import {
+  isBrandFilmPreloaded,
+  subscribeBrandFilmPreload,
+  warmupBrandFilmsAfterHero,
+} from '../../lib/brandFilmPreload'
 import BrandFilmShareSheet from './BrandFilmShareSheet'
 
 function getFullscreenElement() {
@@ -103,10 +108,7 @@ function useCountUp(target, duration = 2200, start = false) {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
-    if (!start) {
-      setCount(0)
-      return undefined
-    }
+    if (!start) return undefined
 
     let startTime = null
     let frame
@@ -123,7 +125,7 @@ function useCountUp(target, duration = 2200, start = false) {
     return () => cancelAnimationFrame(frame)
   }, [target, duration, start])
 
-  return count
+  return start ? count : 0
 }
 
 function BrandMotionStatValue({ target, suffix = '', inView, reduceMotion }) {
@@ -165,7 +167,7 @@ function HomeBrandVideo({
   const swipedRef = useRef(false)
   const [activeFilmIndex, setActiveFilmIndex] = useState(0)
   const [inView, setInView] = useState(false)
-  const [ready, setReady] = useState(false)
+  const [playbackReady, setPlaybackReady] = useState(false)
   const [mediaError, setMediaError] = useState(false)
   const [muted, setMuted] = useState(true)
   const [paused, setPaused] = useState(true)
@@ -174,6 +176,7 @@ function HomeBrandVideo({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [shareFeedback, setShareFeedback] = useState(null)
+  const [preloadedFilmIds, setPreloadedFilmIds] = useState(() => new Set())
 
   const activeFilm = brandFilms[activeFilmIndex] || brandFilms[0]
   const sources = activeFilm ? getFilmSources(activeFilm) : []
@@ -184,14 +187,16 @@ function HomeBrandVideo({
   const goToFilm = useCallback((index) => {
     if (!brandFilms.length) return
     const nextIndex = (index + brandFilms.length) % brandFilms.length
+    const nextFilm = brandFilms[nextIndex]
+    const alreadyBuffered = nextFilm && (isBrandFilmPreloaded(nextFilm.id) || preloadedFilmIds.has(nextFilm.id))
     setActiveFilmIndex(nextIndex)
-    setReady(false)
+    setPlaybackReady(Boolean(alreadyBuffered))
     setMediaError(false)
     setPaused(true)
     setProgress(0)
     setShareOpen(false)
     setShareFeedback(null)
-  }, [brandFilms.length])
+  }, [brandFilms, preloadedFilmIds])
 
   const handleTouchStart = useCallback((event) => {
     const touch = event.touches[0]
@@ -219,6 +224,44 @@ function HomeBrandVideo({
       swipedRef.current = false
     }, 320)
   }, [activeFilmIndex, goToFilm, hasMultipleFilms])
+
+  useEffect(() => {
+    const cleanups = brandFilms.map((film) =>
+      subscribeBrandFilmPreload(film.id, () => {
+        setPreloadedFilmIds((current) => {
+          if (current.has(film.id)) return current
+          const next = new Set(current)
+          next.add(film.id)
+          return next
+        })
+      }),
+    )
+
+    const stopWarmup = warmupBrandFilmsAfterHero(brandFilms)
+    return () => {
+      cleanups.forEach((cleanup) => cleanup())
+      stopWarmup()
+    }
+  }, [brandFilms])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video || !activeFilm) return undefined
+
+    const handleReady = () => {
+      setPlaybackReady(true)
+      setMediaError(false)
+    }
+
+    video.addEventListener('loadeddata', handleReady)
+    video.addEventListener('canplay', handleReady)
+    video.load()
+
+    return () => {
+      video.removeEventListener('loadeddata', handleReady)
+      video.removeEventListener('canplay', handleReady)
+    }
+  }, [activeFilm])
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -327,7 +370,7 @@ function HomeBrandVideo({
     const video = videoRef.current
     if (!video) return
     setMediaError(false)
-    setReady(false)
+    setPlaybackReady(false)
     setPaused(true)
     video.load()
     video.play().then(() => setPaused(false)).catch(() => setPaused(true))
@@ -335,8 +378,13 @@ function HomeBrandVideo({
 
   if (!brandFilms.length || !activeFilm || !sources.length) return null
 
+  const isFilmBuffered = activeFilm && (
+    playbackReady
+    || isBrandFilmPreloaded(activeFilm.id)
+    || preloadedFilmIds.has(activeFilm.id)
+  )
   const isPlaying = inView && !paused && !reduceMotion && !mediaError
-  const showCenterPlay = (ready || mediaError) && paused && !isPlaying
+  const showCenterPlay = (isFilmBuffered || mediaError) && paused && !isPlaying
 
   return (
     <section
@@ -428,16 +476,19 @@ function HomeBrandVideo({
               aria-label={paused ? `Play ${activeFilmTitle}` : `Pause ${activeFilmTitle}`}
             >
               <video
-                key={activeFilm.id}
                 ref={videoRef}
                 className="brand-motion__video"
                 poster={activeFilm.poster}
                 muted={muted}
                 playsInline
                 loop
-                preload="metadata"
+                preload={isFilmBuffered || inView ? 'auto' : 'metadata'}
                 onLoadedData={() => {
-                  setReady(true)
+                  setPlaybackReady(true)
+                  setMediaError(false)
+                }}
+                onCanPlay={() => {
+                  setPlaybackReady(true)
                   setMediaError(false)
                 }}
                 onTimeUpdate={handleTimeUpdate}
@@ -454,7 +505,7 @@ function HomeBrandVideo({
               </video>
             </div>
 
-            {!ready && !mediaError && (
+            {!isFilmBuffered && !mediaError && (
               <div className="brand-motion__loader" aria-hidden="true">
                 <span className="brand-motion__loader-ring" />
               </div>

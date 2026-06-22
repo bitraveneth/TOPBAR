@@ -641,9 +641,10 @@ p { color: var(--text-secondary); }
 .parallax-hero__slide {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transition: opacity 1.2s ease;
-  z-index: 0;
+  opacity: 1;
+  z-index: 1;
+  isolation: isolate;
+  contain: layout style paint;
 }
 
 .parallax-hero__slide.active {
@@ -654,7 +655,8 @@ p { color: var(--text-secondary); }
 .parallax-hero__img-wrap {
   position: absolute;
   inset: 0;
-  will-change: transform;
+  overflow: hidden;
+  background: var(--bg-primary);
 }
 
 .parallax-hero__img {
@@ -666,6 +668,33 @@ p { color: var(--text-secondary); }
   -webkit-user-drag: none;
   user-select: none;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.parallax-hero__img.is-ready {
+  opacity: 1;
+}
+
+.parallax-hero__img-placeholder {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(110deg, rgba(255, 255, 255, 0.03) 8%, rgba(255, 255, 255, 0.08) 18%, rgba(255, 255, 255, 0.03) 33%),
+    var(--bg-primary);
+  background-size: 200% 100%;
+  animation: heroImageShimmer 1.4s linear infinite;
+}
+
+@keyframes heroImageShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-hero__img-placeholder {
+    animation: none;
+  }
 }
 
 .parallax-hero__overlay {
@@ -704,6 +733,29 @@ p { color: var(--text-secondary); }
   max-width: 700px;
 }
 
+.parallax-hero__content[data-slide] .parallax-hero__tag,
+.parallax-hero__content[data-slide] .parallax-hero__title,
+.parallax-hero__content[data-slide] .parallax-hero__sub,
+.parallax-hero__content[data-slide] .parallax-hero__cta {
+  animation: none;
+}
+
+.parallax-hero__content[data-slide] .parallax-hero__tag {
+  animation: heroSlideIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.parallax-hero__content[data-slide] .parallax-hero__title {
+  animation: heroSlideIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.parallax-hero__content[data-slide] .parallax-hero__sub {
+  animation: heroSlideIn 0.7s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.parallax-hero__content[data-slide] .parallax-hero__cta {
+  animation: heroSlideIn 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 .parallax-hero__title {
   font-family: var(--font-heading);
   font-size: clamp(2rem, 4vw, 3.5rem);
@@ -715,7 +767,6 @@ p { color: var(--text-secondary); }
   letter-spacing: 0.03em;
   white-space: nowrap;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
-  animation: heroSlideIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .parallax-hero__sub {
@@ -725,7 +776,6 @@ p { color: var(--text-secondary); }
   margin-bottom: 1.5rem;
   max-width: 420px;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
-  animation: heroSlideIn 0.7s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .parallax-hero__cta {
@@ -744,7 +794,6 @@ p { color: var(--text-secondary); }
   border-bottom: 2px solid var(--accent);
   border-radius: 0;
   transition: all 0.3s ease;
-  animation: heroSlideIn 0.7s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .parallax-hero__cta:hover {
@@ -830,11 +879,106 @@ p { color: var(--text-secondary); }
   height: 100%;
   background: var(--accent);
   animation: heroProgress 5s linear;
+  width: 0;
 }
 
 @keyframes heroProgress {
   from { width: 0; }
   to { width: 100%; }
+}
+
+.parallax-hero--mobile .parallax-hero__overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) 48%,
+    rgba(0, 0, 0, 0.22) 68%,
+    rgba(0, 0, 0, 0.72) 100%
+  );
+}
+
+.parallax-hero--mobile .parallax-hero__focus-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0.04) 28%,
+    rgba(0, 0, 0, 0) 55%
+  );
+}
+
+.parallax-hero--mobile .parallax-hero__img {
+  object-position: center 40%;
+}
+
+.parallax-hero--mobile .parallax-hero__content {
+  bottom: 2.85rem;
+  left: 0;
+  right: 0;
+  padding: 0 2.65rem 0 1rem;
+  max-width: 100%;
+}
+
+.parallax-hero--mobile .parallax-hero__tag {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.25rem;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+
+.parallax-hero--mobile .parallax-hero__title {
+  font-size: clamp(1.35rem, 6.4vw, 1.85rem);
+  line-height: 1.08;
+  white-space: normal;
+  margin-bottom: 0.35rem;
+}
+
+.parallax-hero--mobile .parallax-hero__sub {
+  max-width: 16.5rem;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  margin-bottom: 0.55rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.parallax-hero--mobile .parallax-hero__cta {
+  font-size: 0.7rem;
+  padding: 0.45rem 0;
+}
+
+.parallax-hero--mobile .hero-arrow {
+  opacity: 0.42;
+  width: 36px;
+  height: 36px;
+  top: 44%;
+  border-color: rgba(255, 255, 255, 0.22);
+  background: rgba(0, 0, 0, 0.18);
+  color: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.parallax-hero--mobile .hero-arrow:active {
+  opacity: 0.72;
+  background: rgba(0, 0, 0, 0.32);
+  border-color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.parallax-hero--mobile .hero-arrow--left {
+  left: 0.4rem;
+}
+
+.parallax-hero--mobile .hero-arrow--right {
+  right: 0.4rem;
 }
 
 @media (max-width: 640px) {
@@ -865,7 +1009,6 @@ p { color: var(--text-secondary); }
 
   .parallax-hero__content {
     padding: 0 1.25rem;
-    bottom: 18%;
     max-width: 100%;
   }
 
@@ -878,19 +1021,18 @@ p { color: var(--text-secondary); }
 
   .parallax-hero__sub {
     font-size: 0.85rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-    max-width: 100%;
+    line-height: 1.45;
+    margin-bottom: 0.85rem;
   }
 
   .parallax-hero__cta {
-    font-size: 0.75rem;
-    padding: 0.55rem 0;
+    padding: 0.5rem 0;
   }
 
   .parallax-hero__indicators {
-    bottom: 18px;
+    bottom: 14px;
     gap: 5px;
+    z-index: 12;
   }
 
   .parallax-hero__indicator {

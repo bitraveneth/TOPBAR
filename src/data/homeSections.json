@@ -4,6 +4,11 @@
       "tag": "TOPBAR 60000",
       "title": "Strawberry Watermelon",
       "subtitle": "A bright sweet blend in the latest TOPBAR 60000 series.",
+      "mobile": {
+        "title": "Strawberry Watermelon",
+        "subtitle": "Sweet blend. TOPBAR 60000 series.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-60000-hero-2.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-60000-puffs"
@@ -12,6 +17,11 @@
       "tag": "TOPBAR 60000",
       "title": "Blue Razz",
       "subtitle": "Cool berry-forward notes with a smooth, balanced finish.",
+      "mobile": {
+        "title": "Blue Razz",
+        "subtitle": "Cool berry notes. Smooth finish.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-60000-hero-4.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-60000-puffs"
@@ -20,6 +30,11 @@
       "tag": "TOPBAR 60000",
       "title": "Sour Lemon",
       "subtitle": "Tangy citrus profile crafted for a sharp and refreshing hit.",
+      "mobile": {
+        "title": "Sour Lemon",
+        "subtitle": "Tangy citrus. Sharp, refreshing hit.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-60000-hero-3.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-60000-puffs"
@@ -28,6 +43,12 @@
       "tag": "TOPBAR Disposable",
       "title": "TOPBAR 40000 Puffs",
       "subtitle": "Rechargeable disposable with digital screen, smooth draw, and up to 40,000 puffs of all-day flavor.",
+      "mobile": {
+        "tag": "TOPBAR 40000",
+        "title": "40,000 Puffs",
+        "subtitle": "Digital screen. Rechargeable. All-day flavor.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-hero-40000-puffs.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-40000-puffs"
@@ -36,38 +57,65 @@
       "tag": "Desert Energy",
       "title": "Strawberry Ice",
       "subtitle": "Sweet strawberry flavor with a cool icy finish in a smooth disposable for all-day enjoyment.",
+      "mobile": {
+        "title": "Strawberry Ice",
+        "subtitle": "Sweet strawberry. Cool icy finish.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-hero-canyon-dusk.webp",
       "cta": "Discover Now",
       "link": "/products"
     },
     {
       "tag": "Fresh Drop",
-      "title": "New Collection",
-      "subtitle": "A modern disposable lineup with clean design, smooth draw, and consistent flavor every puff.",
+      "title": "Kiwi Passion Guava",
+      "subtitle": "Tropical kiwi, passion fruit, and guava with a cool icy finish on the TOPBAR 40000 series.",
+      "mobile": {
+        "tag": "TOPBAR 40000",
+        "title": "Kiwi Guava",
+        "subtitle": "Tropical blend. Cool icy finish.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-hero-new-collection.webp",
       "cta": "Discover Now",
-      "link": "/products"
+      "link": "/products/topbar-40000-puffs"
     },
     {
       "tag": "Ice Sensation",
-      "title": "Gummy Bear",
-      "subtitle": "Sweet gummy candy flavor with smooth delivery and a playful finish for all-day enjoyment.",
+      "title": "Blue Raspberry Lemonade",
+      "subtitle": "Sweet blue raspberry and lemonade with a crisp icy finish for all-day refreshment.",
+      "mobile": {
+        "title": "Blue Razz Lemonade",
+        "subtitle": "Sweet & crisp. Icy all-day refresh.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-hero-ice.webp",
       "cta": "Discover Now",
-      "link": "/products"
+      "link": "/products/topbar-40000-puffs"
     },
     {
       "tag": "Alpine Air",
       "title": "White Peach Raspberry",
       "subtitle": "Juicy white peach and raspberry blend with a cool finish on the TOPBAR 40000 series.",
+      "mobile": {
+        "tag": "TOPBAR 40000",
+        "title": "Peach Raspberry",
+        "subtitle": "Juicy blend. Cool finish.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-hero-collapse.webp",
       "cta": "Discover Now",
-      "link": "/products"
+      "link": "/products/topbar-40000-puffs"
     },
     {
       "tag": "Volcanic Boldness",
       "title": "Coke Ice",
       "subtitle": "Classic cola flavor with a cool icy finish in a smooth disposable for all-day enjoyment.",
+      "mobile": {
+        "title": "Coke Ice",
+        "subtitle": "Classic cola. Cool icy finish.",
+        "cta": "Discover"
+      },
       "image": "/images/hero/topbar-hero-volcano.webp",
       "cta": "Discover Now",
       "link": "/products/topbar-40000-puffs"

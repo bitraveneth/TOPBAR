@@ -5,7 +5,7 @@
  * Contact: meetalex@protonmail.com
  */
 import { useState } from 'react'
-import { useCms } from '../../contexts/CmsContext'
+import { useCms } from '../../contexts/useCms'
 
 function NewsletterSignup() {
   const { merged } = useCms()

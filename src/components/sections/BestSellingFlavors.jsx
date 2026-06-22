@@ -5,6 +5,7 @@
  * Contact: meetalex@protonmail.com
  */
 import { Link } from 'react-router-dom'
+import { cardImageProps } from '../../lib/responsiveImage'
 
 function BestSellingFlavors({ groups = [] }) {
   if (!groups.length) return null
@@ -30,20 +31,30 @@ function BestSellingFlavors({ groups = [] }) {
         {groups.map((group) => (
           <div key={group.title} className="best-flavors-group">
             <div className="best-flavors-grid">
-              {group.flavors.map((flavor) => (
+              {group.flavors.map((flavor) => {
+                const flavorImage = cardImageProps(flavor.image)
+                return (
                 <Link
                   key={`${group.title}-${flavor.name}-${flavor._slot ?? flavor.slug ?? ''}`}
                   to={`/products/${flavor.slug || group.slug}`}
                   className="best-flavor-card"
                 >
-                  <img src={flavor.image} alt={flavor.name} loading="lazy" />
+                  <img
+                    src={flavorImage.src || flavor.image}
+                    srcSet={flavorImage.srcSet}
+                    sizes={flavorImage.sizes}
+                    alt={flavor.name}
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <div className="best-flavor-card__label">
                     <span style={{ '--flavor-color': flavor.hex }} />
                     <h3>{shortFlavorName(flavor.name)}</h3>
                     <small>{flavor.productTitle || group.title}</small>
                   </div>
                 </Link>
-              ))}
+                )
+              })}
             </div>
           </div>
         ))}

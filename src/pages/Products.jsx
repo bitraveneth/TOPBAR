@@ -6,24 +6,29 @@
  */
 import { useMemo } from 'react'
 import ProductShowcase from '../components/sections/ProductShowcase'
-import { useCms } from '../contexts/CmsContext'
+import { useCms } from '../contexts/useCms'
+
+const SHOWCASE_ACCENT_BY_SLUG = {
+  'topbar-8000-puffs': '#CCFF00',
+  'topbar-40000-puffs': '#00C2FF',
+  'topbar-50000-puffs': '#FF6B35',
+  'topbar-60000-puffs': '#B48CFF',
+}
+
+const REQUIRED_TOPBAR_SLUGS = ['topbar-8000-puffs', 'topbar-40000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
 
 function Products() {
   const { merged } = useCms()
   const home = merged.home || {}
-  const productsList = merged.products?.items ?? []
-  const showcaseAccentBySlug = {
-    'topbar-8000-puffs': '#CCFF00',
-    'topbar-40000-puffs': '#00C2FF',
-    'topbar-50000-puffs': '#FF6B35',
-    'topbar-60000-puffs': '#B48CFF',
-  }
-  const requiredTopbarSlugs = ['topbar-8000-puffs', 'topbar-40000-puffs', 'topbar-50000-puffs', 'topbar-60000-puffs']
-  const featuredProductSlugs = Array.from(new Set([...(home.featuredProductSlugs || []), ...requiredTopbarSlugs]))
+  const featuredProductSlugs = useMemo(
+    () => Array.from(new Set([...(home.featuredProductSlugs || []), ...REQUIRED_TOPBAR_SLUGS])),
+    [home.featuredProductSlugs],
+  )
 
   const coreProducts = useMemo(
-    () =>
-      featuredProductSlugs
+    () => {
+      const productsList = merged.products?.items ?? []
+      return featuredProductSlugs
         .map((slug) => productsList.find((product) => product.slug === slug))
         .filter(Boolean)
         .map((product) => ({
@@ -33,10 +38,11 @@ function Products() {
           description: product.tagline,
           image: product.image,
           showcaseImagePosition: product.showcaseImagePosition,
-          showcaseAccentColor: showcaseAccentBySlug[product.slug],
+          showcaseAccentColor: SHOWCASE_ACCENT_BY_SLUG[product.slug],
           link: `/products/${product.slug}`,
-        })),
-    [productsList, featuredProductSlugs],
+        }))
+    },
+    [merged.products?.items, featuredProductSlugs],
   )
 
   return (

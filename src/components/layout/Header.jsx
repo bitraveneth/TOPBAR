@@ -7,7 +7,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { NavLink, Link, useLocation } from 'react-router-dom'
 import { Menu, X, ChevronDown, Moon, Sun } from 'lucide-react'
-import { useCms } from '../../contexts/CmsContext'
+import { useCms } from '../../contexts/useCms'
 import { useTheme } from '../../contexts/useTheme'
 
 function isPrimaryNavItemActive(pathname, item) {

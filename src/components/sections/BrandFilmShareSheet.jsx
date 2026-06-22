@@ -90,7 +90,6 @@ function BrandFilmShareSheet({
   onFeedback,
 }) {
   const sheetRef = useRef(null)
-  const ctx = { url: shareUrl, title, text: shareText }
 
   useEffect(() => {
     if (!open) return undefined
@@ -105,7 +104,7 @@ function BrandFilmShareSheet({
 
   const handleChannel = useCallback(
     async (channel) => {
-      const result = openShareChannel(channel, ctx)
+      const result = openShareChannel(channel, { url: shareUrl, title, text: shareText })
 
       if (result.type === 'copy') {
         try {
@@ -122,7 +121,7 @@ function BrandFilmShareSheet({
         onClose()
       }
     },
-    [ctx, onClose, onFeedback, shareUrl],
+    [onClose, onFeedback, shareUrl, shareText, title],
   )
 
   const handleNativeShare = useCallback(async () => {

@@ -1,0 +1,39 @@
+# TOPBAR — Nginx site config (copy to /etc/nginx/sites-available/topbar)
+# Replace topbar.example.com and /var/www/topbar/dist with your values.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name topbar.example.com www.topbar.example.com;
+
+    root /var/www/topbar/dist;
+    index index.html;
+
+    gzip on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
+    gzip_min_length 256;
+
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    location /images/ {
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
+    location /videos/ {
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
+    # React Router — all unknown paths serve index.html
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+
+# After saving: sudo ln -s /etc/nginx/sites-available/topbar /etc/nginx/sites-enabled/
+# sudo nginx -t && sudo systemctl reload nginx
+# sudo certbot --nginx -d topbar.example.com -d www.topbar.example.com

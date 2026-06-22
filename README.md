@@ -1,6 +1,8 @@
 # TOPBAR
 
-A sleek, high-performance vape e-commerce platform for TopBar, featuring a premium UI, product discovery, and seamless checkout experience.
+Official marketing storefront for the TOPBAR disposable vape lineup — premium UI, product discovery, flavour pickers, brand film, and community content.
+
+**Current release:** [v2.0.0](docs/RELEASE-v2.0.0.md) · [Deploy guide](docs/DEPLOYMENT.md)
 
 ## Development
 
@@ -9,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Built with [React](https://react.dev) and [Vite](https://vite.dev).
+Open http://localhost:5173 — built with [React](https://react.dev) and [Vite](https://vite.dev).
 
 For **where to change routes, JSON content, images, and styles**, see [`docs/project-guide.md`](./docs/project-guide.md).
 
@@ -18,12 +20,32 @@ For **where to change routes, JSON content, images, and styles**, see [`docs/pro
 ```bash
 npm run build       # production bundle in dist/
 npm run preview     # local preview of the production build
+npm run lint        # ESLint
+npm run images:mobile   # generate -480w / -960w responsive WebP variants
 ```
+
+## Deploy on a server
+
+1. `npm ci && npm run build`
+2. Upload the **`dist/`** folder to your web server
+3. Configure SPA fallback (`try_files` in Nginx)
+
+Full walkthrough: **[docs/DEPLOYMENT.md](./docs/DEPLOYMENT.md)** · example Nginx config in [`deploy/nginx-topbar.conf.example`](./deploy/nginx-topbar.conf.example)
 
 ## Content
 
-Site content is sourced from the JSON files in [`src/data/`](./src/data) (navigation, products, home sections, etc.) with defaults defined in [`src/lib/cmsDefaults.js`](./src/lib/cmsDefaults.js). Edit those files to update the storefront.
+Site content is sourced from JSON in [`src/data/`](./src/data) with defaults in [`src/lib/cmsDefaults.js`](./src/lib/cmsDefaults.js). Edit those files and assets under `public/` to update the storefront.
 
-## Image asset reference
+## Documentation
 
-See [`docs/image-size-reference.md`](./docs/image-size-reference.md) for the recommended dimensions and aspect ratios for hero, product, and showcase imagery.
+| Doc | Purpose |
+|-----|---------|
+| [RELEASE-v2.0.0.md](docs/RELEASE-v2.0.0.md) | v2 changelog and highlights |
+| [RELEASE-v1.0.0.md](docs/RELEASE-v1.0.0.md) | v1 feature reference |
+| [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Server deploy (Nginx, SSL, updates) |
+| [project-guide.md](docs/project-guide.md) | Maintenance map for developers |
+| [image-size-reference.md](docs/image-size-reference.md) | Recommended image dimensions |
+
+## Credits
+
+Designed and developed by **Alex** — [GitHub](https://github.com/bitraveneth)

@@ -17,7 +17,7 @@ function TestimonialMarquee({ testimonials }) {
       </div>
       <div className="marquee">
         {doubled.map((t, i) => (
-          <div key={i} className="testimonial-card">
+          <div key={`${t.author}-${i}`} className="testimonial-card">
             <p className="testimonial-card__text">"{t.text}"</p>
             <span className="testimonial-card__author">— {t.author}</span>
           </div>

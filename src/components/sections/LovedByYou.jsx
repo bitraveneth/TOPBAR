@@ -5,7 +5,8 @@
  * Contact: meetalex@protonmail.com
  */
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { useCms } from '../../contexts/CmsContext'
+import { useCms } from '../../contexts/useCms'
+import LovedRibbon from '../common/LovedRibbon'
 
 function shuffleItems(list) {
   const next = [...list]
@@ -14,16 +15,6 @@ function shuffleItems(list) {
     ;[next[i], next[j]] = [next[j], next[i]]
   }
   return next
-}
-
-function Ribbon({ text }) {
-  return (
-    <div className="loved-header">
-      <div className="loved-checker" />
-      <h1 className="loved-title">{text}</h1>
-      <div className="loved-checker" />
-    </div>
-  )
 }
 
 function LovedByYou() {
@@ -67,7 +58,7 @@ function LovedByYou() {
 
   return (
     <section className="loved-section">
-      <Ribbon text={ribbons[0]} />
+      <LovedRibbon text={ribbons[0]} />
       <div
         ref={wrapperRef}
         className={`loved-track-wrapper${hovered ? ' paused' : ''}${canScroll ? '' : ' loved-track-wrapper--static'}`}
@@ -86,7 +77,7 @@ function LovedByYou() {
           ))}
         </div>
       </div>
-      <Ribbon text={ribbons[1] ?? ribbons[0]} />
+      <LovedRibbon text={ribbons[1] ?? ribbons[0]} />
     </section>
   )
 }

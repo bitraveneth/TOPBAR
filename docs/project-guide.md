@@ -8,6 +8,8 @@ This document is the **maintenance map** for the site: where routes, copy, image
 
 The app is a **static React + Vite** site. There is **no live CMS or database** in this repo. Content is assembled from **JSON files** in `src/data/` plus defaults in `src/lib/cmsDefaults.js`, then exposed through `CmsContext` as `merged`. Editing those files (and assets under `public/`) is how you update the storefront.
 
+For **deploying to a VPS or static host**, see [`docs/DEPLOYMENT.md`](./DEPLOYMENT.md).
+
 ---
 
 ## Tech stack (at a glance)
