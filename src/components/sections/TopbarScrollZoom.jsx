@@ -178,7 +178,7 @@ function TopbarScrollZoom({ tagline = '' }) {
                 loop
                 muted
                 playsInline
-                preload="auto"
+                preload="none"
                 disablePictureInPicture
                 controls={false}
               >
