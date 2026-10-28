@@ -7,6 +7,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { adminFetch } from '../lib/adminApi'
+import { mediaSizeError } from '../lib/mediaLimits'
 
 function formatBytes(size) {
   if (!size) return ''
@@ -43,6 +44,12 @@ export default function MediaAdmin() {
   }, [navigate])
 
   async function upload(file) {
+    const problem = mediaSizeError(file)
+    if (problem) {
+      setError(problem)
+      setNotice('')
+      return
+    }
     const body = new FormData()
     body.append('file', file)
     setBusy(true)
@@ -82,7 +89,7 @@ export default function MediaAdmin() {
       <header className="admin-page__head">
         <div>
           <h1>Media</h1>
-          <p>Images, videos, and documents used across the site.</p>
+          <p>Images must be under 1 MB. Videos must be under 20 MB. Documents must be under 10 MB. Larger files make the public site slow.</p>
         </div>
         <label className="admin-btn">
           {busy ? 'Uploading…' : 'Upload'}

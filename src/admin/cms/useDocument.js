@@ -4,33 +4,56 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { adminFetch } from '../../lib/adminApi'
 import { getDefaultCmsMap } from '../../lib/cmsDefaults'
 
+function cloneDefault(key) {
+  const value = getDefaultCmsMap()[key]
+  return value == null ? {} : structuredClone(value)
+}
+
 export function useDocument(key) {
-  const [data, setData] = useState(null)
+  const [data, setDataState] = useState(() => cloneDefault(key))
   const [error, setError] = useState('')
-  const [status, setStatus] = useState('loading')
+  const [synced, setSynced] = useState(false)
+  const [activeKey, setActiveKey] = useState(key)
+  const touched = useRef({ key, dirty: false })
+
+  if (key !== activeKey) {
+    setActiveKey(key)
+    setDataState(cloneDefault(key))
+    setSynced(false)
+    setError('')
+  }
+
+  function setData(next) {
+    touched.current = { key, dirty: true }
+    setDataState(next)
+  }
 
   useEffect(() => {
     let cancelled = false
     adminFetch('/api/admin/cms')
       .then((payload) => {
         if (cancelled) return
-        const defaults = getDefaultCmsMap()
-        setData(structuredClone(payload.documents?.[key] || defaults[key]))
-        setStatus('ready')
+        const saved = payload.documents?.[key]
+        if (saved) {
+          setDataState((current) => (
+            touched.current.dirty && touched.current.key === key ? current : structuredClone(saved)
+          ))
+        }
+        setSynced(true)
       })
       .catch((err) => {
         if (cancelled) return
         setError(err.message)
-        setStatus('error')
+        setSynced(true)
       })
     return () => { cancelled = true }
   }, [key])
 
-  return { data, setData, error, setError, status }
+  return { data, setData, error, setError, status: 'ready', synced }
 }
 
 export function saveDocument(key, data) {

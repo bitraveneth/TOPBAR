@@ -11,6 +11,7 @@ import express from 'express'
 import multer from 'multer'
 import prisma from './db.js'
 import { hasPermission } from './permissions.js'
+import { VIDEO_MAX_BYTES, mediaSizeError } from '../src/lib/mediaLimits.js'
 
 export const CMS_KEYS = new Set([
   'site',
@@ -64,7 +65,7 @@ const upload = multer({
       callback(null, `${Date.now()}-${crypto.randomBytes(6).toString('hex')}${safeExt}`)
     },
   }),
-  limits: { fileSize: 150 * 1024 * 1024, files: 1 },
+  limits: { fileSize: VIDEO_MAX_BYTES, files: 1 },
   fileFilter(_req, file, callback) {
     const mime = acceptedMime(file)
     if (!mime) {
@@ -83,7 +84,7 @@ export function uploadMedia(req, res, next) {
       return
     }
     if (error.code === 'LIMIT_FILE_SIZE') {
-      res.status(413).json({ error: 'That file is too large. Maximum size is 150 MB.' })
+      res.status(413).json({ error: 'That file is too large. Images must be under 1 MB, videos under 20 MB, and documents under 10 MB.' })
       return
     }
     res.status(400).json({ error: error.message || 'Upload failed.' })
@@ -162,6 +163,12 @@ export function cmsRouter() {
   router.post('/media', requireContent, uploadMedia, asyncRoute(async (req, res) => {
     if (!req.file) {
       res.status(400).json({ error: 'Choose a file to upload.' })
+      return
+    }
+    const tooLarge = mediaSizeError(req.file)
+    if (tooLarge) {
+      fs.rmSync(req.file.path, { force: true })
+      res.status(400).json({ error: tooLarge })
       return
     }
     const created = await prisma.cmsMedia.create({

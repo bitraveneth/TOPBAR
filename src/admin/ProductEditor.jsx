@@ -4,7 +4,7 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import MediaField from './cms/MediaField'
 import { saveDocument, useDocument } from './cms/useDocument'
@@ -27,35 +27,58 @@ function slugify(value) {
   return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80)
 }
 
+function productFrom(data, slug, isNew) {
+  if (isNew) return structuredClone(blank)
+  const found = data?.items?.find((item) => item.slug === slug)
+  if (!found) return null
+  const next = structuredClone(found)
+  if (!Array.isArray(next.colorVariants)) next.colorVariants = []
+  return next
+}
+
 export default function ProductEditor() {
   const { slug } = useParams()
   const isNew = slug === 'new'
   const navigate = useNavigate()
-  const { data, status, error: loadError } = useDocument('products')
-  const [product, setProduct] = useState(null)
-  const [specsText, setSpecsText] = useState('')
+  const { data, synced, error: loadError } = useDocument('products')
+  const edited = useRef({ slug, dirty: false })
+  const initial = productFrom(data, slug, isNew)
+  const [seen, setSeen] = useState({ data, slug })
+  const [product, setProduct] = useState(initial)
+  const [specsText, setSpecsText] = useState((initial?.specs || []).join('\n'))
   const [error, setError] = useState('')
   const [saving, setSaving] = useState(false)
+  const keepEdits = edited.current.dirty && edited.current.slug === slug
 
-  useEffect(() => {
-    if (!data) return
-    const found = isNew ? { ...blank } : data.items.find((item) => item.slug === slug)
-    if (!found) {
-      setError('That product is not in the catalog.')
-      return
+  if (seen.data !== data || seen.slug !== slug) {
+    setSeen({ data, slug })
+    if (!keepEdits) {
+      const next = productFrom(data, slug, isNew)
+      if (next) {
+        setProduct(next)
+        setSpecsText((next.specs || []).join('\n'))
+        setError('')
+      } else if (synced) {
+        setProduct(null)
+        setError('That product is not in the catalog.')
+      }
     }
-    setProduct(structuredClone(found))
-    setSpecsText((found.specs || []).join('\n'))
-  }, [data, isNew, slug])
+  }
+
+  function markEdited() {
+    edited.current = { slug, dirty: true }
+  }
 
   function setField(name, value) {
+    markEdited()
     setProduct((current) => ({ ...current, [name]: value }))
   }
 
   function setVariant(index, patch) {
+    markEdited()
     setProduct((current) => ({
       ...current,
-      colorVariants: current.colorVariants.map((variant, itemIndex) => (
+      colorVariants: (current.colorVariants || []).map((variant, itemIndex) => (
         itemIndex === index ? { ...variant, ...patch } : variant
       )),
     }))
@@ -108,8 +131,10 @@ export default function ProductEditor() {
     }
   }
 
-  if (loadError || (error && !product)) return <p className="admin-error">{loadError || error}</p>
-  if (!product || status === 'loading') return <p className="admin-note">Loading product…</p>
+  if (!product) {
+    if (!synced && !loadError) return null
+    return <p className="admin-error">{error || loadError || 'That product is not in the catalog.'}</p>
+  }
 
   return (
     <form className="admin-page cms-stack" onSubmit={save}>
@@ -123,13 +148,14 @@ export default function ProductEditor() {
           <button type="submit" className="admin-btn" disabled={saving}>{saving ? 'Saving…' : 'Save product'}</button>
         </div>
       </header>
-      {error ? <p className="admin-error">{error}</p> : null}
+      {error || loadError ? <p className="admin-error">{error || loadError}</p> : null}
 
       <section className="cms-card">
         <div className="cms-grid">
           <label className="admin-field">
             <span>Name</span>
             <input value={product.name} onChange={(event) => {
+              markEdited()
               const name = event.target.value
               setProduct((current) => ({ ...current, name, slug: isNew ? slugify(name) : current.slug }))
             }} required />
@@ -170,18 +196,22 @@ export default function ProductEditor() {
           <h2>Flavors</h2>
           <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setField('colorVariants', [...(product.colorVariants || []), { name: '', hex: '#CCFF00', image: '' }])}>Add flavor</button>
         </div>
+        <p className="media-field__hint">These are the flavors already used on the product page. Edit one, or add a new flavor. Flavor images must be under 1 MB.</p>
+        {(product.colorVariants || []).length === 0 ? <p className="admin-note">No flavors yet.</p> : null}
         {(product.colorVariants || []).map((variant, index) => (
-          <div key={`${variant.name}-${index}`} className="cms-grid cms-grid--variant">
-            <label className="admin-field">
-              <span>Name</span>
-              <input value={variant.name} onChange={(event) => setVariant(index, { name: event.target.value })} />
-            </label>
-            <label className="admin-field">
-              <span>Color</span>
-              <input type="color" value={variant.hex || '#CCFF00'} onChange={(event) => setVariant(index, { hex: event.target.value })} />
-            </label>
-            <MediaField label="Image" accept="image/*" value={variant.image || ''} onChange={(image) => setVariant(index, { image })} />
-            <button type="button" className="admin-btn admin-btn--danger" onClick={() => setField('colorVariants', product.colorVariants.filter((_, itemIndex) => itemIndex !== index))}>Remove</button>
+          <div key={index} className="flavor-row">
+            <MediaField label="Image" accept="image/*" hint={false} value={variant.image || ''} onChange={(image) => setVariant(index, { image })} />
+            <div className="flavor-row__meta">
+              <label className="admin-field">
+                <span>Name</span>
+                <input value={variant.name} onChange={(event) => setVariant(index, { name: event.target.value })} />
+              </label>
+              <label className="admin-field">
+                <span>Color</span>
+                <input type="color" value={variant.hex || '#CCFF00'} onChange={(event) => setVariant(index, { hex: event.target.value })} />
+              </label>
+              <button type="button" className="admin-btn admin-btn--danger" onClick={() => setField('colorVariants', product.colorVariants.filter((_, itemIndex) => itemIndex !== index))}>Remove</button>
+            </div>
           </div>
         ))}
       </section>
@@ -189,7 +219,7 @@ export default function ProductEditor() {
       <section className="cms-card">
         <label className="admin-field">
           <span>Specs, one per line</span>
-          <textarea rows={5} value={specsText} onChange={(event) => setSpecsText(event.target.value)} />
+          <textarea rows={5} value={specsText} onChange={(event) => { markEdited(); setSpecsText(event.target.value) }} />
         </label>
       </section>
 

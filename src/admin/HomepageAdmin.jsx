@@ -4,38 +4,59 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useEffect, useState } from 'react'
-import { adminFetch } from '../lib/adminApi'
-import { getDefaultCmsMap } from '../lib/cmsDefaults'
+import { useState } from 'react'
 import MediaField from './cms/MediaField'
-import { newId, saveDocument } from './cms/useDocument'
+import { newId, saveDocument, useDocument } from './cms/useDocument'
+
+const SECTIONS = [
+  { id: 'hero', label: 'Hero' },
+  { id: 'videos', label: 'Videos' },
+  { id: 'details', label: 'Details' },
+]
+
+function blankSlide() {
+  return {
+    tag: '',
+    title: 'New slide',
+    subtitle: '',
+    image: '',
+    cta: 'Discover Now',
+    link: '/products',
+    mobile: { title: 'New slide', subtitle: '', cta: 'Discover' },
+  }
+}
+
+function blankFilm() {
+  return {
+    id: newId('film'),
+    label: 'New video',
+    shortLabel: '',
+    title: '',
+    poster: '',
+    mp4: '',
+    fallbackTitle: '',
+    fallbackMessage: '',
+  }
+}
 
 export default function HomepageAdmin() {
-  const [home, setHome] = useState(null)
-  const [site, setSite] = useState(null)
+  const { data: home, setData: setHome, error: homeError } = useDocument('home')
+  const { data: site, setData: setSite, error: siteError } = useDocument('site')
+  const [section, setSection] = useState('hero')
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [saving, setSaving] = useState(false)
-
-  useEffect(() => {
-    let cancelled = false
-    adminFetch('/api/admin/cms')
-      .then((payload) => {
-        if (cancelled) return
-        const defaults = getDefaultCmsMap()
-        setHome(structuredClone(payload.documents?.home || defaults.home))
-        setSite(structuredClone(payload.documents?.site || defaults.site))
-      })
-      .catch((err) => { if (!cancelled) setError(err.message) })
-    return () => { cancelled = true }
-  }, [])
+  const films = home.brandVideo?.films || []
+  const slides = home.heroSlides || []
 
   function updateFilm(index, patch) {
     setHome((current) => ({
       ...current,
       brandVideo: {
         ...current.brandVideo,
-        films: current.brandVideo.films.map((film, itemIndex) => itemIndex === index ? { ...film, ...patch } : film),
+        films: (current.brandVideo?.films || []).map((film, itemIndex) => (
+          itemIndex === index ? { ...film, ...patch } : film
+        )),
       },
     }))
   }
@@ -43,7 +64,18 @@ export default function HomepageAdmin() {
   function updateSlide(index, patch) {
     setHome((current) => ({
       ...current,
-      heroSlides: current.heroSlides.map((slide, itemIndex) => itemIndex === index ? { ...slide, ...patch } : slide),
+      heroSlides: (current.heroSlides || []).map((slide, itemIndex) => {
+        if (itemIndex !== index) return slide
+        const next = { ...slide, ...patch }
+        next.mobile = {
+          ...(slide.mobile || {}),
+          ...(patch.title != null ? { title: patch.title } : {}),
+          ...(patch.subtitle != null ? { subtitle: patch.subtitle } : {}),
+          ...(patch.cta != null ? { cta: patch.cta } : {}),
+          ...(patch.tag != null ? { tag: patch.tag } : {}),
+        }
+        return next
+      }),
     }))
   }
 
@@ -62,84 +94,139 @@ export default function HomepageAdmin() {
     }
   }
 
-  if (error && !home) return <p className="admin-error">{error}</p>
-  if (!home || !site) return <p className="admin-note">Loading homepage…</p>
-  const films = home.brandVideo?.films || []
+  const loadError = error || homeError || siteError
 
   return (
     <div className="admin-page cms-stack">
       <header className="admin-page__head">
         <div>
           <h1>Homepage</h1>
-          <p>Logo, warning bar, hero photos, and the product videos on the home page.</p>
+          <p>Edit one section at a time. Start with the hero, then the videos, then the header details. Images must be under 1 MB. Videos must be under 20 MB.</p>
         </div>
         <button type="button" className="admin-btn" onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
       </header>
-      {error ? <p className="admin-error">{error}</p> : null}
+      {loadError ? <p className="admin-error">{loadError}</p> : null}
       {notice ? <p className="admin-note">{notice}</p> : null}
 
-      <section className="cms-card">
-        <h2>Site header</h2>
-        <label className="admin-field"><span>Warning label</span><input value={site.warningBold || ''} onChange={(event) => setSite({ ...site, warningBold: event.target.value })} /></label>
-        <label className="admin-field"><span>Warning text</span><textarea rows={2} value={site.warningText || ''} onChange={(event) => setSite({ ...site, warningText: event.target.value })} /></label>
-        <MediaField label="Logo" accept="image/*" value={site.headerLogo || ''} onChange={(headerLogo) => setSite({ ...site, headerLogo })} />
-      </section>
+      <div className="section-tabs" role="tablist">
+        {SECTIONS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            role="tab"
+            aria-selected={section === item.id}
+            className={`admin-btn admin-btn--ghost section-tab${section === item.id ? ' is-selected' : ''}`}
+            onClick={() => setSection(item.id)}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
 
-      <section className="cms-card">
-        <div className="cms-card__head">
-          <h2>Product videos</h2>
-          <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setHome({
-            ...home,
-            brandVideo: {
-              ...home.brandVideo,
-              films: [...films, { id: newId('film'), label: 'New video', shortLabel: '', title: '', poster: '', mp4: '' }],
-            },
-          })}>Add video</button>
-        </div>
-        {films.map((film, index) => (
-          <div key={film.id || index} className="cms-card">
-            <div className="cms-card__head">
-              <h3>{film.label || 'Video'}</h3>
-              <button type="button" className="admin-btn admin-btn--danger" onClick={() => setHome({
+      {section === 'hero' ? (
+        <section className="cms-card">
+          <div className="cms-card__head">
+            <h2>Hero slides</h2>
+            <button
+              type="button"
+              className="admin-btn admin-btn--ghost"
+              onClick={() => setHome({ ...home, heroSlides: [blankSlide(), ...slides] })}
+            >
+              Add slide
+            </button>
+          </div>
+          <p className="media-field__hint">{slides.length} slide{slides.length === 1 ? '' : 's'}. Images must be under 1 MB. The public homepage still shows them full size.</p>
+          {slides.map((slide, index) => (
+            <article key={`${slide.link || 'slide'}-${index}`} className="section-row">
+              <div className="section-row__fields">
+                <div className="cms-grid">
+                  <label className="admin-field"><span>Tag</span><input value={slide.tag || ''} onChange={(event) => updateSlide(index, { tag: event.target.value })} /></label>
+                  <label className="admin-field"><span>Title</span><input value={slide.title || ''} onChange={(event) => updateSlide(index, { title: event.target.value })} /></label>
+                  <label className="admin-field"><span>Button</span><input value={slide.cta || ''} onChange={(event) => updateSlide(index, { cta: event.target.value })} /></label>
+                  <label className="admin-field"><span>Link</span><input value={slide.link || ''} onChange={(event) => updateSlide(index, { link: event.target.value })} /></label>
+                </div>
+                <label className="admin-field"><span>Subtitle</span><input value={slide.subtitle || ''} onChange={(event) => updateSlide(index, { subtitle: event.target.value })} /></label>
+                <MediaField label="Image" accept="image/*" hint={false} value={slide.image || ''} onChange={(image) => updateSlide(index, { image })} />
+              </div>
+              <button
+                type="button"
+                className="admin-btn admin-btn--danger"
+                onClick={() => setHome({ ...home, heroSlides: slides.filter((_, itemIndex) => itemIndex !== index) })}
+              >
+                Remove
+              </button>
+            </article>
+          ))}
+        </section>
+      ) : null}
+
+      {section === 'videos' ? (
+        <section className="cms-card">
+          <div className="cms-card__head">
+            <h2>Videos</h2>
+            <button
+              type="button"
+              className="admin-btn admin-btn--ghost"
+              onClick={() => setHome({
                 ...home,
-                brandVideo: { ...home.brandVideo, films: films.filter((_, itemIndex) => itemIndex !== index) },
-              })}>Remove</button>
-            </div>
-            <div className="cms-grid">
-              <label className="admin-field"><span>Label</span><input value={film.label || ''} onChange={(event) => updateFilm(index, { label: event.target.value })} /></label>
-              <label className="admin-field"><span>Title</span><input value={film.title || ''} onChange={(event) => updateFilm(index, { title: event.target.value })} /></label>
-            </div>
-            <MediaField label="Poster image" accept="image/*" value={film.poster || ''} onChange={(poster) => updateFilm(index, { poster })} />
-            <MediaField label="Video file" accept="video/mp4,video/webm,video/quicktime" value={film.mp4 || ''} onChange={(mp4) => updateFilm(index, { mp4 })} />
+                brandVideo: { ...home.brandVideo, films: [...films, blankFilm()] },
+              })}
+            >
+              Add video
+            </button>
           </div>
-        ))}
-      </section>
+          <div className="cms-grid">
+            <label className="admin-field">
+              <span>Section title</span>
+              <input
+                value={home.brandVideo?.title || ''}
+                onChange={(event) => setHome({ ...home, brandVideo: { ...home.brandVideo, title: event.target.value } })}
+              />
+            </label>
+            <label className="admin-field">
+              <span>Section subtitle</span>
+              <input
+                value={home.brandVideo?.subtitle || ''}
+                onChange={(event) => setHome({ ...home, brandVideo: { ...home.brandVideo, subtitle: event.target.value } })}
+              />
+            </label>
+          </div>
+          <p className="media-field__hint">Poster images must be under 1 MB. Videos must be under 20 MB.</p>
+          {films.map((film, index) => (
+            <article key={film.id || index} className="section-row">
+              <div className="section-row__fields">
+                <div className="cms-grid">
+                  <label className="admin-field"><span>Label</span><input value={film.label || ''} onChange={(event) => updateFilm(index, { label: event.target.value })} /></label>
+                  <label className="admin-field"><span>Title</span><input value={film.title || ''} onChange={(event) => updateFilm(index, { title: event.target.value })} /></label>
+                </div>
+                <div className="cms-grid">
+                  <MediaField label="Poster" accept="image/*" hint={false} value={film.poster || ''} onChange={(poster) => updateFilm(index, { poster })} />
+                  <MediaField label="Video" accept="video/mp4,video/webm,video/quicktime" hint={false} value={film.mp4 || ''} onChange={(mp4) => updateFilm(index, { mp4 })} />
+                </div>
+              </div>
+              <button
+                type="button"
+                className="admin-btn admin-btn--danger"
+                onClick={() => setHome({
+                  ...home,
+                  brandVideo: { ...home.brandVideo, films: films.filter((_, itemIndex) => itemIndex !== index) },
+                })}
+              >
+                Remove
+              </button>
+            </article>
+          ))}
+        </section>
+      ) : null}
 
-      <section className="cms-card">
-        <div className="cms-card__head">
-          <h2>Hero slides</h2>
-          <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setHome({
-            ...home,
-            heroSlides: [{ tag: '', title: 'New slide', subtitle: '', image: '', cta: 'Discover Now', link: '/products' }, ...home.heroSlides],
-          })}>Add slide</button>
-        </div>
-        {home.heroSlides.map((slide, index) => (
-          <div key={`${slide.title}-${index}`} className="cms-card">
-            <div className="cms-card__head">
-              <h3>{slide.title || 'Slide'}</h3>
-              <button type="button" className="admin-btn admin-btn--danger" onClick={() => setHome({ ...home, heroSlides: home.heroSlides.filter((_, itemIndex) => itemIndex !== index) })}>Remove</button>
-            </div>
-            <div className="cms-grid">
-              <label className="admin-field"><span>Tag</span><input value={slide.tag || ''} onChange={(event) => updateSlide(index, { tag: event.target.value })} /></label>
-              <label className="admin-field"><span>Title</span><input value={slide.title || ''} onChange={(event) => updateSlide(index, { title: event.target.value })} /></label>
-              <label className="admin-field"><span>Button</span><input value={slide.cta || ''} onChange={(event) => updateSlide(index, { cta: event.target.value })} /></label>
-              <label className="admin-field"><span>Link</span><input value={slide.link || ''} onChange={(event) => updateSlide(index, { link: event.target.value })} /></label>
-            </div>
-            <label className="admin-field"><span>Subtitle</span><textarea rows={2} value={slide.subtitle || ''} onChange={(event) => updateSlide(index, { subtitle: event.target.value })} /></label>
-            <MediaField label="Image" accept="image/*" value={slide.image || ''} onChange={(image) => updateSlide(index, { image })} />
-          </div>
-        ))}
-      </section>
+      {section === 'details' ? (
+        <section className="cms-card">
+          <h2>Header details</h2>
+          <label className="admin-field"><span>Warning label</span><input value={site.warningBold || ''} onChange={(event) => setSite({ ...site, warningBold: event.target.value })} /></label>
+          <label className="admin-field"><span>Warning text</span><textarea rows={2} value={site.warningText || ''} onChange={(event) => setSite({ ...site, warningText: event.target.value })} /></label>
+          <MediaField label="Logo" accept="image/*" value={site.headerLogo || ''} onChange={(headerLogo) => setSite({ ...site, headerLogo })} />
+        </section>
+      ) : null}
     </div>
   )
 }

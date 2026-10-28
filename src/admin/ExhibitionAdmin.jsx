@@ -19,7 +19,7 @@ const blankEvent = () => ({
 })
 
 export default function ExhibitionAdmin() {
-  const { data, setData, error: loadError, status } = useDocument('exhibition')
+  const { data, setData, error: loadError } = useDocument('exhibition')
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [saving, setSaving] = useState(false)
@@ -50,9 +50,6 @@ export default function ExhibitionAdmin() {
     }
   }
 
-  if (loadError) return <p className="admin-error">{loadError}</p>
-  if (!data || status === 'loading') return <p className="admin-note">Loading exhibitions…</p>
-
   return (
     <div className="admin-page cms-stack">
       <header className="admin-page__head">
@@ -62,7 +59,7 @@ export default function ExhibitionAdmin() {
         </div>
         <button type="button" className="admin-btn" onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
       </header>
-      {error ? <p className="admin-error">{error}</p> : null}
+      {error || loadError ? <p className="admin-error">{error || loadError}</p> : null}
       {notice ? <p className="admin-note">{notice}</p> : null}
 
       <section className="cms-card">

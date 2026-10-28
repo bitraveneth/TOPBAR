@@ -47,7 +47,7 @@ function FileRow({ file, onChange, onRemove }) {
 }
 
 export default function DownloadsAdmin() {
-  const { data, setData, error: loadError, status } = useDocument('downloads')
+  const { data, setData, error: loadError } = useDocument('downloads')
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const [saving, setSaving] = useState(false)
@@ -83,9 +83,6 @@ export default function DownloadsAdmin() {
     }
   }
 
-  if (loadError) return <p className="admin-error">{loadError}</p>
-  if (!data || status === 'loading') return <p className="admin-note">Loading downloads…</p>
-
   return (
     <div className="admin-page cms-stack">
       <header className="admin-page__head">
@@ -95,7 +92,7 @@ export default function DownloadsAdmin() {
         </div>
         <button type="button" className="admin-btn" onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
       </header>
-      {error ? <p className="admin-error">{error}</p> : null}
+      {error || loadError ? <p className="admin-error">{error || loadError}</p> : null}
       {notice ? <p className="admin-note">{notice}</p> : null}
 
       <section className="cms-card">
