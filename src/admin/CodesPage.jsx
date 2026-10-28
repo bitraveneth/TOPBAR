@@ -114,7 +114,7 @@ export default function CodesPage() {
               <span className="code-stat__icon" aria-hidden="true"><Icon size={18} /></span>
               <div>
                 <strong>{card.value}</strong>
-                <span>{card.label}</span>
+                <span className="code-stat__label">{card.label}</span>
               </div>
             </article>
           )

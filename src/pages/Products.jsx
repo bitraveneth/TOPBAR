@@ -28,19 +28,20 @@ function Products() {
   const coreProducts = useMemo(
     () => {
       const productsList = merged.products?.items ?? []
-      return featuredProductSlugs
+      const featured = featuredProductSlugs
         .map((slug) => productsList.find((product) => product.slug === slug))
         .filter(Boolean)
-        .map((product) => ({
-          slug: product.slug,
-          name: product.name,
-          tagline: product.category,
-          description: product.tagline,
-          image: product.image,
-          showcaseImagePosition: product.showcaseImagePosition,
-          showcaseAccentColor: SHOWCASE_ACCENT_BY_SLUG[product.slug],
-          link: `/products/${product.slug}`,
-        }))
+      const rest = productsList.filter((product) => !featuredProductSlugs.includes(product.slug))
+      return [...featured, ...rest].map((product) => ({
+        slug: product.slug,
+        name: product.name,
+        tagline: product.category,
+        description: product.tagline,
+        image: product.image,
+        showcaseImagePosition: product.showcaseImagePosition,
+        showcaseAccentColor: SHOWCASE_ACCENT_BY_SLUG[product.slug],
+        link: `/products/${product.slug}`,
+      }))
     },
     [merged.products?.items, featuredProductSlugs],
   )

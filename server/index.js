@@ -7,6 +7,8 @@
 import express from 'express'
 import prisma from './db.js'
 import { adminRouter } from './admin.js'
+import { readDocuments } from './cms.js'
+import { ensureSuperadmin } from './users.js'
 import { verifyCode } from './verifyService.js'
 import { clientIp } from './request.js'
 
@@ -33,6 +35,10 @@ app.get('/api/health', asyncRoute(async (_req, res) => {
   res.json({ ok: true })
 }))
 
+app.get('/api/cms', asyncRoute(async (_req, res) => {
+  res.json({ documents: await readDocuments() })
+}))
+
 app.post('/api/verify', express.json({ limit: '8kb' }), asyncRoute(async (req, res) => {
   const outcome = await verifyCode(req.body?.code ?? '', {
     ip: clientIp(req),
@@ -57,6 +63,14 @@ app.use((error, _req, res, _next) => {
 })
 
 const port = Number(process.env.PORT) || 4000
-app.listen(port, '0.0.0.0', () => {
-  console.log(`Verification API listening on ${port}`)
-})
+
+ensureSuperadmin()
+  .then(() => {
+    app.listen(port, '0.0.0.0', () => {
+      console.log(`Verification API listening on ${port}`)
+    })
+  })
+  .catch((error) => {
+    console.error(error?.message || error)
+    process.exit(1)
+  })

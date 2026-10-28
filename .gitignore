@@ -27,6 +27,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# CMS uploads created by the local admin
+public/uploads/
+
 # Local dev / import artifacts (not shipped)
 .lighthouse-tmp/
 lighthouse-reports/

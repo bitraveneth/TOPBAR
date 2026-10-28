@@ -10051,3 +10051,18 @@ p { color: var(--text-secondary); }
 @media (max-width: 800px) {
   .verify-grid { grid-template-columns: 1fr; }
 }
+
+.detail-product-video {
+  width: 100%;
+  margin-top: 1rem;
+  border-radius: 16px;
+  background: #050605;
+}
+
+.support-topic-points {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.1rem;
+  list-style: disc;
+}

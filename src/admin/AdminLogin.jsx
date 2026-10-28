@@ -10,8 +10,9 @@ import './admin.css'
 
 export default function AdminLogin() {
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
+  const [username, setUsername] = useState(() => localStorage.getItem('topbar-admin-username') || '')
   const [password, setPassword] = useState('')
+  const [remember, setRemember] = useState(() => localStorage.getItem('topbar-admin-remember') !== '0')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -37,10 +38,17 @@ export default function AdminLogin() {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, remember }),
       })
       const data = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(data.error || 'Sign-in failed.')
+      if (remember) {
+        localStorage.setItem('topbar-admin-username', username.trim())
+        localStorage.setItem('topbar-admin-remember', '1')
+      } else {
+        localStorage.removeItem('topbar-admin-username')
+        localStorage.setItem('topbar-admin-remember', '0')
+      }
       navigate('/admin/codes', { replace: true })
     } catch (err) {
       setError(err.message)
@@ -74,6 +82,10 @@ export default function AdminLogin() {
             autoComplete="current-password"
             required
           />
+        </label>
+        <label className="admin-remember">
+          <input type="checkbox" checked={remember} onChange={(event) => setRemember(event.target.checked)} />
+          <span>Remember me on this browser</span>
         </label>
         {error ? <p className="admin-error">{error}</p> : null}
         <button type="submit" className="admin-btn" disabled={busy}>{busy ? 'Checking…' : 'Sign in'}</button>

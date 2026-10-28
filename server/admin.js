@@ -7,7 +7,11 @@
 import express from 'express'
 import { Prisma } from '@prisma/client'
 import prisma from './db.js'
-import { clearSessionCookie, createSessionCookie, passwordsMatch, readSession, requireAdmin } from './auth.js'
+import { clearSessionCookie, createSessionCookie, loadAdmin } from './auth.js'
+import { publicUser } from './permissions.js'
+import { authenticate } from './users.js'
+import { cmsRouter } from './cms.js'
+import { userRouter } from './userRoutes.js'
 import { parseVerificationInput } from './parseCode.js'
 import { commitImport, previewImport } from './importService.js'
 import { clientIp } from './request.js'
@@ -149,21 +153,19 @@ export function adminRouter() {
       res.status(429).json({ error: 'Too many sign-in attempts. Wait a few minutes.' })
       return
     }
-    const expectedUser = process.env.ADMIN_USERNAME || ''
-    const expectedPassword = process.env.ADMIN_PASSWORD || ''
-    const username = String(req.body?.username || '').trim()
+    const username = String(req.body?.username || '')
     const password = String(req.body?.password || '')
-    const usernameOk = passwordsMatch(username, expectedUser || ' ')
-    const passwordOk = passwordsMatch(password, expectedPassword || ' ')
-    if (!expectedUser || !expectedPassword || !usernameOk || !passwordOk) {
+    const user = await authenticate(username, password)
+    if (!user) {
       failures.push(Date.now())
       loginFailures.set(ip, failures)
       res.status(401).json({ error: 'Incorrect username or password.' })
       return
     }
     loginFailures.delete(ip)
-    res.setHeader('Set-Cookie', createSessionCookie(expectedUser))
-    res.json({ authenticated: true, username: expectedUser })
+    const remember = req.body?.remember !== false
+    res.setHeader('Set-Cookie', createSessionCookie(user, remember))
+    res.json({ authenticated: true, user: publicUser(user) })
   }))
 
   router.post('/logout', (_req, res) => {
@@ -171,11 +173,23 @@ export function adminRouter() {
     res.json({ authenticated: false })
   })
 
-  router.get('/session', (req, res) => {
-    res.json({ authenticated: Boolean(readSession(req)) })
-  })
+  router.get('/session', asyncRoute(async (req, res) => {
+    const user = await loadAdmin(req)
+    res.json(user ? { authenticated: true, user: publicUser(user) } : { authenticated: false })
+  }))
 
-  router.use(requireAdmin)
+  router.use(asyncRoute(async (req, res, next) => {
+    const user = await loadAdmin(req)
+    if (!user) {
+      res.status(401).json({ error: 'Sign in required.' })
+      return
+    }
+    req.admin = user
+    next()
+  }))
+
+  router.use('/users', userRouter())
+  router.use(cmsRouter())
 
   router.get('/codes/stats', asyncRoute(async (_req, res) => {
     res.json(await codeStats())
@@ -250,7 +264,7 @@ export function adminRouter() {
       res.status(201).json(created)
     } catch (error) {
       if (error?.code === 'P2002') {
-        res.status(409).json({ error: 'That code, serial, or token is already in the desk.' })
+        res.status(409).json({ error: 'That code, serial, or token is already saved.' })
         return
       }
       throw error

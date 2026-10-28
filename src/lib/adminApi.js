@@ -6,8 +6,9 @@
  */
 
 export async function adminFetch(path, options = {}) {
+  const isForm = typeof FormData !== 'undefined' && options.body instanceof FormData
   const headers = {
-    ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+    ...(options.body && !isForm ? { 'Content-Type': 'application/json' } : {}),
     ...(options.headers || {}),
   }
   const response = await fetch(path, {
