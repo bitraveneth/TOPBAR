@@ -14,8 +14,8 @@ if (!process.env.DATABASE_URL || !process.env.DIRECT_URL) {
   console.error('DATABASE_URL and DIRECT_URL are required.')
   process.exit(1)
 }
-if (!process.env.ADMIN_PASSWORD || !process.env.ADMIN_SESSION_SECRET) {
-  console.error('ADMIN_PASSWORD and ADMIN_SESSION_SECRET are required.')
+if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD || !process.env.ADMIN_SESSION_SECRET) {
+  console.error('ADMIN_USERNAME, ADMIN_PASSWORD, and ADMIN_SESSION_SECRET are required.')
   process.exit(1)
 }
 

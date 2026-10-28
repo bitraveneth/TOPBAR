@@ -30,9 +30,10 @@ function cookieFlags() {
   return `HttpOnly; Path=/; SameSite=Lax${secure}`
 }
 
-export function createSessionCookie() {
+export function createSessionCookie(username) {
   const body = Buffer.from(JSON.stringify({
     role: 'admin',
+    username,
     exp: Date.now() + WEEK_SECONDS * 1000,
   })).toString('base64url')
   const token = `${body}.${sign(body)}`

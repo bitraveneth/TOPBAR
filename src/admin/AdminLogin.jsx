@@ -10,6 +10,7 @@ import './admin.css'
 
 export default function AdminLogin() {
   const navigate = useNavigate()
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
@@ -36,7 +37,7 @@ export default function AdminLogin() {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
+        body: JSON.stringify({ username, password }),
       })
       const data = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(data.error || 'Sign-in failed.')
@@ -54,6 +55,16 @@ export default function AdminLogin() {
         <p className="admin-brand">TOPBAR</p>
         <h1>Verification desk</h1>
         <p>Codes, imports, and every scan that hits the public check.</p>
+        <label className="admin-field">
+          <span>Username</span>
+          <input
+            type="text"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            autoComplete="username"
+            required
+          />
+        </label>
         <label className="admin-field">
           <span>Password</span>
           <input

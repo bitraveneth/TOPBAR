@@ -149,17 +149,21 @@ export function adminRouter() {
       res.status(429).json({ error: 'Too many sign-in attempts. Wait a few minutes.' })
       return
     }
-    const expected = process.env.ADMIN_PASSWORD || ''
+    const expectedUser = process.env.ADMIN_USERNAME || ''
+    const expectedPassword = process.env.ADMIN_PASSWORD || ''
+    const username = String(req.body?.username || '').trim()
     const password = String(req.body?.password || '')
-    if (!expected || !password || !passwordsMatch(password, expected)) {
+    const usernameOk = passwordsMatch(username, expectedUser || ' ')
+    const passwordOk = passwordsMatch(password, expectedPassword || ' ')
+    if (!expectedUser || !expectedPassword || !usernameOk || !passwordOk) {
       failures.push(Date.now())
       loginFailures.set(ip, failures)
-      res.status(401).json({ error: 'Incorrect password.' })
+      res.status(401).json({ error: 'Incorrect username or password.' })
       return
     }
     loginFailures.delete(ip)
-    res.setHeader('Set-Cookie', createSessionCookie())
-    res.json({ authenticated: true })
+    res.setHeader('Set-Cookie', createSessionCookie(expectedUser))
+    res.json({ authenticated: true, username: expectedUser })
   }))
 
   router.post('/logout', (_req, res) => {
