@@ -4,32 +4,49 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { ShieldCheck, ScanSearch, PackageCheck } from 'lucide-react'
+import { verifyProduct } from '../lib/verifyProduct'
+import { formatWhen } from '../lib/verifyFormat'
 
 function VerifyProducts() {
-  const [code, setCode] = useState('')
+  const [params] = useSearchParams()
+  const initial = (params.get('t') || params.get('code') || '').trim()
+  const [code, setCode] = useState(initial)
   const [result, setResult] = useState(null)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(Boolean(initial))
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  useEffect(() => {
+    if (!initial) return undefined
+    let cancelled = false
+    verifyProduct(initial)
+      .then((data) => { if (!cancelled) setResult(data) })
+      .catch((err) => { if (!cancelled) setError(err.message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [initial])
 
-    const normalized = code.trim().replace(/\s+/g, '')
-    if (normalized.length < 8) {
-      setResult({
-        type: 'error',
-        title: 'Invalid code format',
-        message: 'Please enter the full security code from your TOPBAR package.',
-      })
-      return
+  async function handleSubmit(event) {
+    event.preventDefault()
+    const next = code.trim()
+    if (!next) return
+    setLoading(true)
+    setError('')
+    setResult(null)
+    try {
+      setResult(await verifyProduct(next))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-
-    setResult({
-      type: 'success',
-      title: 'Product code accepted',
-      message: 'Your verification request has been submitted. Please compare the code and package details with your purchased product.',
-    })
   }
+
+  const outcome = error
+    ? { result: 'not_authentic', title: 'Verification unavailable', message: error }
+    : result
 
   return (
     <>
@@ -48,17 +65,17 @@ function VerifyProducts() {
               {
                 icon: ScanSearch,
                 title: 'Find The Code',
-                desc: 'Locate the security or scratch code on your TOPBAR product packaging.',
+                desc: 'Scratch the panel on your TOPBAR pack, or scan the verify link.',
               },
               {
                 icon: ShieldCheck,
                 title: 'Enter For Check',
-                desc: 'Input the full code below exactly as it appears on the pack.',
+                desc: 'Type the last part of the code, or paste the full verify link.',
               },
               {
                 icon: PackageCheck,
                 title: 'Confirm Authenticity',
-                desc: 'Review the response and product details before use.',
+                desc: 'A genuine code shows when it was first checked, and how many times since.',
               },
             ].map((item) => (
               <div key={item.title} className="content-card" style={{ textAlign: 'center' }}>
@@ -69,43 +86,49 @@ function VerifyProducts() {
             ))}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(280px, 0.9fr)', gap: '2rem', alignItems: 'start' }}>
+          <div className="verify-grid">
             <div className="content-card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
               <h2 style={{ marginBottom: '0.75rem' }}>Verify Your Code</h2>
               <p style={{ marginBottom: '1.5rem' }}>
-                Enter the code from your TOPBAR packaging. This demo page is ready for your real verification workflow later.
+                Enter the scratch code from your TOPBAR pack. Scanning the pack opens this page and checks the code for you.
               </p>
 
               <form className="support-form" onSubmit={handleSubmit}>
                 <div className="form-field">
-                  <label>Security Code</label>
+                  <label htmlFor="security-code">Security Code</label>
                   <input
+                    id="security-code"
                     type="text"
                     value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    placeholder="Enter product code"
+                    onChange={(event) => setCode(event.target.value)}
+                    placeholder="ATBRGB7P or paste the verify link"
+                    autoComplete="off"
+                    autoCapitalize="characters"
+                    spellCheck={false}
                     required
                   />
                 </div>
 
-                <button type="submit" className="btn-primary" style={{ justifyContent: 'center' }}>
-                  Verify Product
+                <button type="submit" className="btn-primary" style={{ justifyContent: 'center' }} disabled={loading}>
+                  {loading ? 'Checking…' : 'Verify Product'}
                 </button>
               </form>
 
-              {result && (
-                <div
-                  className="content-card"
-                  style={{
-                    marginTop: '1rem',
-                    borderColor: result.type === 'success' ? 'rgba(122, 255, 101, 0.28)' : 'rgba(255, 112, 112, 0.28)',
-                    background: result.type === 'success'
-                      ? 'linear-gradient(160deg, rgba(122, 255, 101, 0.08), rgba(255,255,255,0.02))'
-                      : 'linear-gradient(160deg, rgba(255, 112, 112, 0.08), rgba(255,255,255,0.02))',
-                  }}
-                >
-                  <h3 style={{ marginBottom: '0.35rem' }}>{result.title}</h3>
-                  <p>{result.message}</p>
+              {outcome && (
+                <div className={`verify-result verify-result--${outcome.result}`} role="status" aria-live="polite">
+                  <h3>{outcome.title}</h3>
+                  <p>{outcome.message}</p>
+                  {outcome.verificationCount ? (
+                    <p className="verify-result__count">
+                      Checked {outcome.verificationCount} {outcome.verificationCount === 1 ? 'time' : 'times'}
+                    </p>
+                  ) : null}
+                  {outcome.firstVerifiedAt ? (
+                    <p className="verify-result__meta">First verified {formatWhen(outcome.firstVerifiedAt)}</p>
+                  ) : null}
+                  {outcome.checkedCode ? (
+                    <p className="verify-result__meta">Code {outcome.checkedCode}</p>
+                  ) : null}
                 </div>
               )}
             </div>
@@ -118,8 +141,8 @@ function VerifyProducts() {
                   <p>Always verify from the printed package code, not from screenshots or edited images.</p>
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Check label details</h3>
-                  <p>Match the product name, flavor, and puff series with the packaging you purchased.</p>
+                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>A repeat check is a warning</h3>
+                  <p>Each genuine code is counted. If the count is already high and you just bought it, contact support before use.</p>
                 </div>
                 <div>
                   <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Need help?</h3>

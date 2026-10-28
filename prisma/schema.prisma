@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model VerificationCode {
+  id                String    @id @default(cuid())
+  code              String    @unique
+  serial            String?   @unique
+  token             String?   @unique
+  isValid           Boolean   @default(true)
+  expiresAt         DateTime?
+  firstVerifiedAt   DateTime?
+  verificationCount Int       @default(0)
+  attemptCount      Int       @default(0)
+  batchLabel        String?
+  notes             String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  attempts          VerificationAttempt[]
+
+  @@index([batchLabel])
+  @@index([firstVerifiedAt])
+  @@index([createdAt])
+}
+
+model VerificationAttempt {
+  id        String            @id @default(cuid())
+  input     String
+  status    String
+  ipHash    String?
+  userAgent String?
+  codeId    String?
+  code      VerificationCode? @relation(fields: [codeId], references: [id], onDelete: SetNull)
+  createdAt DateTime          @default(now())
+
+  @@index([createdAt])
+  @@index([status, createdAt])
+  @@index([ipHash, createdAt])
+  @@index([codeId, createdAt])
+  @@index([input])
+}
+
+model VerificationImport {
+  id          String   @id @default(cuid())
+  filename    String
+  mode        String
+  totalRows   Int
+  inserted    Int
+  updated     Int      @default(0)
+  skipped     Int
+  invalid     Int
+  errorSample Json?
+  createdAt   DateTime @default(now())
+}
