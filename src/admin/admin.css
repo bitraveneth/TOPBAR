@@ -265,6 +265,25 @@
 }
 .admin-hot--off { color: #ff6b6b; }
 
+.activity-code { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+.activity-code > span { display: grid; gap: 0.1rem; min-width: 0; }
+.activity-chevron { color: var(--text-muted); flex: none; transition: transform 0.15s ease; }
+.activity-chevron.is-open { transform: rotate(90deg); color: var(--accent); }
+.activity-serial { color: var(--text-muted); font-size: 0.75rem; }
+.activity-count { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text-primary); }
+.admin-table tbody tr.activity-detail,
+.admin-table tbody tr.activity-detail:hover { cursor: default; background: transparent; }
+.activity-detail td { background: #0c120c; }
+.activity-detail__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
 .admin-empty,
 .admin-note { padding: 0.9rem 0.2rem; color: var(--text-muted); }
 .admin-error { color: #ff8d8d; margin: 0.4rem 0; }

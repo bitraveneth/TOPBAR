@@ -127,16 +127,27 @@ function activityFilterSql({ status, q }) {
   return Prisma.join(parts, ' AND ')
 }
 
-function presentAttempt(attempt, ipCounts) {
-  const distinctIps = attempt.codeId ? (ipCounts.get(attempt.codeId) || 0) : 0
+function presentActivityGroup(group, code) {
+  const checks = Number(group.checks || 0)
+  const distinctIps = Number(group.distinctIps || 0)
   return {
-    id: attempt.id,
-    input: attempt.input,
-    status: attempt.status,
-    createdAt: attempt.createdAt,
-    code: attempt.code ? {
-      ...listItem({ ...attempt.code, attempts: [] }, distinctIps),
-      notes: attempt.code.notes,
+    key: group.groupKey,
+    codeId: group.codeId || null,
+    input: group.input,
+    checks,
+    distinctIps,
+    latestStatus: group.latestStatus,
+    latestAt: group.latestAt,
+    firstAt: group.firstAt,
+    suspicious: code ? suspicious(code, distinctIps) : checks >= 5 || distinctIps >= 3,
+    code: code ? {
+      id: code.id,
+      code: code.code,
+      serial: code.serial,
+      verificationCount: code.verificationCount,
+      attemptCount: code.attemptCount,
+      batchLabel: code.batchLabel,
+      isValid: code.isValid,
     } : null,
   }
 }
@@ -331,75 +342,69 @@ export function adminRouter() {
     res.json(await activitySummary())
   }))
 
+  router.get('/activity/checks', asyncRoute(async (req, res) => {
+    const codeId = String(req.query.codeId || '').trim()
+    const input = String(req.query.input || '').trim().slice(0, 200)
+    if (!codeId && !input) {
+      res.status(400).json({ error: 'Choose a code.' })
+      return
+    }
+    const where = codeId
+      ? { codeId }
+      : { codeId: null, input: { equals: input, mode: 'insensitive' } }
+    const [total, items] = await Promise.all([
+      prisma.verificationAttempt.count({ where }),
+      prisma.verificationAttempt.findMany({
+        where,
+        orderBy: { createdAt: 'desc' },
+        take: 100,
+        select: { id: true, input: true, status: true, createdAt: true },
+      }),
+    ])
+    res.json({ items, total })
+  }))
+
   router.get('/activity', asyncRoute(async (req, res) => {
     const { page, pageSize } = pageParams(req.query)
     const status = STATUSES.has(req.query.status) ? req.query.status : ''
     const q = String(req.query.q || '').trim()
-    const latest = req.query.latest === '1' || req.query.latest === 'true'
-    const where = {
-      ...(status ? { status } : {}),
-      ...(q ? {
-        OR: [
-          { input: { contains: q, mode: 'insensitive' } },
-          { code: { is: { code: { contains: q, mode: 'insensitive' } } } },
-          { code: { is: { serial: { contains: q, mode: 'insensitive' } } } },
-          { code: { is: { batchLabel: { contains: q, mode: 'insensitive' } } } },
-        ],
-      } : {}),
-    }
-
-    let total = 0
-    let records = []
-    if (latest) {
-      const filter = activityFilterSql({ status, q })
-      const offset = (page - 1) * pageSize
-      const [countRows, idRows] = await Promise.all([
-        prisma.$queryRaw`
-          SELECT COUNT(*)::int AS total FROM (
-            SELECT DISTINCT lower(input) FROM "VerificationAttempt" WHERE ${filter}
-          ) grouped
-        `,
-        prisma.$queryRaw`
-          SELECT id FROM (
-            SELECT DISTINCT ON (lower(input)) id, "createdAt"
-            FROM "VerificationAttempt"
-            WHERE ${filter}
-            ORDER BY lower(input), "createdAt" DESC
-          ) latest
-          ORDER BY "createdAt" DESC
-          LIMIT ${pageSize} OFFSET ${offset}
-        `,
-      ])
-      total = Number(countRows[0]?.total || 0)
-      const ids = idRows.map((row) => row.id)
-      if (ids.length) {
-        const found = await prisma.verificationAttempt.findMany({
-          where: { id: { in: ids } },
-          include: { code: true },
-        })
-        const order = new Map(ids.map((id, index) => [id, index]))
-        records = found.sort((a, b) => order.get(a.id) - order.get(b.id))
-      }
-    } else {
-      const [count, found] = await Promise.all([
-        prisma.verificationAttempt.count({ where }),
-        prisma.verificationAttempt.findMany({
-          where,
-          orderBy: { createdAt: 'desc' },
-          skip: (page - 1) * pageSize,
-          take: pageSize,
-          include: { code: true },
-        }),
-      ])
-      total = count
-      records = found
-    }
-
-    const ipCounts = await distinctIpMap(records.map((record) => record.codeId).filter(Boolean))
-    const summary = await activitySummary()
+    const filter = activityFilterSql({ status, q })
+    const offset = (page - 1) * pageSize
+    const [countRows, groups, summary] = await Promise.all([
+      prisma.$queryRaw`
+        SELECT COUNT(*)::int AS total FROM (
+          SELECT 1
+          FROM "VerificationAttempt"
+          WHERE ${filter}
+          GROUP BY CASE WHEN "codeId" IS NULL THEN 'i:' || lower(input) ELSE 'c:' || "codeId" END
+        ) grouped
+      `,
+      prisma.$queryRaw`
+        SELECT
+          CASE WHEN "codeId" IS NULL THEN 'i:' || lower(input) ELSE 'c:' || "codeId" END AS "groupKey",
+          "codeId",
+          (array_agg(input ORDER BY "createdAt" DESC))[1] AS input,
+          COUNT(*)::int AS checks,
+          COUNT(DISTINCT "ipHash") FILTER (WHERE "ipHash" IS NOT NULL)::int AS "distinctIps",
+          (array_agg(status ORDER BY "createdAt" DESC))[1] AS "latestStatus",
+          MAX("createdAt") AS "latestAt",
+          MIN("createdAt") AS "firstAt"
+        FROM "VerificationAttempt"
+        WHERE ${filter}
+        GROUP BY 1, "codeId"
+        ORDER BY "latestAt" DESC
+        LIMIT ${pageSize} OFFSET ${offset}
+      `,
+      activitySummary(),
+    ])
+    const codeIds = groups.map((group) => group.codeId).filter(Boolean)
+    const codes = codeIds.length
+      ? await prisma.verificationCode.findMany({ where: { id: { in: codeIds } } })
+      : []
+    const byId = new Map(codes.map((code) => [code.id, code]))
     res.json({
-      items: records.map((record) => presentAttempt(record, ipCounts)),
-      total,
+      items: groups.map((group) => presentActivityGroup(group, byId.get(group.codeId) || null)),
+      total: Number(countRows[0]?.total || 0),
       page,
       pageSize,
       summary,
