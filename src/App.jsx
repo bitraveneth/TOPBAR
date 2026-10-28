@@ -20,7 +20,7 @@ import DownloadsAdmin from './admin/DownloadsAdmin'
 import SupportAdmin from './admin/SupportAdmin'
 import MediaAdmin from './admin/MediaAdmin'
 import UsersPage from './admin/UsersPage'
-import { RequireAccess } from './admin/adminSession'
+import RequireAccess from './admin/RequireAccess'
 
 function App() {
   return (

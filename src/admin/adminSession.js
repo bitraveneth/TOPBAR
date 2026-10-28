@@ -13,14 +13,3 @@ export function useAdminSession() {
   if (!value) throw new Error('Missing admin session')
   return value
 }
-
-export function RequireAccess({ permission, children }) {
-  const { user } = useAdminSession()
-  if (user.permissions.includes(permission)) return children
-  return (
-    <div className="admin-page">
-      <h1>No access</h1>
-      <p>Your account cannot open this section.</p>
-    </div>
-  )
-}
