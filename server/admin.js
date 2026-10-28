@@ -174,6 +174,7 @@ export function adminRouter() {
   })
 
   router.get('/session', asyncRoute(async (req, res) => {
+    res.setHeader('Cache-Control', 'no-store')
     const user = await loadAdmin(req)
     res.json(user ? { authenticated: true, user: publicUser(user) } : { authenticated: false })
   }))

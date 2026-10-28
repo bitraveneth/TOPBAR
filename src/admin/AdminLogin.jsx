@@ -6,6 +6,7 @@
  */
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { storeUser } from './adminSession'
 import './admin.css'
 
 export default function AdminLogin() {
@@ -17,31 +18,54 @@ export default function AdminLogin() {
   const [busy, setBusy] = useState(false)
 
   useEffect(() => {
-    let cancelled = false
-    fetch('/api/admin/session', { credentials: 'include' })
+    let active = true
+    let timedOut = false
+    const controller = new AbortController()
+    const timer = window.setTimeout(() => {
+      timedOut = true
+      controller.abort()
+    }, 12000)
+    fetch('/api/admin/session', { credentials: 'include', signal: controller.signal })
       .then((response) => response.json())
       .then((data) => {
-        if (!cancelled && data.authenticated) navigate('/admin/codes', { replace: true })
+        if (!active) return
+        if (data.authenticated && data.user) {
+          storeUser(data.user)
+          navigate('/admin/codes', { replace: true })
+        }
       })
-      .catch(() => {
-        if (!cancelled) setError('The verification API is not running.')
+      .catch((err) => {
+        if (!active || err.name === 'AbortError') {
+          if (active && timedOut) setError('The admin service did not respond. Refresh and try again.')
+          return
+        }
+        setError('The admin service is not running.')
       })
-    return () => { cancelled = true }
+    return () => {
+      active = false
+      window.clearTimeout(timer)
+      controller.abort()
+    }
   }, [navigate])
 
   async function submit(event) {
     event.preventDefault()
     setBusy(true)
     setError('')
+    const controller = new AbortController()
+    const timer = window.setTimeout(() => controller.abort(), 12000)
     try {
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         credentials: 'include',
+        signal: controller.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password, remember }),
       })
       const data = await response.json().catch(() => ({}))
       if (!response.ok) throw new Error(data.error || 'Sign-in failed.')
+      if (!data.user) throw new Error('Sign-in did not start a session. Refresh and try again.')
+      storeUser(data.user)
       if (remember) {
         localStorage.setItem('topbar-admin-username', username.trim())
         localStorage.setItem('topbar-admin-remember', '1')
@@ -51,8 +75,9 @@ export default function AdminLogin() {
       }
       navigate('/admin/codes', { replace: true })
     } catch (err) {
-      setError(err.message)
+      setError(err.name === 'AbortError' ? 'Sign-in is taking too long. Refresh and try again.' : err.message)
     } finally {
+      window.clearTimeout(timer)
       setBusy(false)
     }
   }

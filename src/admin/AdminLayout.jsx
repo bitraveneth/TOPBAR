@@ -7,7 +7,7 @@
 import { useEffect, useState } from 'react'
 import { NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { Activity, Clapperboard, Download, Images, KeyRound, LogOut, ShieldCheck, Store, Ticket, Upload, Users } from 'lucide-react'
-import { AdminSessionContext } from './adminSession'
+import { AdminSessionContext, readStoredUser, storeUser } from './adminSession'
 import './admin.css'
 
 const ROLE_LABELS = {
@@ -18,20 +18,40 @@ const ROLE_LABELS = {
 
 export default function AdminLayout() {
   const navigate = useNavigate()
-  const [session, setSession] = useState({ status: 'loading' })
+  const [session, setSession] = useState(() => {
+    const user = readStoredUser()
+    return user ? { status: 'in', user } : { status: 'loading' }
+  })
 
   useEffect(() => {
-    let cancelled = false
-    fetch('/api/admin/session', { credentials: 'include' })
+    let active = true
+    let timedOut = false
+    const controller = new AbortController()
+    const timer = window.setTimeout(() => {
+      timedOut = true
+      controller.abort()
+    }, 12000)
+    fetch('/api/admin/session', { credentials: 'include', signal: controller.signal })
       .then((response) => response.json())
       .then((data) => {
-        if (cancelled) return
-        setSession(data.authenticated ? { status: 'in', user: data.user } : { status: 'out' })
+        if (!active) return
+        if (data.authenticated && data.user?.permissions) {
+          storeUser(data.user)
+          setSession({ status: 'in', user: data.user })
+          return
+        }
+        storeUser(null)
+        setSession({ status: 'out' })
       })
-      .catch(() => {
-        if (!cancelled) setSession({ status: 'down' })
+      .catch((err) => {
+        if (!active || (err.name === 'AbortError' && !timedOut)) return
+        setSession((current) => current.status === 'in' ? current : { status: 'down' })
       })
-    return () => { cancelled = true }
+    return () => {
+      active = false
+      window.clearTimeout(timer)
+      controller.abort()
+    }
   }, [])
 
   async function signOut() {
@@ -39,11 +59,12 @@ export default function AdminLayout() {
     navigate('/admin/login', { replace: true })
   }
 
-  if (session.status === 'loading') return <div className="admin-shell admin-shell--center">Checking session…</div>
-  if (session.status === 'down') {
+  if (session.status === 'loading' || session.status === 'down') {
     return (
       <div className="admin-shell admin-shell--center">
-        <p>The admin API is not running. Start it with npm run dev:all.</p>
+        <img className="admin-logo" src="/images/topbar-logo.png" alt="TOPBAR" />
+        <p>{session.status === 'loading' ? 'Opening your admin session…' : 'The admin service did not respond.'}</p>
+        {session.status === 'down' ? <a className="admin-btn" href="/admin/login">Back to sign in</a> : null}
       </div>
     )
   }
