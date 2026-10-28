@@ -6,6 +6,7 @@
  */
 import { useEffect, useState } from 'react'
 import { NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom'
+import { Activity, KeyRound, LogOut, ShieldCheck, Upload } from 'lucide-react'
 import './admin.css'
 
 export default function AdminLayout() {
@@ -44,17 +45,18 @@ export default function AdminLayout() {
     <div className="admin-shell">
       <aside className="admin-side">
         <div>
-          <p className="admin-brand">TOPBAR</p>
-          <p className="admin-brand__sub">Verification</p>
+          <NavLink to="/admin/codes" className="admin-logo-link" end>
+            <img src="/images/topbar-logo.png" alt="TOPBAR" />
+          </NavLink>
           <nav className="admin-nav">
-            <NavLink to="/admin/codes" end>Codes</NavLink>
-            <NavLink to="/admin/codes/import">Import</NavLink>
-            <NavLink to="/admin/activity">Activity</NavLink>
+            <NavLink to="/admin/codes" end><KeyRound size={16} /> Codes</NavLink>
+            <NavLink to="/admin/codes/import"><Upload size={16} /> Import</NavLink>
+            <NavLink to="/admin/activity"><Activity size={16} /> Activity</NavLink>
           </nav>
         </div>
         <div className="admin-side__foot">
-          <a href="/verify-products" target="_blank" rel="noreferrer">Public check</a>
-          <button type="button" onClick={signOut}>Sign out</button>
+          <a href="/verify-products" target="_blank" rel="noreferrer"><ShieldCheck size={15} /> Public check</a>
+          <button type="button" onClick={signOut}><LogOut size={15} /> Sign out</button>
         </div>
       </aside>
       <main className="admin-main">

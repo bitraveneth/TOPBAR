@@ -155,7 +155,7 @@ export default function CodeDrawer({ codeId, orphan, onClose, onSaved }) {
         {!codeId && orphan ? (
           <div>
             <StatusMark status={orphan.status} />
-            <p className="admin-flag">No code in the desk matched this check.</p>
+            <p className="admin-flag">No saved code matched this check.</p>
             <p>{formatWhen(orphan.createdAt)}</p>
           </div>
         ) : null}

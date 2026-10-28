@@ -51,10 +51,10 @@ export default function AdminLogin() {
 
   return (
     <div className="admin-login">
-      <form className="admin-login__card" onSubmit={submit}>
-        <p className="admin-brand">TOPBAR</p>
-        <h1>Verification desk</h1>
-        <p>Codes, imports, and every scan that hits the public check.</p>
+      <form className="admin-login__panel" onSubmit={submit}>
+        <img className="admin-logo" src="/images/topbar-logo.png" alt="TOPBAR" />
+        <h1>Sign in</h1>
+        <p>Enter your username and password.</p>
         <label className="admin-field">
           <span>Username</span>
           <input
@@ -76,7 +76,7 @@ export default function AdminLogin() {
           />
         </label>
         {error ? <p className="admin-error">{error}</p> : null}
-        <button type="submit" className="admin-btn" disabled={busy}>{busy ? 'Checking…' : 'Enter'}</button>
+        <button type="submit" className="admin-btn" disabled={busy}>{busy ? 'Checking…' : 'Sign in'}</button>
       </form>
     </div>
   )

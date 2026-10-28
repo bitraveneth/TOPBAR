@@ -75,9 +75,8 @@ export default function ActivityPage() {
     <div className="admin-page">
       <header className="admin-page__head">
         <div>
-          <p className="admin-kicker">Desk</p>
           <h1>Activity</h1>
-          <p>Every public check, including codes that are not in the desk.</p>
+          <p>Every public check, including codes that were not found.</p>
         </div>
         <div className="admin-page__actions">
           <input

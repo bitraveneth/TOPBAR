@@ -5,10 +5,34 @@
  * Contact: meetalex@protonmail.com
  */
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { FileUp, X } from 'lucide-react'
 import { adminFetch } from '../lib/adminApi'
 import { formatCount, formatWhen } from '../lib/verifyFormat'
 import MetricStrip from './MetricStrip'
+
+const SAMPLE_TEXT = [
+  'https://topbar.example/verify-products?t=517500000101-MINT4K2P',
+  'https://topbar.example/verify-products?t=517500000102-PEACH8K1',
+  'https://topbar.example/verify-products?t=517500000103-COLA9X2Q',
+  'https://topbar.example/verify-products?t=517500000104-BERRY6K3',
+  'https://topbar.example/verify-products?t=517500000105-GUMMY7K4',
+].join('\n')
+
+const SAMPLE_CODES = [
+  { code: 'MINT4K2P', note: 'First scan should say genuine' },
+  { code: 'PEACH8K1', note: 'Already checked once' },
+  { code: 'COLA9X2Q', note: 'First scan should say genuine' },
+  { code: 'BERRY6K3', note: 'Disabled, so the public check says not authentic' },
+  { code: 'GUMMY7K4', note: 'First scan should say genuine' },
+]
+
+const FORMATS = [
+  { label: 'Verify link', example: '…/verify-products?t=517500000101-MINT4K2P' },
+  { label: 'Serial and code', example: '517500000101-MINT4K2P' },
+  { label: 'Scratch code', example: 'MINT4K2P' },
+  { label: 'CSV row', example: '517500000101,MINT4K2P' },
+]
 
 function readFile(file) {
   return new Promise((resolve, reject) => {
@@ -45,15 +69,19 @@ export default function ImportPage() {
     return () => { cancelled = true }
   }, [navigate, revision])
 
-  async function takeFile(file) {
-    if (!file) return
+  function loadText(contents, name) {
     setError('')
     setNotice('')
     setPreview(null)
+    setPreviewText('')
+    setText(contents)
+    setFilename(name)
+  }
+
+  async function takeFile(file) {
+    if (!file) return
     try {
-      const contents = await readFile(file)
-      setText(contents)
-      setFilename(file.name)
+      loadText(await readFile(file), file.name)
     } catch (err) {
       setError(err.message)
     }
@@ -86,7 +114,7 @@ export default function ImportPage() {
         method: 'POST',
         body: JSON.stringify({ text, filename, mode, batchLabel }),
       })
-      setNotice(`Imported ${formatCount(record.inserted)} new codes${record.updated ? `, refreshed ${formatCount(record.updated)}` : ''}.`)
+      setNotice(`Saved ${formatCount(record.inserted)} new codes${record.updated ? ` and refreshed ${formatCount(record.updated)}` : ''}.`)
       setPreview(null)
       setPreviewText('')
       setText('')
@@ -106,65 +134,83 @@ export default function ImportPage() {
     <div className="admin-page">
       <header className="admin-page__head">
         <div>
-          <p className="admin-kicker">Desk</p>
           <h1>Import</h1>
-          <p>Upload the text file of verify links. Nothing is written until you confirm the preview.</p>
+          <p>Add codes from a text file. Nothing is saved until you confirm the preview.</p>
         </div>
       </header>
 
-      <div
-        className={dragging ? 'admin-drop is-dragging' : 'admin-drop'}
-        onDragOver={(event) => { event.preventDefault(); setDragging(true) }}
-        onDragLeave={() => setDragging(false)}
-        onDrop={(event) => {
-          event.preventDefault()
-          setDragging(false)
-          takeFile(event.dataTransfer.files?.[0])
-        }}
-      >
-        <p>Drop a .txt or .csv file, or browse.</p>
-        <label className="admin-btn">
-          Browse
-          <input
-            type="file"
-            accept=".txt,.csv,text/plain,text/csv"
-            hidden
-            onChange={(event) => takeFile(event.target.files?.[0])}
-          />
-        </label>
-        <pre>{`https://example.com/verify-products?t=517500000018-ATBRGB7P
-517500000018-ATBRGB7P
-ATBRGB7P
-517500000018,ATBRGB7P`}</pre>
-        {filename ? <p className="admin-note">{filename} · {formatCount(text.length)} characters</p> : null}
+      <div className="import-stage">
+        <div
+          className={dragging ? 'import-drop is-dragging' : 'import-drop'}
+          onDragOver={(event) => { event.preventDefault(); setDragging(true) }}
+          onDragLeave={() => setDragging(false)}
+          onDrop={(event) => {
+            event.preventDefault()
+            setDragging(false)
+            takeFile(event.dataTransfer.files?.[0])
+          }}
+        >
+          <div className="import-drop__icon" aria-hidden="true"><FileUp size={26} /></div>
+          <h2>Drop a file here</h2>
+          <p>.txt or .csv, one code per line</p>
+          <label className="admin-btn">
+            Choose file
+            <input
+              type="file"
+              accept=".txt,.csv,text/plain,text/csv"
+              onChange={(event) => takeFile(event.target.files?.[0])}
+            />
+          </label>
+          {filename ? (
+            <p className="import-file">
+              <span>{filename}</span>
+              <span>{formatCount(text.split(/\r?\n/).filter((line) => line.trim()).length)} lines</span>
+              <button type="button" aria-label="Remove file" onClick={() => loadText('', '')}><X size={14} /></button>
+            </p>
+          ) : null}
+        </div>
+
+        <aside className="import-formats">
+          <h2>What each line can look like</h2>
+          <ul>
+            {FORMATS.map((item) => (
+              <li key={item.label}>
+                <span>{item.label}</span>
+                <code>{item.example}</code>
+              </li>
+            ))}
+          </ul>
+        </aside>
       </div>
 
-      <div className="admin-import-options">
-        <fieldset>
-          <legend>When a code already exists</legend>
-          <label>
-            <input type="radio" name="mode" value="skip" checked={mode === 'skip'} onChange={() => setMode('skip')} />
-            <span>Skip it. Check counts stay untouched.</span>
+      <section className="import-setup">
+        <div className="import-modes" role="radiogroup" aria-label="When a code already exists">
+          <button type="button" className={mode === 'skip' ? 'import-mode is-selected' : 'import-mode'} onClick={() => setMode('skip')}>
+            <strong>Skip existing</strong>
+            <span>Leave codes you already have exactly as they are, including check counts.</span>
+          </button>
+          <button type="button" className={mode === 'update' ? 'import-mode is-selected' : 'import-mode'} onClick={() => setMode('update')}>
+            <strong>Refresh labels</strong>
+            <span>Update serial, link, and batch. Check counts stay as they are.</span>
+          </button>
+        </div>
+        <div className="import-actions">
+          <label className="admin-field">
+            <span>Batch label</span>
+            <input value={batchLabel} onChange={(event) => setBatchLabel(event.target.value)} placeholder="June allocation" maxLength={80} />
           </label>
-          <label>
-            <input type="radio" name="mode" value="update" checked={mode === 'update'} onChange={() => setMode('update')} />
-            <span>Refresh serial, token, and batch only. Check counts stay untouched.</span>
-          </label>
-        </fieldset>
-        <label className="admin-field">
-          <span>Batch label</span>
-          <input value={batchLabel} onChange={(event) => setBatchLabel(event.target.value)} placeholder="June allocation" maxLength={80} />
-        </label>
-        <button type="button" className="admin-btn" disabled={busy || !text.trim()} onClick={runPreview}>
-          {busy ? 'Working…' : 'Preview'}
-        </button>
-      </div>
+          <button type="button" className="admin-btn" disabled={busy || !text.trim()} onClick={runPreview}>
+            {busy ? 'Working…' : 'Preview file'}
+          </button>
+        </div>
+      </section>
 
       {error ? <p className="admin-error">{error}</p> : null}
       {notice ? <p className="admin-note">{notice}</p> : null}
 
       {previewReady ? (
         <section className="admin-preview">
+          <h2>Preview</h2>
           <MetricStrip items={[
             { label: 'New', value: formatCount(preview.newCodes) },
             { label: 'Already here', value: formatCount(preview.existing) },
@@ -180,11 +226,29 @@ ATBRGB7P
           ) : null}
           <button type="button" className="admin-btn" disabled={busy} onClick={runImport}>
             {mode === 'update'
-              ? `Import ${formatCount(preview.newCodes)} and refresh ${formatCount(preview.existing)}`
-              : `Import ${formatCount(preview.newCodes)} codes`}
+              ? `Save ${formatCount(preview.newCodes)} and refresh ${formatCount(preview.existing)}`
+              : `Save ${formatCount(preview.newCodes)} codes`}
           </button>
         </section>
       ) : null}
+
+      <section className="import-sample">
+        <div>
+          <h2>Sample pack</h2>
+          <p>Five codes are ready to try on the public check. Open one, or load the same file here again.</p>
+        </div>
+        <ul>
+          {SAMPLE_CODES.map((item) => (
+            <li key={item.code}>
+              <Link to={`/verify-products?code=${item.code}`} target="_blank" rel="noreferrer">{item.code}</Link>
+              <span>{item.note}</span>
+            </li>
+          ))}
+        </ul>
+        <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { loadText(SAMPLE_TEXT, 'sample-codes.txt'); setBatchLabel('sample') }}>
+          Load sample file
+        </button>
+      </section>
 
       <section className="admin-history">
         <h2>Recent imports</h2>
