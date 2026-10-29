@@ -113,10 +113,8 @@ function VerifyProducts() {
             <div className="content-card verify-panel">
               <div className="verify-panel__head">
                 <span className="verify-panel__badge" aria-hidden="true"><ShieldCheck size={28} /></span>
-                <div>
-                  <p className="verify-panel__kicker">Security check</p>
-                  <h2 className="verify-panel__title">Verify Your Code</h2>
-                </div>
+                <p className="verify-panel__kicker">Security check</p>
+                <h2 className="verify-panel__title">Verify Your Code</h2>
               </div>
               <p className="verify-panel__lead">
                 Enter the scratch code from your TOPBAR pack. Scanning the pack opens this page and checks the code for you.

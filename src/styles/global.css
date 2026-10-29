@@ -10044,20 +10044,22 @@ p { color: var(--text-secondary); }
 .verify-panel {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   justify-content: center;
   min-height: 640px;
   padding: 3.2rem 2.8rem;
   border-radius: 28px;
+  text-align: left;
   border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
   background:
     radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 58%),
     var(--bg-card);
 }
 .verify-panel__head {
-  display: flex;
-  align-items: center;
-  gap: 1.1rem;
-  margin-bottom: 1.35rem;
+  display: grid;
+  justify-items: start;
+  gap: 0.65rem;
+  margin-bottom: 1.1rem;
 }
 .verify-panel__badge {
   display: grid;
@@ -10082,26 +10084,36 @@ p { color: var(--text-secondary); }
   font-size: clamp(2.1rem, 3vw, 2.8rem);
   line-height: 1.05;
 }
-.verify-panel__lead {
-  margin: 0 0 2rem;
-  max-width: 38rem;
-  font-size: 1.12rem;
+.verify-panel .verify-panel__lead {
+  margin: 0 0 1.8rem;
+  max-width: none;
+  width: 100%;
+  font-size: 1.08rem;
   line-height: 1.6;
 }
-.verify-panel__form { gap: 1.35rem; }
-.verify-panel .form-field { gap: 0.55rem; }
-.verify-panel .form-field label { font-size: 1rem; letter-spacing: 0.04em; }
+.verify-panel__form { gap: 1.15rem; width: 100%; }
+.verify-panel .form-field { gap: 0.5rem; width: 100%; }
+.verify-panel .form-field label {
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+}
 .verify-panel .form-field input {
+  width: 100%;
+  height: 68px;
   min-height: 68px;
-  padding: 1.05rem 1.2rem;
-  font-size: 1.15rem;
+  padding: 0 1.2rem;
+  font-size: 1.12rem;
+  line-height: 1.2;
   border-radius: 16px;
+  text-align: left;
 }
 .verify-panel .btn-primary {
   width: 100%;
   min-height: 64px;
-  margin-top: 0.4rem;
+  margin-top: 0.25rem;
   font-size: 1.05rem;
+  justify-content: center;
 }
 .verify-tips h2 { margin-bottom: 0.75rem; }
 .verify-tips__list { display: grid; gap: 0.9rem; }
@@ -10186,8 +10198,8 @@ p { color: var(--text-secondary); }
   }
   .verify-panel__badge { width: 60px; height: 60px; }
   .verify-panel__title { font-size: 2.05rem; }
-  .verify-panel__lead { font-size: 1.05rem; margin-bottom: 1.6rem; }
-  .verify-panel .form-field input { min-height: 62px; font-size: 1.08rem; }
+  .verify-panel .verify-panel__lead { font-size: 1.05rem; margin-bottom: 1.4rem; }
+  .verify-panel .form-field input { height: 62px; min-height: 62px; font-size: 1.05rem; }
   .verify-panel .btn-primary { min-height: 58px; }
   .verify-step {
     display: grid;
