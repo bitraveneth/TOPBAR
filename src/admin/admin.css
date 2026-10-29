@@ -689,6 +689,8 @@ html:has(.admin-login) body,
 .code-panel .admin-table tbody tr:last-child td { border-bottom: 0; }
 .code-panel .admin-table tbody tr.is-open { background: rgba(214, 255, 62, 0.05); }
 .code-main { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+.code-actions { width: 1%; text-align: right; white-space: nowrap; }
+.code-actions .admin-btn { min-height: 34px; padding: 0.4rem 0.75rem; }
 .code-detail td { padding: 0 1rem 1rem; }
 .code-record {
   display: grid;

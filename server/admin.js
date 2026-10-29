@@ -339,6 +339,22 @@ export function adminRouter() {
     }
   }))
 
+  router.delete('/codes/:id', asyncRoute(async (req, res) => {
+    try {
+      await prisma.$transaction([
+        prisma.verificationAttempt.deleteMany({ where: { codeId: req.params.id } }),
+        prisma.verificationCode.delete({ where: { id: req.params.id } }),
+      ])
+      res.json({ ok: true })
+    } catch (error) {
+      if (error?.code === 'P2025') {
+        res.status(404).json({ error: 'Code not found.' })
+        return
+      }
+      throw error
+    }
+  }))
+
   router.get('/activity/summary', asyncRoute(async (_req, res) => {
     res.json(await activitySummary())
   }))

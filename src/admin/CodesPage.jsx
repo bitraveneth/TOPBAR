@@ -27,6 +27,8 @@ export default function CodesPage() {
   const [form, setForm] = useState(emptyForm)
   const [createError, setCreateError] = useState('')
   const [saving, setSaving] = useState(false)
+  const [removingId, setRemovingId] = useState('')
+  const [actionError, setActionError] = useState('')
   const [snapshot, setSnapshot] = useState({ key: '', data: null, error: '' })
   const key = `${query}|${page}|${revision}`
   const current = snapshot.key === key
@@ -60,6 +62,24 @@ export default function CodesPage() {
 
   function setField(name, value) {
     setForm((currentForm) => ({ ...currentForm, [name]: value }))
+  }
+
+  async function removeCode(item, event) {
+    event.stopPropagation()
+    if (!window.confirm(`Delete ${item.code}? Its check history will be removed too.`)) return
+    setRemovingId(item.id)
+    setActionError('')
+    try {
+      await adminFetch(`/api/admin/codes/${item.id}`, { method: 'DELETE' })
+      if (openId === item.id) setOpenId(null)
+      if (items.length === 1 && page > 1) setPage(page - 1)
+      setRevision((value) => value + 1)
+    } catch (err) {
+      if (err.status === 401) navigate('/admin/login', { replace: true })
+      else setActionError(err.message)
+    } finally {
+      setRemovingId('')
+    }
   }
 
   async function createCode(event) {
@@ -178,6 +198,7 @@ export default function CodesPage() {
         </div>
 
         {error ? <p className="admin-error code-panel__note">{error}</p> : null}
+        {actionError ? <p className="admin-error code-panel__note">{actionError}</p> : null}
         {loading ? <p className="admin-note code-panel__note">Loading codes…</p> : null}
 
         <div className="admin-table-wrap code-table">
@@ -190,6 +211,7 @@ export default function CodesPage() {
                 <th>Last result</th>
                 <th>Checks</th>
                 <th>Last check</th>
+                <th className="code-actions" aria-label="Delete" />
               </tr>
             </thead>
             <tbody>
@@ -200,10 +222,13 @@ export default function CodesPage() {
                     <tr
                       className={open ? 'is-open' : undefined}
                       aria-expanded={open}
-                      onClick={() => setOpenId(open ? null : item.id)}
+                      onClick={(event) => {
+                        if (event.target.closest('button, a, input, textarea, select')) return
+                        setOpenId(open ? null : item.id)
+                      }}
                       tabIndex={0}
                       onKeyDown={(event) => {
-                        if (event.key === 'Enter') setOpenId(open ? null : item.id)
+                        if (event.key === 'Enter' && event.target === event.currentTarget) setOpenId(open ? null : item.id)
                       }}
                     >
                       <td>
@@ -219,10 +244,20 @@ export default function CodesPage() {
                       <td><StatusMark status={item.lastStatus} /></td>
                       <td>{formatCount(item.verificationCount)}</td>
                       <td>{formatWhen(item.lastAttemptAt)}</td>
+                      <td className="code-actions">
+                        <button
+                          type="button"
+                          className="admin-btn admin-btn--danger"
+                          disabled={removingId === item.id}
+                          onClick={(event) => removeCode(item, event)}
+                        >
+                          {removingId === item.id ? 'Deleting…' : 'Delete'}
+                        </button>
+                      </td>
                     </tr>
                     {open ? (
                       <tr className="activity-detail code-detail">
-                        <td colSpan={6}>
+                        <td colSpan={7}>
                           <CodeRecord
                             codeId={item.id}
                             onSaved={() => setRevision((value) => value + 1)}
