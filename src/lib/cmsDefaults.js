@@ -9,6 +9,7 @@ import navigation from '../data/navigation.json'
 import products from '../data/products.json'
 import lovedByYou from '../data/lovedByYou.json'
 import homeBlogPreview from '../data/homeBlogPreview.json'
+import { downloadDefaults, exhibitionDefaults, supportDefaults } from './cmsContent'
 
 export const CMS_DOCUMENT_KEYS = [
   { key: 'site', label: 'Site — notice bar, logo' },
@@ -93,5 +94,8 @@ export function getDefaultCmsMap() {
       buttonJoin: 'Join Drop List',
       buttonJoined: 'Joined',
     },
+    exhibition: exhibitionDefaults,
+    downloads: downloadDefaults,
+    support: supportDefaults,
   }
 }

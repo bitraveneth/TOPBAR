@@ -315,6 +315,9 @@ function ProductDetail() {
           <div className="detail-info">
             <h1>{product.name}</h1>
             <p>{product.description}</p>
+            {product.video ? (
+              <video className="detail-product-video" controls playsInline preload="metadata" src={product.video} />
+            ) : null}
 
             {!flavourCollapsible && <h3 className="detail-flavour-heading">Choose Flavour</h3>}
             <div

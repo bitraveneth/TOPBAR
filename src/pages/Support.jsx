@@ -6,150 +6,41 @@
  */
 import { useMemo, useState } from 'react'
 import { Bookmark, ClipboardList, ShieldCheck, Mail, HelpCircle, Search, X } from 'lucide-react'
+import { useCms } from '../contexts/useCms'
 
-const supportTopics = [
-  {
-    id: 'warranty',
-    icon: Bookmark,
-    title: 'Warranty Claim',
-    heading: 'Warranty Claim Support',
-    description:
-      'Submit product warranty requests with purchase details, serial information, and issue summary.',
-    details: [
-      'Required: product model, purchase date, country/region',
-      'Recommended: package code and product photos',
-      'Response target: within 24-48 business hours',
-    ],
-  },
-  {
-    id: 'wholesale',
-    icon: ClipboardList,
-    title: 'Wholesale Request',
-    heading: 'Wholesale & Distributor Requests',
-    description:
-      'Contact TOPBAR for business cooperation, retail supply, and regional distribution opportunities.',
-    details: [
-      'Share company name and business type',
-      'Provide target market and monthly demand',
-      'Our business team will follow up with pricing and terms',
-    ],
-  },
-  {
-    id: 'counterfeit',
-    icon: ShieldCheck,
-    title: 'Report Counterfeit',
-    heading: 'Counterfeit Product Report',
-    description:
-      'Help us protect customers by reporting suspected fake products or unauthorized sellers.',
-    details: [
-      'Attach store/platform information and location',
-      'Upload product images and packaging code if possible',
-      'Our compliance team investigates each report',
-    ],
-  },
-  {
-    id: 'contact',
-    icon: Mail,
-    title: 'Contact Us',
-    heading: 'Contact TOPBAR Support',
-    description:
-      'For order, product, or usage issues, contact our global support team directly.',
-    details: [
-      'Email: support@topbarofficial.com',
-      'Service hours: Mon-Fri, 09:00-18:00 (UTC+8)',
-      'Support language: English',
-    ],
-  },
-  {
-    id: 'faq',
-    icon: HelpCircle,
-    title: 'FAQ',
-    heading: 'Frequently Asked Questions',
-    description:
-      'Browse common questions about wholesale, ingredients, shipping, safety, and product usage.',
-    details: [
-      'Tap any question below to view the answer',
-      'Answers cover wholesale, shipping, safety, and usage',
-      'Contact us if you need more help',
-    ],
-  },
-]
+const TOPIC_ICONS = {
+  warranty: Bookmark,
+  wholesale: ClipboardList,
+  counterfeit: ShieldCheck,
+  contact: Mail,
+  faq: HelpCircle,
+}
 
-const faqs = [
-  {
-    q: 'What is your wholesale pricing?',
-    a: 'We offer competitive wholesale prices. Once your application is approved, our sales team will share details with you.',
-  },
-  {
-    q: 'Do you offer wholesale discounts, and what are the minimum order requirements?',
-    a: 'Wholesale prices vary by location and order size. Complete the wholesale request form, and we will provide full pricing information.',
-  },
-  {
-    q: 'Are there marketing materials or display kits provided?',
-    a: 'Marketing materials are distributed through authorised distributors. Retailers should contact their assigned distributor. If they cannot assist, feel free to reach out to us at support@etopbarvape.com, and we will help guide you to the appropriate resources.',
-  },
-  {
-    q: 'What are the shipping timelines and customs support?',
-    a: 'Shipping timelines depend on your location and distributor. For international orders, customs clearance is typically handled by the distributor or shipping partner. Most shipments include tracking numbers. For region-specific details, please contact your assigned distributor.',
-  },
-  {
-    q: 'Can vaping cause an allergy?',
-    a: 'Our vapes contain Propylene Glycol (PG), Vegetable Glycerin (VG), nicotine, and flavourings. Some people may be sensitive, so please check the packaging for allergen information.',
-  },
-  {
-    q: 'Is vaping harmful to the human body?',
-    a: 'Vapes are intended for adult smokers only. They are smoke-free products that vaporise an e-liquid containing nicotine and flavours. Nicotine is addictive and not risk-free, but because e-cigarettes do not burn tobacco, they may be a better choice for adults than continuing to smoke.',
-  },
-  {
-    q: 'How does age verification work?',
-    a: 'Topbar does not sell products directly to consumers. Instead, our distributors and retailers handle all sales and are responsible for verifying that customers meet the legal age requirement before purchase. This process may include checking your name, date of birth, and address. Please note that age verification methods may vary depending on your country or region, based on local laws and regulations.',
-  },
-  {
-    q: 'What are the main ingredients of e-liquid?',
-    a: 'Our e-liquid is made with Propylene Glycol (PG) and Vegetable Glycerin (VG), both food-grade or pharmaceutical-grade. We also use a mix of natural and artificial flavours, plus nicotine. If you have allergies to fruits, nuts, or gluten, we recommend avoiding vapes, as some flavourings could cause a reaction.',
-  },
-  {
-    q: 'What should I do if the device tastes burnt?',
-    a: 'A burnt taste usually means the e-liquid is low or the coil is overheated. Replace the device or the pod if it continues.',
-  },
-]
-const formPresetByTopic = {
-  warranty: {
-    title: 'Warranty Claim Form',
-    issueType: 'Warranty Claim',
-    lockIssueType: true,
-  },
-  wholesale: {
-    title: 'Wholesale Request Form',
-    issueType: 'Business / Distributor Inquiry',
-    lockIssueType: true,
-  },
-  counterfeit: {
-    title: 'Report Counterfeit Form',
-    issueType: 'Counterfeit Report',
-    lockIssueType: true,
-  },
-  contact: {
-    title: 'Contact Us Form',
-    issueType: '',
-    lockIssueType: false,
-  },
-  faq: {
-    title: 'FAQ Contact Form',
-    issueType: 'General FAQ Inquiry',
-    lockIssueType: true,
-  },
+const EMPTY_LIST = []
+
+function TopicIcon({ name }) {
+  const Icon = TOPIC_ICONS[name] || HelpCircle
+  return <Icon size={42} className="support-topic-tile__icon" />
 }
 
 function Support() {
+  const { merged } = useCms()
+  const page = merged.support || {}
+  const supportTopics = page.topics ?? EMPTY_LIST
+  const faqs = page.faqs ?? EMPTY_LIST
   const [submitted, setSubmitted] = useState(false)
   const [openFaq, setOpenFaq] = useState(null)
-  const [activeTopic, setActiveTopic] = useState(supportTopics[0].id)
+  const [activeTopic, setActiveTopic] = useState(supportTopics[0]?.id || 'warranty')
   const [searchQuery, setSearchQuery] = useState('')
   const [submittedQuery, setSubmittedQuery] = useState('')
   const [heroResult, setHeroResult] = useState(null)
   const [heroNoResult, setHeroNoResult] = useState(false)
-  const formPreset = formPresetByTopic[activeTopic] || formPresetByTopic.contact
+  const topic = supportTopics.find((item) => item.id === activeTopic) || supportTopics[0]
+  const formPreset = {
+    title: topic?.formTitle || topic?.heading || 'Contact Us Form',
+    issueType: topic?.issueType || '',
+    lockIssueType: topic?.lockIssueType !== false && topic?.id !== 'contact',
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -165,13 +56,13 @@ function Support() {
     return faqs.filter((faq) =>
       `${faq.q} ${faq.a}`.toLowerCase().includes(normalizedSubmittedQuery)
     )
-  }, [normalizedSubmittedQuery])
+  }, [faqs, normalizedSubmittedQuery])
   const liveSuggestions = useMemo(() => {
     if (!normalizedLiveQuery) return []
     return faqs
       .filter((faq) => faq.q.toLowerCase().includes(normalizedLiveQuery))
       .slice(0, 6)
-  }, [normalizedLiveQuery])
+  }, [faqs, normalizedLiveQuery])
 
   const handleSearchSubmit = (e) => {
     e.preventDefault()
@@ -209,8 +100,8 @@ function Support() {
     <>
       <div className="page-hero support-page-hero">
         <div className="container">
-          <p className="page-hero__eyebrow">Help Center</p>
-          <h1>Hello, How can we help you?</h1>
+          <p className="page-hero__eyebrow">{page.eyebrow || 'Help Center'}</p>
+          <h1>{page.title || 'Hello, How can we help you?'}</h1>
           <form className="support-page-hero__search" onSubmit={handleSearchSubmit}>
             <Search size={16} />
             <input
@@ -260,7 +151,7 @@ function Support() {
               </button>
             </div>
           )}
-          <p className="support-page-hero__helper">Or choose a category to quickly find the help you need</p>
+          <p className="support-page-hero__helper">{page.helper}</p>
         </div>
       </div>
 
@@ -276,7 +167,7 @@ function Support() {
                 role="tab"
                 aria-selected={activeTopic === topic.id}
               >
-                <topic.icon size={42} className="support-topic-tile__icon" />
+                <TopicIcon name={topic.icon || topic.id} />
                 <span className="support-topic-tile__label">{topic.title}</span>
               </button>
             ))}
@@ -320,6 +211,12 @@ function Support() {
           ) : (
             <div className="support-contact">
               <h2>{formPreset.title}</h2>
+              {topic?.description ? <p>{topic.description}</p> : null}
+              {topic?.details?.length ? (
+                <ul className="support-topic-points">
+                  {topic.details.map((line) => <li key={line}>{line}</li>)}
+                </ul>
+              ) : null}
               {submitted ? (
                 <div className="content-card support-contact__success">
                   <p className="support-contact__success-title">Ticket Submitted</p>
@@ -408,7 +305,7 @@ function Support() {
 
           <div className="notice">
             <h3>Need direct assistance?</h3>
-            <p>Email <strong>support@topbarofficial.com</strong> and include your product model, issue type, and country/region.</p>
+            <p>{page.notice || `Email ${page.email || 'support@topbarofficial.com'} and include your product model, issue type, and country/region.`}</p>
           </div>
         </div>
       </section>

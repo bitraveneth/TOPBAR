@@ -2,7 +2,7 @@
 
 Official marketing storefront for the TOPBAR disposable vape lineup — premium UI, product discovery, flavour pickers, brand film, and community content.
 
-**Current release:** [v2.0.0](docs/RELEASE-v2.0.0.md) · [Deploy guide](docs/DEPLOYMENT.md)
+**Current release:** [v3.0.0](docs/RELEASE-v3.0.0.md) · [Deploy guide](docs/DEPLOYMENT.md)
 
 ## Development
 
@@ -40,6 +40,7 @@ Site content is sourced from JSON in [`src/data/`](./src/data) with defaults in 
 
 | Doc | Purpose |
 |-----|---------|
+| [RELEASE-v3.0.0.md](docs/RELEASE-v3.0.0.md) | v3 changelog and server update |
 | [RELEASE-v2.0.0.md](docs/RELEASE-v2.0.0.md) | v2 changelog and highlights |
 | [RELEASE-v1.0.0.md](docs/RELEASE-v1.0.0.md) | v1 feature reference |
 | [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Server deploy (Nginx, SSL, updates) |

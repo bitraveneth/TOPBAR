@@ -4,36 +4,87 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useState } from 'react'
-import { ShieldCheck, ScanSearch, PackageCheck } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { ShieldAlert, ShieldCheck, ShieldX, ScanSearch, PackageCheck } from 'lucide-react'
+import { verifyProduct } from '../lib/verifyProduct'
+import { formatWhen } from '../lib/verifyFormat'
+import { verifyCopy } from '../lib/verifyMessages'
+
+function ResultGlyph({ result }) {
+  const errorResult = result === 'not_authentic' || result === 'over_verified'
+  const Icon = result === 'genuine' ? ShieldCheck : errorResult ? ShieldX : ShieldAlert
+  return <Icon size={28} />
+}
+
+function shownOutcome(outcome) {
+  if (!outcome) return null
+  const copy = verifyCopy({
+    result: outcome.result,
+    code: outcome.checkedCode,
+    count: outcome.verificationCount,
+    firstVerifiedAt: outcome.firstVerifiedAt ? formatWhen(outcome.firstVerifiedAt) : '',
+  })
+  return copy ? { ...outcome, title: copy.title, message: copy.message } : outcome
+}
 
 function VerifyProducts() {
-  const [code, setCode] = useState('')
+  const [params] = useSearchParams()
+  const initial = (params.get('t') || params.get('code') || '').trim()
+  const [code, setCode] = useState(initial)
   const [result, setResult] = useState(null)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(Boolean(initial))
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  useEffect(() => {
+    if (!initial) return undefined
+    let cancelled = false
+    verifyProduct(initial)
+      .then((data) => { if (!cancelled) setResult(data) })
+      .catch((err) => { if (!cancelled) setError(err.message) })
+      .finally(() => { if (!cancelled) setLoading(false) })
+    return () => { cancelled = true }
+  }, [initial])
 
-    const normalized = code.trim().replace(/\s+/g, '')
-    if (normalized.length < 8) {
-      setResult({
-        type: 'error',
-        title: 'Invalid code format',
-        message: 'Please enter the full security code from your TOPBAR package.',
-      })
-      return
+  async function handleSubmit(event) {
+    event.preventDefault()
+    const next = code.trim()
+    if (!next) return
+    setLoading(true)
+    setError('')
+    setResult(null)
+    try {
+      setResult(await verifyProduct(next))
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
     }
-
-    setResult({
-      type: 'success',
-      title: 'Product code accepted',
-      message: 'Your verification request has been submitted. Please compare the code and package details with your purchased product.',
-    })
   }
 
+  const outcome = error
+    ? { result: 'not_authentic', title: 'Verification unavailable', message: error }
+    : shownOutcome(result)
+  const steps = [
+    {
+      icon: ScanSearch,
+      title: 'Find The Code',
+      desc: 'Scratch the panel on your TOPBAR pack to reveal the code.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Enter For Check',
+      desc: 'Enter the 16 Digit Code below.',
+    },
+    {
+      icon: PackageCheck,
+      title: 'Confirm Authenticity',
+      desc: 'Review the response and product details before use.',
+    },
+  ]
   return (
     <>
-      <div className="page-hero">
+      <div className="page-hero verify-hero">
         <div className="container">
           <p className="page-hero__eyebrow">Product Protection</p>
           <h1>Verify Products</h1>
@@ -42,91 +93,83 @@ function VerifyProducts() {
       </div>
 
       <section className="section">
-        <div className="container">
-          <div className="content-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', marginBottom: '3rem' }}>
-            {[
-              {
-                icon: ScanSearch,
-                title: 'Find The Code',
-                desc: 'Locate the security or scratch code on your TOPBAR product packaging.',
-              },
-              {
-                icon: ShieldCheck,
-                title: 'Enter For Check',
-                desc: 'Input the full code below exactly as it appears on the pack.',
-              },
-              {
-                icon: PackageCheck,
-                title: 'Confirm Authenticity',
-                desc: 'Review the response and product details before use.',
-              },
-            ].map((item) => (
-              <div key={item.title} className="content-card" style={{ textAlign: 'center' }}>
-                <item.icon size={28} style={{ color: 'var(--accent)', marginBottom: '0.75rem' }} />
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </div>
+        <div className="container verify-page">
+          <ol className="verify-steps">
+            {steps.map((item, index) => (
+              <li key={item.title} className="verify-step">
+                <span className="verify-step__mark" aria-hidden="true">
+                  <item.icon size={30} />
+                  <span>{index + 1}</span>
+                </span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </div>
+              </li>
             ))}
-          </div>
+          </ol>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.1fr) minmax(280px, 0.9fr)', gap: '2rem', alignItems: 'start' }}>
-            <div className="content-card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
-              <h2 style={{ marginBottom: '0.75rem' }}>Verify Your Code</h2>
-              <p style={{ marginBottom: '1.5rem' }}>
-                Enter the code from your TOPBAR packaging. This demo page is ready for your real verification workflow later.
+          <div className="verify-grid">
+            <div className="content-card verify-panel">
+              <div className="verify-panel__head">
+                <span className="verify-panel__badge" aria-hidden="true"><ShieldCheck size={28} /></span>
+                <p className="verify-panel__kicker">Security check</p>
+                <h2 className="verify-panel__title">Verify Your Code</h2>
+              </div>
+              <p className="verify-panel__lead">
+                Scratch the code on your TOPBAR pack, then enter the 16 Digit Code.
               </p>
 
-              <form className="support-form" onSubmit={handleSubmit}>
+              <form className="support-form verify-panel__form" onSubmit={handleSubmit}>
                 <div className="form-field">
-                  <label>Security Code</label>
+                  <label htmlFor="security-code">16 Digit Code</label>
                   <input
+                    id="security-code"
                     type="text"
                     value={code}
-                    onChange={(e) => setCode(e.target.value)}
-                    placeholder="Enter product code"
+                    onChange={(event) => setCode(event.target.value)}
+                    placeholder="2860994911575137"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    autoCapitalize="characters"
+                    spellCheck={false}
                     required
                   />
                 </div>
 
-                <button type="submit" className="btn-primary" style={{ justifyContent: 'center' }}>
-                  Verify Product
+                <button type="submit" className="btn-primary" style={{ justifyContent: 'center' }} disabled={loading}>
+                  {loading ? 'Checking…' : 'Verify Product'}
                 </button>
               </form>
 
-              {result && (
-                <div
-                  className="content-card"
-                  style={{
-                    marginTop: '1rem',
-                    borderColor: result.type === 'success' ? 'rgba(122, 255, 101, 0.28)' : 'rgba(255, 112, 112, 0.28)',
-                    background: result.type === 'success'
-                      ? 'linear-gradient(160deg, rgba(122, 255, 101, 0.08), rgba(255,255,255,0.02))'
-                      : 'linear-gradient(160deg, rgba(255, 112, 112, 0.08), rgba(255,255,255,0.02))',
-                  }}
-                >
-                  <h3 style={{ marginBottom: '0.35rem' }}>{result.title}</h3>
-                  <p>{result.message}</p>
+              {outcome && (
+                <div className={`verify-result verify-result--${outcome.result}`} role="status" aria-live="polite">
+                  <div className="verify-result__icon" aria-hidden="true"><ResultGlyph result={outcome.result} /></div>
+                  <h3>{outcome.title}</h3>
+                  <p>{outcome.message}</p>
                 </div>
               )}
             </div>
 
-            <div className="content-card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
-              <h2 style={{ marginBottom: '0.75rem' }}>Verification Tips</h2>
-              <div style={{ display: 'grid', gap: '0.9rem' }}>
-                <div>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Use the original pack</h3>
-                  <p>Always verify from the printed package code, not from screenshots or edited images.</p>
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Check label details</h3>
-                  <p>Match the product name, flavor, and puff series with the packaging you purchased.</p>
-                </div>
-                <div>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Need help?</h3>
-                  <p>If the code looks damaged or unreadable, contact the TOPBAR support team before using the product.</p>
-                </div>
-              </div>
-            </div>
+            <aside className="verify-tips">
+              <p className="verify-tips__kicker">Before you check</p>
+              <h2>Verification Tips</h2>
+              <ol className="verify-tips__list">
+                {[
+                  ['Scratch the panel', 'Scratch the coating on your TOPBAR pack. The security code is printed underneath.'],
+                  ['Enter 16 digits', 'Type all 16 numbers from the pack. Do not skip or add any digits.'],
+                  ['Use the original pack', 'Enter the code from the pack in your hand, not from a photo or a message.'],
+                  ['Read the result', 'A first check confirms the pack. If it was already verified, contact your retailer before use.'],
+                  ['Need help?', 'If the coating will not scratch cleanly or digits are missing, contact TOPBAR support before use.'],
+                ].map(([title, text], index) => (
+                  <li key={title} className="verify-tip">
+                    <span className="verify-tip__mark" aria-hidden="true">{index + 1}</span>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </li>
+                ))}
+              </ol>
+            </aside>
           </div>
         </div>
       </section>

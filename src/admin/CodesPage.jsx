@@ -1,0 +1,262 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
+import { Fragment, useEffect, useRef, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ChevronRight, CircleDashed, KeyRound, Plus, ScanLine, Search, ShieldCheck, Upload } from 'lucide-react'
+import { adminFetch } from '../lib/adminApi'
+import { formatCount, formatWhen } from '../lib/verifyFormat'
+import { CodeRecord } from './CodeDrawer'
+import Pager from './Pager'
+import StatusMark from './StatusMark'
+
+const emptyForm = { code: '' }
+
+export default function CodesPage() {
+  const navigate = useNavigate()
+  const timer = useRef(null)
+  const [draft, setDraft] = useState('')
+  const [query, setQuery] = useState('')
+  const [page, setPage] = useState(1)
+  const [revision, setRevision] = useState(0)
+  const [openId, setOpenId] = useState(null)
+  const [creating, setCreating] = useState(false)
+  const [form, setForm] = useState(emptyForm)
+  const [createError, setCreateError] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [removingId, setRemovingId] = useState('')
+  const [actionError, setActionError] = useState('')
+  const [snapshot, setSnapshot] = useState({ key: '', data: null, error: '' })
+  const key = `${query}|${page}|${revision}`
+  const current = snapshot.key === key
+  const data = current ? snapshot.data : snapshot.data
+  const error = current ? snapshot.error : ''
+
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+
+  useEffect(() => {
+    let cancelled = false
+    const params = new URLSearchParams({ page: String(page), pageSize: '25', q: query })
+    adminFetch(`/api/admin/codes?${params}`)
+      .then((next) => { if (!cancelled) setSnapshot({ key, data: next, error: '' }) })
+      .catch((err) => {
+        if (cancelled) return
+        if (err.status === 401) navigate('/admin/login', { replace: true })
+        else setSnapshot({ key, data: null, error: err.message })
+      })
+    return () => { cancelled = true }
+  }, [key, navigate, page, query])
+
+  function onSearch(value) {
+    setDraft(value)
+    window.clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => {
+      setQuery(value.trim())
+      setPage(1)
+      setOpenId(null)
+    }, 250)
+  }
+
+  function setField(name, value) {
+    setForm((currentForm) => ({ ...currentForm, [name]: value }))
+  }
+
+  async function removeCode(item, event) {
+    event.stopPropagation()
+    if (!window.confirm(`Delete ${item.code}? Its check history will be removed too.`)) return
+    setRemovingId(item.id)
+    setActionError('')
+    try {
+      await adminFetch(`/api/admin/codes/${item.id}`, { method: 'DELETE' })
+      if (openId === item.id) setOpenId(null)
+      if (items.length === 1 && page > 1) setPage(page - 1)
+      setRevision((value) => value + 1)
+    } catch (err) {
+      if (err.status === 401) navigate('/admin/login', { replace: true })
+      else setActionError(err.message)
+    } finally {
+      setRemovingId('')
+    }
+  }
+
+  async function createCode(event) {
+    event.preventDefault()
+    setSaving(true)
+    setCreateError('')
+    try {
+      await adminFetch('/api/admin/codes', {
+        method: 'POST',
+        body: JSON.stringify({ code: form.code }),
+      })
+      setForm(emptyForm)
+      setCreating(false)
+      setRevision((value) => value + 1)
+    } catch (err) {
+      if (err.status === 401) navigate('/admin/login', { replace: true })
+      else setCreateError(err.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const stats = data?.stats
+  const items = current && data ? data.items : (data?.items || [])
+  const loading = !current && !error && items.length === 0
+  const statCards = [
+    { label: 'Codes', value: formatCount(stats?.total), icon: KeyRound },
+    { label: 'Valid', value: formatCount(stats?.valid), icon: ShieldCheck },
+    { label: 'Verified', value: formatCount(stats?.verified), icon: ScanLine },
+    { label: 'Never checked', value: formatCount(stats?.neverVerified), icon: CircleDashed },
+  ]
+
+  return (
+    <div className="admin-page code-board">
+      <header className="admin-page__head">
+        <div>
+          <h1>Codes</h1>
+          <p>Open a code to see how many times it was checked.</p>
+        </div>
+      </header>
+
+      <section className="code-stats" aria-label="Summary">
+        {statCards.map((card) => {
+          const Icon = card.icon
+          return (
+            <article key={card.label} className="code-stat">
+              <span className="code-stat__icon" aria-hidden="true"><Icon size={18} /></span>
+              <div>
+                <strong>{card.value}</strong>
+                <span className="code-stat__label">{card.label}</span>
+              </div>
+            </article>
+          )
+        })}
+      </section>
+
+      {creating ? (
+        <form className="code-create" onSubmit={createCode}>
+          <div className="code-create__head">
+            <h2>Add a code</h2>
+            <p>Type the security code printed on the pack.</p>
+          </div>
+          <div className="code-create__grid">
+            <label className="admin-field admin-field--wide">
+              <span>Security code</span>
+              <input value={form.code} onChange={(event) => setField('code', event.target.value)} required placeholder="2860994911575137" inputMode="numeric" />
+            </label>
+            {createError ? <p className="admin-error admin-field--wide">{createError}</p> : null}
+            <div className="code-create__actions">
+              <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { setCreating(false); setCreateError('') }}>Cancel</button>
+              <button type="submit" className="admin-btn" disabled={saving}>{saving ? 'Saving…' : 'Add code'}</button>
+            </div>
+          </div>
+        </form>
+      ) : null}
+
+      <section className="code-panel">
+        <div className="code-toolbar">
+          <label className="code-search">
+            <Search size={16} aria-hidden="true" />
+            <input
+              value={draft}
+              onChange={(event) => onSearch(event.target.value)}
+              placeholder="Search a code"
+              aria-label="Search codes"
+            />
+          </label>
+          <div className="code-toolbar__actions">
+            <button type="button" className="admin-btn admin-btn--ghost" onClick={() => setCreating((open) => !open)}>
+              <Plus size={15} /> {creating ? 'Close' : 'New code'}
+            </button>
+            <Link className="admin-btn" to="/admin/codes/import"><Upload size={15} /> Import</Link>
+          </div>
+        </div>
+
+        {error ? <p className="admin-error code-panel__note">{error}</p> : null}
+        {actionError ? <p className="admin-error code-panel__note">{actionError}</p> : null}
+        {loading ? <p className="admin-note code-panel__note">Loading codes…</p> : null}
+
+        <div className="admin-table-wrap code-table">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Last result</th>
+                <th>Checks</th>
+                <th>Last check</th>
+                <th className="code-actions" aria-label="Delete" />
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item) => {
+                const open = openId === item.id
+                return (
+                  <Fragment key={item.id}>
+                    <tr
+                      className={open ? 'is-open' : undefined}
+                      aria-expanded={open}
+                      onClick={(event) => {
+                        if (event.target.closest('button, a, input, textarea, select')) return
+                        setOpenId(open ? null : item.id)
+                      }}
+                      tabIndex={0}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' && event.target === event.currentTarget) setOpenId(open ? null : item.id)
+                      }}
+                    >
+                      <td>
+                        <span className="code-main">
+                          <ChevronRight size={16} className={`activity-chevron${open ? ' is-open' : ''}`} aria-hidden="true" />
+                          <code className="code-chip">{item.code}</code>
+                          {item.suspicious ? <em className="admin-hot">Many checks</em> : null}
+                          {!item.isValid ? <em className="admin-hot admin-hot--off">Disabled</em> : null}
+                        </span>
+                      </td>
+                      <td><StatusMark status={item.lastStatus} /></td>
+                      <td>{formatCount(item.verificationCount)}</td>
+                      <td>{formatWhen(item.lastAttemptAt)}</td>
+                      <td className="code-actions">
+                        <button
+                          type="button"
+                          className="admin-btn admin-btn--danger"
+                          disabled={removingId === item.id}
+                          onClick={(event) => removeCode(item, event)}
+                        >
+                          {removingId === item.id ? 'Deleting…' : 'Delete'}
+                        </button>
+                      </td>
+                    </tr>
+                    {open ? (
+                      <tr className="activity-detail code-detail">
+                        <td colSpan={5}>
+                          <CodeRecord codeId={item.id} />
+                        </td>
+                      </tr>
+                    ) : null}
+                  </Fragment>
+                )
+              })}
+            </tbody>
+          </table>
+          {current && data && data.total === 0 ? (
+            <div className="code-empty">
+              <KeyRound size={22} aria-hidden="true" />
+              <strong>{query ? 'No codes match that search.' : 'No codes yet.'}</strong>
+              <span>{query ? 'Try another code, serial, or batch.' : 'Import a text file, or add one code.'}</span>
+            </div>
+          ) : null}
+        </div>
+
+        {current && data && data.total > (data.pageSize || 25) ? (
+          <div className="code-panel__foot">
+            <Pager page={page} pageSize={data.pageSize || 25} total={data.total} onPage={(next) => { setPage(next); setOpenId(null) }} />
+          </div>
+        ) : null}
+      </section>
+
+    </div>
+  )
+}

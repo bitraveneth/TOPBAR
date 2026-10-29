@@ -28,6 +28,23 @@ server {
         add_header Cache-Control "public";
     }
 
+    # Verification API (v3). Keep this process on 127.0.0.1:4000.
+    location /api/ {
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Images uploaded from the admin desk, saved under public/uploads/cms.
+    location /uploads/ {
+        alias /var/www/topbar/public/uploads/;
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
     # React Router — all unknown paths serve index.html
     location / {
         try_files $uri $uri/ /index.html;

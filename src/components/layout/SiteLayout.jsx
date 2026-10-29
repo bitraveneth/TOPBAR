@@ -38,13 +38,16 @@ function ScrollProgress() {
 }
 
 function SiteLayout() {
+  const { pathname } = useLocation()
+  const showFloats = pathname !== '/verify-products'
+
   return (
     <CmsProvider>
       <AgeGateModal />
       <ScrollToTop />
       <ScrollProgress />
-      <BackToTop />
-      <FloatingCommunityBadge />
+      {showFloats ? <BackToTop /> : null}
+      {showFloats ? <FloatingCommunityBadge /> : null}
       <Header />
       <main>
         <Outlet />

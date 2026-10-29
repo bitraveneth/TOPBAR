@@ -1,0 +1,200 @@
+/**
+ * TOPBAR
+ * Designed and developed by Alex
+ * GitHub: https://github.com/bitraveneth
+ * Contact: meetalex@protonmail.com
+ */
+import crypto from 'node:crypto'
+import prisma from './db.js'
+import { parseVerificationInput } from './parseCode.js'
+import { placeFromIp } from './place.js'
+import { verifyCopy } from '../src/lib/verifyMessages.js'
+
+const WINDOW_MS = 10 * 60 * 1000
+const LIMIT = 20
+
+function clip(value, max) {
+  return String(value || '').slice(0, max)
+}
+
+function hashIp(ip) {
+  const salt = process.env.IP_HASH_SALT || process.env.ADMIN_SESSION_SECRET || 'topbar'
+  return crypto.createHash('sha256').update(`${salt}:${ip || 'unknown'}`).digest('hex')
+}
+
+function formatVerifyDate(value) {
+  if (!value) return 'an unknown time'
+  return new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'UTC',
+  }).format(new Date(value))
+}
+
+function publicBody(result, extra) {
+  const copy = verifyCopy({
+    result,
+    code: extra.checkedCode,
+    count: extra.verificationCount,
+    firstVerifiedAt: formatVerifyDate(extra.firstVerifiedAt),
+  })
+  return { result, ...copy, ...extra }
+}
+
+function notAuthentic() {
+  return publicBody('not_authentic', {})
+}
+
+async function findCode(tx, parsed) {
+  const byCode = await tx.verificationCode.findUnique({ where: { code: parsed.code } })
+  if (byCode) return byCode
+  if (parsed.token) {
+    const byToken = await tx.verificationCode.findUnique({ where: { token: parsed.token } })
+    if (byToken) return byToken
+  }
+  if (parsed.serial) {
+    return tx.verificationCode.findUnique({ where: { serial: parsed.serial } })
+  }
+  return null
+}
+
+function attemptData(trace, extra) {
+  return {
+    ipHash: trace.ipHash,
+    userAgent: trace.userAgent,
+    country: trace.country,
+    region: trace.region,
+    ...extra,
+  }
+}
+
+async function rejectCode(tx, record, status, parsed, trace) {
+  if (record) {
+    await tx.verificationCode.update({
+      where: { id: record.id },
+      data: { attemptCount: { increment: 1 } },
+    })
+  }
+  await tx.verificationAttempt.create({
+    data: attemptData(trace, {
+      input: parsed.display,
+      status,
+      codeId: record?.id || null,
+    }),
+  })
+  return { statusCode: 200, body: notAuthentic() }
+}
+
+export async function verifyCode(raw, meta) {
+  const parsed = parseVerificationInput(raw)
+  const place = placeFromIp(meta.ip)
+  const trace = {
+    ipHash: hashIp(meta.ip),
+    userAgent: clip(meta.userAgent, 180),
+    country: place.country,
+    region: place.region,
+  }
+  const { ipHash } = trace
+  const since = new Date(Date.now() - WINDOW_MS)
+  const recent = await prisma.verificationAttempt.count({
+    where: { ipHash, createdAt: { gte: since } },
+  })
+
+  if (recent >= LIMIT) {
+    return {
+      statusCode: 429,
+      body: {
+        result: 'rate_limited',
+        title: 'Too many attempts',
+        message: 'Wait a few minutes, then try this code again.',
+      },
+    }
+  }
+
+  if (!parsed.ok) {
+    await prisma.verificationAttempt.create({
+      data: attemptData(trace, {
+        input: clip(raw, 200),
+        status: 'invalid_format',
+      }),
+    })
+    return { statusCode: 200, body: notAuthentic() }
+  }
+
+  return prisma.$transaction(async (tx) => {
+    const record = await findCode(tx, parsed)
+    const now = new Date()
+
+    if (!record) return rejectCode(tx, null, 'not_authentic', parsed, trace)
+
+    const expired = Boolean(record.expiresAt && record.expiresAt <= now)
+    if (!record.isValid || expired) {
+      return rejectCode(tx, record, record.isValid ? 'expired' : 'disabled', parsed, trace)
+    }
+
+    const claimed = await tx.verificationCode.updateMany({
+      where: {
+        id: record.id,
+        isValid: true,
+        verificationCount: 0,
+        OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
+      },
+      data: {
+        verificationCount: { increment: 1 },
+        attemptCount: { increment: 1 },
+        firstVerifiedAt: now,
+      },
+    })
+
+    if (claimed.count === 1) {
+      await tx.verificationAttempt.create({
+        data: attemptData(trace, {
+          input: parsed.display,
+          status: 'genuine_first',
+          codeId: record.id,
+        }),
+      })
+      return {
+        statusCode: 200,
+        body: publicBody('genuine', {
+          checkedAt: now.toISOString(),
+          firstVerifiedAt: now.toISOString(),
+          verificationCount: 1,
+          checkedCode: record.code,
+        }),
+      }
+    }
+
+    const fresh = await tx.verificationCode.findUnique({ where: { id: record.id } })
+    const freshExpired = Boolean(fresh?.expiresAt && fresh.expiresAt <= new Date())
+    if (!fresh || !fresh.isValid || freshExpired) {
+      return rejectCode(tx, fresh, fresh && !fresh.isValid ? 'disabled' : 'expired', parsed, trace)
+    }
+
+    const nextCount = fresh.verificationCount + 1
+    const over = nextCount > 4
+    const updated = await tx.verificationCode.update({
+      where: { id: fresh.id },
+      data: {
+        verificationCount: { increment: 1 },
+        attemptCount: { increment: 1 },
+      },
+    })
+    await tx.verificationAttempt.create({
+      data: attemptData(trace, {
+        input: parsed.display,
+        status: over ? 'over_verified' : 'already_verified',
+        codeId: fresh.id,
+      }),
+    })
+    return {
+      statusCode: 200,
+      body: publicBody(over ? 'over_verified' : 'already_verified', {
+        checkedAt: new Date().toISOString(),
+        firstVerifiedAt: updated.firstVerifiedAt ? updated.firstVerifiedAt.toISOString() : null,
+        verificationCount: updated.verificationCount,
+        checkedCode: updated.code,
+      }),
+    }
+  })
+}
