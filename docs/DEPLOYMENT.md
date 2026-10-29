@@ -1,6 +1,8 @@
 # Deploying TOPBAR on a server
 
-This site is a **static single-page app (SPA)**. You build it once on a machine with Node.js, then serve the `dist/` folder with any web server. **Node does not need to run in production** — only Nginx, Apache, or similar.
+The marketing pages are a **static single-page app**. You build them once, then Nginx serves the `dist/` folder.
+
+From **v3.0.0**, product verification and the admin desk also need a Node API and Postgres running on the server. See [Updating to v3.0.0](#updating-to-v300) and [RELEASE-v3.0.0.md](./RELEASE-v3.0.0.md).
 
 ---
 
@@ -9,7 +11,7 @@ This site is a **static single-page app (SPA)**. You build it once on a machine 
 | Requirement | Notes |
 |-------------|--------|
 | **Build machine** | Your PC, CI, or the server itself |
-| **Node.js 20+** | For `npm ci` and `npm run build` only |
+| **Node.js 20+** | Build the site, and keep the v3 verification API running |
 | **Git** | To clone/pull the repo |
 | **Web server** | Nginx (recommended), Apache, Caddy, or a static host |
 | **Domain + DNS** | A record or CNAME pointing to your server IP |
@@ -44,8 +46,8 @@ On your build machine (local PC or server):
 git clone https://github.com/bitraveneth/TOPBAR.git
 cd TOPBAR
 
-# Use the v2 release
-git checkout v2.0.0
+# Use the v3 release
+git checkout v3.0.0
 
 # Install exact dependencies and build
 npm ci
@@ -76,7 +78,7 @@ If Node is installed on the VPS:
 ```bash
 ssh user@your-server-ip
 cd /var/www/topbar   # or your deploy path
-git pull origin main   # or checkout v2.0.0
+git pull origin main   # or checkout v3.0.0
 npm ci
 npm run build
 ```
@@ -150,6 +152,21 @@ server {
         add_header Cache-Control "public";
     }
 
+    location /api/ {
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /uploads/ {
+        alias /var/www/topbar/public/uploads/;
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
     # SPA fallback — required for React Router
     location / {
         try_files $uri $uri/ /index.html;
@@ -194,18 +211,31 @@ sudo ufw enable
 
 ---
 
-## Updating after a new release
+## Updating to v3.0.0
+
+v3 adds the product check and the admin desk. The marketing pages are still the built `dist/` folder. The check itself needs the API process and a Postgres database. Full steps are in [RELEASE-v3.0.0.md](./RELEASE-v3.0.0.md).
 
 ```bash
 cd /var/www/topbar
 git fetch --tags
-git checkout v2.0.0          # or latest tag
+git checkout v3.0.0
 npm ci
+npx prisma generate
+npx prisma migrate deploy
 npm run build
-sudo systemctl reload nginx   # usually not required; new files are picked up immediately
 ```
 
-If you only upload `dist/`, rebuild locally and rsync/scp again.
+Create `.env` from `.env.example` before the first API start. Then keep this running (systemd is the usual way):
+
+```bash
+NODE_ENV=production node --env-file=.env server/index.js
+```
+
+Point Nginx `/api/` at `127.0.0.1:4000` and `/uploads/` at `public/uploads/`, using [`deploy/nginx-topbar.conf.example`](../deploy/nginx-topbar.conf.example). Then:
+
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```
 
 ---
 
@@ -243,7 +273,19 @@ For client-side routing, enable **SPA fallback** / “redirect all to index.html
 
 ## Environment variables
 
-The static storefront **does not require** `.env` at runtime. Content lives in `src/data/*.json`. Strapi/Supabase in `cms/` are optional future backends — not needed to serve the marketing site.
+From v3.0.0, copy `.env.example` to `.env` on the server and fill it in. Do not commit `.env`.
+
+| Variable | Purpose |
+|----------|---------|
+| `DATABASE_URL` | Pooled Postgres URL used by the API |
+| `DIRECT_URL` | Direct Postgres URL used by `prisma migrate deploy` |
+| `ADMIN_USERNAME` | First admin account, created once on startup |
+| `ADMIN_PASSWORD` | Password for that first account. Set a strong one before the first start. Later changes are made in the admin users page |
+| `ADMIN_SESSION_SECRET` | Signs the admin sign-in cookie. Keep it stable |
+| `IP_HASH_SALT` | Salt for hashed visitor addresses. Keep it stable |
+| `PORT` | API port, default `4000` |
+
+Set `NODE_ENV=production` when you start the API so the sign-in cookie is marked Secure.
 
 ---
 
@@ -261,7 +303,7 @@ The static storefront **does not require** `.env` at runtime. Content lives in `
 
 ## Quick checklist
 
-- [ ] `git checkout v2.0.0`
+- [ ] `git checkout v3.0.0`
 - [ ] `npm ci && npm run build`
 - [ ] `dist/` on server at Nginx `root`
 - [ ] `try_files` SPA fallback configured
@@ -271,4 +313,4 @@ The static storefront **does not require** `.env` at runtime. Content lives in `
 
 ---
 
-*See also [RELEASE-v2.0.0.md](./RELEASE-v2.0.0.md) and [project-guide.md](./project-guide.md).*
+*See also [RELEASE-v3.0.0.md](./RELEASE-v3.0.0.md) and [project-guide.md](./project-guide.md).*
