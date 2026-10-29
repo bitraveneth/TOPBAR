@@ -156,11 +156,11 @@ function VerifyProducts() {
               <h2>Verification Tips</h2>
               <ol className="verify-tips__list">
                 {[
-                  ['Use the original pack', 'Always verify from the printed package code, not from screenshots or edited images.'],
-                  ['Check label details', 'Match the product name, flavor, and puff series with the packaging you purchased.'],
-                  ['Use this page', 'Enter the code on the official TOPBAR verify page, not a link someone sent you.'],
+                  ['Scratch the panel', 'Scratch the coating on your TOPBAR pack. The security code is printed underneath.'],
+                  ['Enter 16 digits', 'Type all 16 numbers from the pack. Do not skip or add any digits.'],
+                  ['Use the original pack', 'Enter the code from the pack in your hand, not from a photo or a message.'],
                   ['Read the result', 'A first check confirms the pack. If it was already verified, contact your retailer before use.'],
-                  ['Need help?', 'If the code looks damaged or unreadable, contact the TOPBAR support team before using the product.'],
+                  ['Need help?', 'If the coating will not scratch cleanly or digits are missing, contact TOPBAR support before use.'],
                 ].map(([title, text], index) => (
                   <li key={title} className="verify-tip">
                     <span className="verify-tip__mark" aria-hidden="true">{index + 1}</span>
