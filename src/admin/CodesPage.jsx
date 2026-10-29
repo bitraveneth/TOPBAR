@@ -123,7 +123,7 @@ export default function CodesPage() {
       <header className="admin-page__head">
         <div>
           <h1>Codes</h1>
-          <p>Open a code to see its link, check history, and settings. The rest of the list stays on the page.</p>
+          <p>Open a code to see its check history and settings. Customers type the number. They do not need a link.</p>
         </div>
       </header>
 
@@ -146,12 +146,12 @@ export default function CodesPage() {
         <form className="code-create" onSubmit={createCode}>
           <div className="code-create__head">
             <h2>Add a code</h2>
-            <p>Paste a scratch code, a serial, or a full verify link.</p>
+            <p>Type the security code printed on the pack.</p>
           </div>
           <div className="code-create__grid">
             <label className="admin-field">
-              <span>Code or verify link</span>
-              <input value={form.code} onChange={(event) => setField('code', event.target.value)} required placeholder="ATBRGB7P" />
+              <span>Security code</span>
+              <input value={form.code} onChange={(event) => setField('code', event.target.value)} required placeholder="2860994911575137" inputMode="numeric" />
             </label>
             <label className="admin-field">
               <span>Serial</span>

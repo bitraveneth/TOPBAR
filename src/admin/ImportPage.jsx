@@ -28,10 +28,9 @@ const SAMPLE_CODES = [
 ]
 
 const FORMATS = [
-  { label: 'Verify link', example: '…/verify-products?t=517500000101-MINT4K2P' },
-  { label: 'Serial and code', example: '517500000101-MINT4K2P' },
-  { label: 'Scratch code', example: 'MINT4K2P' },
-  { label: 'CSV row', example: '517500000101,MINT4K2P' },
+  { label: 'Security code', example: '2860994911575137' },
+  { label: 'Text file', example: 'One code on each line' },
+  { label: 'Sheet row', example: 'https://www.topbarvape.com?2860994911575137,2860994911575137' },
 ]
 
 function readFile(file) {
@@ -135,7 +134,7 @@ export default function ImportPage() {
       <header className="admin-page__head">
         <div>
           <h1>Import</h1>
-          <p>Add codes from a text file. Nothing is saved until you confirm the preview.</p>
+          <p>Upload a .txt file with one security code on each line. Nothing is saved until you confirm the preview.</p>
         </div>
       </header>
 

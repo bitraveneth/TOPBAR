@@ -69,12 +69,12 @@ function VerifyProducts() {
     {
       icon: ScanSearch,
       title: 'Find The Code',
-      desc: 'Locate the security or scratch code on your TOPBAR product packaging.',
+      desc: 'Find the long security number printed on your TOPBAR pack.',
     },
     {
       icon: ShieldCheck,
       title: 'Enter For Check',
-      desc: 'Input the full code below exactly as it appears on the pack.',
+      desc: 'Type the full number below. You do not need a link.',
     },
     {
       icon: PackageCheck,
@@ -117,7 +117,7 @@ function VerifyProducts() {
                 <h2 className="verify-panel__title">Verify Your Code</h2>
               </div>
               <p className="verify-panel__lead">
-                Enter the scratch code from your TOPBAR pack. Scanning the pack opens this page and checks the code for you.
+                Type the security code from your TOPBAR pack. It is the long number on the label.
               </p>
 
               <form className="support-form verify-panel__form" onSubmit={handleSubmit}>
@@ -128,7 +128,8 @@ function VerifyProducts() {
                     type="text"
                     value={code}
                     onChange={(event) => setCode(event.target.value)}
-                    placeholder="ATBRGB7P or paste the verify link"
+                    placeholder="2860994911575137"
+                    inputMode="numeric"
                     autoComplete="off"
                     autoCapitalize="characters"
                     spellCheck={false}

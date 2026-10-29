@@ -26,6 +26,30 @@ test('reads a verify link, a token, and a scratch code', () => {
   assert.equal(loose.code, 'COKE1234')
 })
 
+test('reads a 16-digit security code without a link', () => {
+  const typed = parseVerificationInput('2860994911575137')
+  assert.equal(typed.ok, true)
+  assert.equal(typed.code, '2860994911575137')
+  assert.equal(typed.serial, '2860994911575137')
+
+  const fromLink = parseVerificationInput('https://www.topbarvape.com?2860994911575137')
+  assert.equal(fromLink.code, '2860994911575137')
+
+  const sheet = [
+    '二维码,防伪码,',
+    'https://www.topbarvape.com?2860106339932431,2860106339932431',
+    '2860592586370971',
+    '2860836400377021',
+  ].join('\n')
+  const parsed = parseImportText(sheet)
+  assert.equal(parsed.invalid, 0)
+  assert.deepEqual(parsed.rows.map((row) => row.code), [
+    '2860106339932431',
+    '2860592586370971',
+    '2860836400377021',
+  ])
+})
+
 test('rejects empty and unreadable lines', () => {
   assert.equal(parseVerificationInput('   ').ok, false)
   assert.equal(parseVerificationInput('ab').ok, false)

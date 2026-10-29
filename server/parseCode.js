@@ -8,7 +8,19 @@
 const CODE_RE = /^[A-Z0-9]{4,32}$/
 const SERIAL_RE = /^\d{4,24}$/
 const TOKEN_RE = /^(\d{4,24})-([A-Z0-9]{4,32})$/
-const HEADER_WORDS = new Set(['code', 'serial', 'token', 'url', 'link', 'verify', 'verification'])
+const HEADER_WORDS = new Set([
+  'code',
+  'serial',
+  'token',
+  'url',
+  'link',
+  'verify',
+  'verification',
+  '二维码',
+  '防伪码',
+  'qr',
+  'qrcode',
+])
 
 function compact(value) {
   return String(value ?? '').trim().replace(/\s+/g, '')
@@ -20,11 +32,23 @@ function clip(value, max = 120) {
   return `${text.slice(0, max)}…`
 }
 
+function bareQuery(search) {
+  const raw = String(search || '').replace(/^\?/, '')
+  if (!raw || raw.includes('=') || raw.includes('&') || raw.includes(',')) return ''
+  return raw
+}
+
+function codeFromUrl(value) {
+  const url = new URL(value)
+  return url.searchParams.get('t') || url.searchParams.get('code') || bareQuery(url.search) || ''
+}
+
 function fromQuery(value) {
   const queryIndex = value.indexOf('?')
   if (queryIndex === -1) return ''
-  const params = new URLSearchParams(value.slice(queryIndex + 1))
-  return params.get('t') || params.get('code') || ''
+  const query = value.slice(queryIndex)
+  const params = new URLSearchParams(query)
+  return params.get('t') || params.get('code') || bareQuery(query) || ''
 }
 
 function asRecord(code, serial) {
@@ -45,12 +69,11 @@ export function parseVerificationInput(raw) {
   let token = compactValue
   if (/^https?:\/\//i.test(compactValue)) {
     try {
-      const url = new URL(compactValue)
-      token = url.searchParams.get('t') || url.searchParams.get('code') || ''
+      token = codeFromUrl(compactValue)
     } catch {
       return { ok: false, reason: 'That link could not be read.' }
     }
-    if (!token) return { ok: false, reason: 'Link is missing a t or code parameter.' }
+    if (!token) return { ok: false, reason: 'That link has no security code.' }
     token = compact(token)
   } else if (compactValue.includes('?')) {
     const loose = fromQuery(compactValue)
@@ -73,8 +96,10 @@ function splitCells(line) {
 }
 
 function isHeader(line) {
-  const cells = splitCells(line).map((cell) => cell.toLowerCase())
-  return cells.length > 0 && cells.every((cell) => HEADER_WORDS.has(cell))
+  const cells = splitCells(line).map((cell) => cell.toLowerCase().replace(/\s+/g, ''))
+  if (!cells.length) return false
+  if (cells.every((cell) => HEADER_WORDS.has(cell))) return true
+  return cells.some((cell) => cell.includes('二维码') || cell.includes('防伪码'))
 }
 
 function parseCells(line) {
@@ -91,10 +116,31 @@ function parseCells(line) {
   return { ok: false, reason: 'Could not tell the code from the serial.' }
 }
 
+function cellCode(cell) {
+  const text = compact(cell)
+  if (!text) return ''
+  if (/^https?:\/\//i.test(text) || text.includes('?')) {
+    try {
+      return compact(/^https?:\/\//i.test(text) ? codeFromUrl(text) : fromQuery(text))
+    } catch {
+      return ''
+    }
+  }
+  return text
+}
+
 export function parseImportLine(line) {
-  if (/^https?:\/\//i.test(line) || line.includes('?')) return parseVerificationInput(line)
-  if (/[,\t]/.test(line)) return parseCells(line)
-  return parseVerificationInput(line)
+  const trimmed = line.trim()
+  if (/[,\t]/.test(trimmed)) {
+    const cells = splitCells(trimmed)
+    const codes = cells.map(cellCode).filter(Boolean)
+    const sameNumber = codes.length >= 2 && codes.every((item) => item.toUpperCase() === codes[0].toUpperCase())
+    if (sameNumber) return parseVerificationInput(codes[0])
+    if (!/^https?:\/\//i.test(trimmed) && !trimmed.includes('?')) return parseCells(trimmed)
+    const securityCode = codes.at(-1)
+    if (securityCode) return parseVerificationInput(securityCode)
+  }
+  return parseVerificationInput(trimmed)
 }
 
 export function parseImportText(text) {
