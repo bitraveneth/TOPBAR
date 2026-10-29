@@ -10114,7 +10114,7 @@ p { color: var(--text-secondary); }
   min-height: 640px;
   padding: 3.2rem 2.8rem;
   border-radius: 28px;
-  text-align: left;
+  text-align: center;
   border-color: color-mix(in srgb, var(--accent) 32%, var(--border));
   background:
     radial-gradient(90% 70% at 100% 0%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 58%),
@@ -10122,7 +10122,7 @@ p { color: var(--text-secondary); }
 }
 .verify-panel__head {
   display: grid;
-  justify-items: start;
+  justify-items: center;
   gap: 0.65rem;
   margin-bottom: 1.1rem;
 }
@@ -10161,7 +10161,7 @@ p { color: var(--text-secondary); }
 .verify-panel .form-field label {
   font-size: 0.95rem;
   letter-spacing: 0.04em;
-  text-align: left;
+  text-align: center;
 }
 .verify-panel .form-field input {
   width: 100%;
@@ -10171,7 +10171,7 @@ p { color: var(--text-secondary); }
   font-size: 1.12rem;
   line-height: 1.2;
   border-radius: 16px;
-  text-align: left;
+  text-align: center;
 }
 .verify-panel .btn-primary {
   width: 100%;
