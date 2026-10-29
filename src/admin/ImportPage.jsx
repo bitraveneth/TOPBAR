@@ -11,26 +11,9 @@ import { adminFetch } from '../lib/adminApi'
 import { formatCount, formatWhen } from '../lib/verifyFormat'
 import MetricStrip from './MetricStrip'
 
-const SAMPLE_TEXT = [
-  'https://topbar.example/verify-products?t=517500000101-MINT4K2P',
-  'https://topbar.example/verify-products?t=517500000102-PEACH8K1',
-  'https://topbar.example/verify-products?t=517500000103-COLA9X2Q',
-  'https://topbar.example/verify-products?t=517500000104-BERRY6K3',
-  'https://topbar.example/verify-products?t=517500000105-GUMMY7K4',
-].join('\n')
-
-const SAMPLE_CODES = [
-  { code: 'MINT4K2P', note: 'First scan should say genuine' },
-  { code: 'PEACH8K1', note: 'Already checked once' },
-  { code: 'COLA9X2Q', note: 'First scan should say genuine' },
-  { code: 'BERRY6K3', note: 'Disabled, so the public check says not authentic' },
-  { code: 'GUMMY7K4', note: 'First scan should say genuine' },
-]
-
 const FORMATS = [
   { label: 'Security code', example: '2860994911575137' },
   { label: 'Text file', example: 'One code on each line' },
-  { label: 'Sheet row', example: 'https://www.topbarvape.com?2860994911575137,2860994911575137' },
 ]
 
 function readFile(file) {
@@ -239,7 +222,7 @@ export default function ImportPage() {
           </button>
           <button type="button" className={mode === 'update' ? 'import-mode is-selected' : 'import-mode'} onClick={() => setMode('update')}>
             <strong>Refresh labels</strong>
-            <span>Update serial, link, and batch. Check counts stay as they are.</span>
+            <span>Update the saved label for codes already in the list. Check counts stay as they are.</span>
           </button>
         </div>
         <div className="import-actions">
@@ -296,24 +279,6 @@ export default function ImportPage() {
           </button>
         </section>
       ) : null}
-
-      <section className="import-sample">
-        <div>
-          <h2>Sample pack</h2>
-          <p>Five codes are ready to try on the public check. Open one, or load the same file here again.</p>
-        </div>
-        <ul>
-          {SAMPLE_CODES.map((item) => (
-            <li key={item.code}>
-              <Link to={`/verify-products?code=${item.code}`} target="_blank" rel="noreferrer">{item.code}</Link>
-              <span>{item.note}</span>
-            </li>
-          ))}
-        </ul>
-        <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { setBatchLabel('sample'); openText(SAMPLE_TEXT, 'sample-codes.txt') }}>
-          Load sample file
-        </button>
-      </section>
 
       <section className="admin-history">
         <h2>Recent imports</h2>

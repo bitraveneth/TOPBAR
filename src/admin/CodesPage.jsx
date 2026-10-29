@@ -13,7 +13,7 @@ import { CodeRecord } from './CodeDrawer'
 import Pager from './Pager'
 import StatusMark from './StatusMark'
 
-const emptyForm = { code: '', serial: '', batchLabel: '', notes: '', expiresAt: '' }
+const emptyForm = { code: '' }
 
 export default function CodesPage() {
   const navigate = useNavigate()
@@ -89,13 +89,7 @@ export default function CodesPage() {
     try {
       await adminFetch('/api/admin/codes', {
         method: 'POST',
-        body: JSON.stringify({
-          code: form.code,
-          serial: form.serial,
-          batchLabel: form.batchLabel,
-          notes: form.notes,
-          expiresAt: form.expiresAt || null,
-        }),
+        body: JSON.stringify({ code: form.code }),
       })
       setForm(emptyForm)
       setCreating(false)
@@ -123,7 +117,7 @@ export default function CodesPage() {
       <header className="admin-page__head">
         <div>
           <h1>Codes</h1>
-          <p>Open a code to see its check history and settings. Customers type the number. They do not need a link.</p>
+          <p>Open a code to see how many times it was checked.</p>
         </div>
       </header>
 
@@ -149,25 +143,9 @@ export default function CodesPage() {
             <p>Type the security code printed on the pack.</p>
           </div>
           <div className="code-create__grid">
-            <label className="admin-field">
+            <label className="admin-field admin-field--wide">
               <span>Security code</span>
               <input value={form.code} onChange={(event) => setField('code', event.target.value)} required placeholder="2860994911575137" inputMode="numeric" />
-            </label>
-            <label className="admin-field">
-              <span>Serial</span>
-              <input value={form.serial} onChange={(event) => setField('serial', event.target.value)} inputMode="numeric" placeholder="Optional" />
-            </label>
-            <label className="admin-field">
-              <span>Batch</span>
-              <input value={form.batchLabel} onChange={(event) => setField('batchLabel', event.target.value)} placeholder="Optional" />
-            </label>
-            <label className="admin-field">
-              <span>Expires</span>
-              <input type="datetime-local" value={form.expiresAt} onChange={(event) => setField('expiresAt', event.target.value)} />
-            </label>
-            <label className="admin-field admin-field--wide">
-              <span>Notes</span>
-              <input value={form.notes} onChange={(event) => setField('notes', event.target.value)} placeholder="Optional" />
             </label>
             {createError ? <p className="admin-error admin-field--wide">{createError}</p> : null}
             <div className="code-create__actions">
@@ -185,7 +163,7 @@ export default function CodesPage() {
             <input
               value={draft}
               onChange={(event) => onSearch(event.target.value)}
-              placeholder="Search code, serial, or batch"
+              placeholder="Search a code"
               aria-label="Search codes"
             />
           </label>
@@ -206,8 +184,6 @@ export default function CodesPage() {
             <thead>
               <tr>
                 <th>Code</th>
-                <th>Serial</th>
-                <th>Batch</th>
                 <th>Last result</th>
                 <th>Checks</th>
                 <th>Last check</th>
@@ -239,8 +215,6 @@ export default function CodesPage() {
                           {!item.isValid ? <em className="admin-hot admin-hot--off">Disabled</em> : null}
                         </span>
                       </td>
-                      <td className="code-serial">{item.serial || '—'}</td>
-                      <td>{item.batchLabel || '—'}</td>
                       <td><StatusMark status={item.lastStatus} /></td>
                       <td>{formatCount(item.verificationCount)}</td>
                       <td>{formatWhen(item.lastAttemptAt)}</td>
@@ -257,11 +231,8 @@ export default function CodesPage() {
                     </tr>
                     {open ? (
                       <tr className="activity-detail code-detail">
-                        <td colSpan={7}>
-                          <CodeRecord
-                            codeId={item.id}
-                            onSaved={() => setRevision((value) => value + 1)}
-                          />
+                        <td colSpan={5}>
+                          <CodeRecord codeId={item.id} />
                         </td>
                       </tr>
                     ) : null}

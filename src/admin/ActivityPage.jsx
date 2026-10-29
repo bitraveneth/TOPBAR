@@ -231,7 +231,6 @@ export default function ActivityPage() {
         <CodeDrawer
           codeId={selection.codeId}
           onClose={() => setSelection(null)}
-          onSaved={() => setSelection(null)}
         />
       ) : null}
     </div>
