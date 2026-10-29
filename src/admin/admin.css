@@ -447,6 +447,53 @@ html:has(.admin-login) body,
   background: #243024;
   color: #f4f7f2;
 }
+.import-progress {
+  width: min(420px, 100%);
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
+}
+.import-progress span {
+  color: var(--accent);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+.import-progress__track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #1c261c;
+}
+.import-progress__bar {
+  width: 38%;
+  height: 100%;
+  border-radius: inherit;
+  background: #ccff00;
+  animation: import-slide 1s ease-in-out infinite;
+}
+@keyframes import-slide {
+  from { transform: translateX(-130%); }
+  to { transform: translateX(320%); }
+}
+.import-result {
+  display: grid;
+  justify-items: start;
+  gap: 0.45rem;
+  margin: 0 0 1rem;
+  padding: 1.1rem 1.15rem;
+  border-radius: 20px;
+  border: 1px solid rgba(204, 255, 0, 0.5);
+  background: rgba(204, 255, 0, 0.1);
+}
+.import-result h2 { margin: 0; color: #f4ffe0; }
+.import-result p { margin: 0; color: #e7f6d8; }
+.import-result--bad {
+  border-color: rgba(255, 107, 107, 0.55);
+  background: rgba(255, 107, 107, 0.1);
+}
+.import-result--bad h2,
+.import-result--bad p { color: #ffd0d0; }
+.import-pending { margin: 0 0 0.8rem; color: var(--text-primary); }
 .import-formats {
   border: 1px solid var(--line);
   border-radius: 24px;

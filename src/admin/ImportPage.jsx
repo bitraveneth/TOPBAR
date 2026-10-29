@@ -4,7 +4,7 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FileUp, X } from 'lucide-react'
 import { adminFetch } from '../lib/adminApi'
@@ -51,11 +51,14 @@ export default function ImportPage() {
   const [dragging, setDragging] = useState(false)
   const [preview, setPreview] = useState(null)
   const [previewText, setPreviewText] = useState('')
-  const [busy, setBusy] = useState(false)
+  const [phase, setPhase] = useState('idle')
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('')
+  const [result, setResult] = useState(null)
   const [imports, setImports] = useState([])
   const [revision, setRevision] = useState(0)
+  const fileInput = useRef(null)
+  const request = useRef(0)
+  const busy = phase === 'reading' || phase === 'checking' || phase === 'saving'
 
   useEffect(() => {
     let cancelled = false
@@ -68,62 +71,99 @@ export default function ImportPage() {
     return () => { cancelled = true }
   }, [navigate, revision])
 
-  function loadText(contents, name) {
+  async function openText(contents, name) {
+    const id = request.current + 1
+    request.current = id
     setError('')
-    setNotice('')
+    setResult(null)
     setPreview(null)
     setPreviewText('')
     setText(contents)
     setFilename(name)
+    setPhase('checking')
+    try {
+      const summary = await adminFetch('/api/admin/imports/preview', {
+        method: 'POST',
+        body: JSON.stringify({ text: contents, filename: name }),
+      })
+      if (request.current !== id) return
+      setPreview(summary)
+      setPreviewText(contents)
+      setPhase('ready')
+    } catch (err) {
+      if (request.current !== id) return
+      if (err.status === 401) navigate('/admin/login', { replace: true })
+      else {
+        setError(err.message)
+        setPhase('failed')
+      }
+    }
   }
 
   async function takeFile(file) {
     if (!file) return
+    setPhase('reading')
+    setError('')
+    setResult(null)
     try {
-      loadText(await readFile(file), file.name)
+      const contents = await readFile(file)
+      if (fileInput.current) fileInput.current.value = ''
+      await openText(contents, file.name)
     } catch (err) {
       setError(err.message)
+      setPhase('failed')
     }
   }
 
-  async function runPreview() {
-    setBusy(true)
+  function clearFile() {
     setError('')
-    setNotice('')
-    try {
-      const summary = await adminFetch('/api/admin/imports/preview', {
-        method: 'POST',
-        body: JSON.stringify({ text, filename }),
-      })
-      setPreview(summary)
-      setPreviewText(text)
-    } catch (err) {
-      if (err.status === 401) navigate('/admin/login', { replace: true })
-      else setError(err.message)
-    } finally {
-      setBusy(false)
-    }
+    setResult(null)
+    setPreview(null)
+    setPreviewText('')
+    setText('')
+    setFilename('')
+    setPhase('idle')
+    if (fileInput.current) fileInput.current.value = ''
   }
 
   async function runImport() {
-    setBusy(true)
+    setPhase('saving')
     setError('')
     try {
       const record = await adminFetch('/api/admin/imports', {
         method: 'POST',
         body: JSON.stringify({ text, filename, mode, batchLabel }),
       })
-      setNotice(`Saved ${formatCount(record.inserted)} new codes${record.updated ? ` and refreshed ${formatCount(record.updated)}` : ''}.`)
+      const added = record.inserted > 0
+      const refreshed = record.updated > 0
+      setResult(added || refreshed ? {
+        ok: true,
+        title: 'Import successful',
+        message: [
+          added ? `${formatCount(record.inserted)} new codes are saved.` : 'No new codes were added.',
+          refreshed ? `${formatCount(record.updated)} existing codes were refreshed.` : '',
+          record.skipped ? `${formatCount(record.skipped)} lines were skipped.` : '',
+          'Open Codes to see them.',
+        ].filter(Boolean).join(' '),
+      } : {
+        ok: false,
+        title: record.invalid ? 'Nothing was saved' : 'Already imported',
+        message: record.invalid
+          ? `${formatCount(record.invalid)} lines could not be read, so no codes were added.`
+          : 'These codes are already saved. Nothing new was added.',
+      })
       setPreview(null)
       setPreviewText('')
       setText('')
       setFilename('')
+      setPhase(added || refreshed ? 'done' : 'failed')
       setRevision((value) => value + 1)
     } catch (err) {
       if (err.status === 401) navigate('/admin/login', { replace: true })
-      else setError(err.message)
-    } finally {
-      setBusy(false)
+      else {
+        setError(err.message)
+        setPhase('failed')
+      }
     }
   }
 
@@ -155,6 +195,7 @@ export default function ImportPage() {
           <label className="admin-btn">
             Choose file
             <input
+              ref={fileInput}
               type="file"
               accept=".txt,.csv,text/plain,text/csv"
               onChange={(event) => takeFile(event.target.files?.[0])}
@@ -164,8 +205,16 @@ export default function ImportPage() {
             <p className="import-file">
               <span>{filename}</span>
               <span>{formatCount(text.split(/\r?\n/).filter((line) => line.trim()).length)} lines</span>
-              <button type="button" aria-label="Remove file" onClick={() => loadText('', '')}><X size={14} /></button>
+              <button type="button" aria-label="Remove file" onClick={clearFile}><X size={14} /></button>
             </p>
+          ) : null}
+          {phase === 'reading' || phase === 'checking' || phase === 'saving' ? (
+            <div className="import-progress" role="status" aria-live="polite">
+              <span>{phase === 'reading' ? 'Reading your file…' : phase === 'saving' ? 'Saving codes…' : 'Checking codes…'}</span>
+              <div className="import-progress__track" aria-hidden="true">
+                <div className="import-progress__bar" />
+              </div>
+            </div>
           ) : null}
         </div>
 
@@ -198,18 +247,28 @@ export default function ImportPage() {
             <span>Batch label</span>
             <input value={batchLabel} onChange={(event) => setBatchLabel(event.target.value)} placeholder="June allocation" maxLength={80} />
           </label>
-          <button type="button" className="admin-btn" disabled={busy || !text.trim()} onClick={runPreview}>
-            {busy ? 'Working…' : 'Preview file'}
-          </button>
         </div>
       </section>
 
       {error ? <p className="admin-error">{error}</p> : null}
-      {notice ? <p className="admin-note">{notice}</p> : null}
+      {result ? (
+        <section className={result.ok ? 'import-result' : 'import-result import-result--bad'} role="status">
+          <h2>{result.title}</h2>
+          <p>{result.message}</p>
+          <Link className="admin-btn" to="/admin/codes">View codes</Link>
+        </section>
+      ) : null}
 
       {previewReady ? (
-        <section className="admin-preview">
-          <h2>Preview</h2>
+        <section className="admin-preview" role="status">
+          <h2>{preview.newCodes ? 'File checked' : 'Nothing new in this file'}</h2>
+          <p className="import-pending">
+            {preview.newCodes
+              ? `${formatCount(preview.newCodes)} codes can be saved. They are not in the list until you press Save codes now.`
+              : preview.existing
+                ? `${formatCount(preview.existing)} codes are already saved.`
+                : `${formatCount(preview.invalid)} lines could not be read.`}
+          </p>
           <MetricStrip items={[
             { label: 'New', value: formatCount(preview.newCodes) },
             { label: 'Already here', value: formatCount(preview.existing) },
@@ -223,10 +282,17 @@ export default function ImportPage() {
               ))}
             </ul>
           ) : null}
-          <button type="button" className="admin-btn" disabled={busy} onClick={runImport}>
-            {mode === 'update'
-              ? `Save ${formatCount(preview.newCodes)} and refresh ${formatCount(preview.existing)}`
-              : `Save ${formatCount(preview.newCodes)} codes`}
+          <button
+            type="button"
+            className="admin-btn"
+            disabled={busy || (mode === 'skip' ? preview.newCodes === 0 : preview.newCodes === 0 && preview.existing === 0)}
+            onClick={runImport}
+          >
+            {phase === 'saving'
+              ? 'Saving codes…'
+              : mode === 'update'
+                ? `Save codes now (${formatCount(preview.newCodes)} new, ${formatCount(preview.existing)} refresh)`
+                : `Save codes now (${formatCount(preview.newCodes)})`}
           </button>
         </section>
       ) : null}
@@ -244,7 +310,7 @@ export default function ImportPage() {
             </li>
           ))}
         </ul>
-        <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { loadText(SAMPLE_TEXT, 'sample-codes.txt'); setBatchLabel('sample') }}>
+        <button type="button" className="admin-btn admin-btn--ghost" onClick={() => { setBatchLabel('sample'); openText(SAMPLE_TEXT, 'sample-codes.txt') }}>
           Load sample file
         </button>
       </section>
