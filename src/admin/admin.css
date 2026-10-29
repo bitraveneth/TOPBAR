@@ -22,6 +22,34 @@
 .admin-shell p,
 .admin-login p { color: var(--text-secondary); }
 
+html:has(.admin-shell),
+html:has(.admin-login),
+html:has(.admin-shell) body,
+html:has(.admin-login) body,
+.admin-shell,
+.admin-login,
+.admin-shell *,
+.admin-login * {
+  cursor: auto;
+}
+
+.admin-shell :is(a, button, summary, select, [role='button']),
+.admin-login :is(a, button, summary, select, [role='button']),
+.admin-shell :is(input[type='checkbox'], input[type='radio'], input[type='file'], input[type='submit'], input[type='button'], input[type='reset']),
+.admin-login :is(input[type='checkbox'], input[type='radio'], input[type='file'], input[type='submit'], input[type='button'], input[type='reset']) {
+  cursor: pointer;
+}
+
+.admin-shell :is(input:not([type]), input[type='text'], input[type='search'], input[type='password'], input[type='email'], input[type='url'], input[type='number'], input[type='tel'], input[type='date'], textarea),
+.admin-login :is(input:not([type]), input[type='text'], input[type='search'], input[type='password'], input[type='email'], input[type='url'], input[type='number'], input[type='tel'], input[type='date'], textarea) {
+  cursor: text;
+}
+
+.admin-shell :disabled,
+.admin-login :disabled {
+  cursor: not-allowed;
+}
+
 .admin-shell { display: grid; grid-template-columns: 228px minmax(0, 1fr); }
 .admin-shell--center {
   display: grid;
