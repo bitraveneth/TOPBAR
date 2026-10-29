@@ -458,6 +458,19 @@ export function adminRouter() {
     res.json({ items })
   }))
 
+  router.delete('/imports/:id', asyncRoute(async (req, res) => {
+    try {
+      await prisma.verificationImport.delete({ where: { id: req.params.id } })
+      res.json({ ok: true })
+    } catch (error) {
+      if (error?.code === 'P2025') {
+        res.status(404).json({ error: 'Import not found.' })
+        return
+      }
+      throw error
+    }
+  }))
+
   return router
 }
 

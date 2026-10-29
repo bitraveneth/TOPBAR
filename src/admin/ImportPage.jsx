@@ -35,6 +35,7 @@ export default function ImportPage() {
   const [preview, setPreview] = useState(null)
   const [previewText, setPreviewText] = useState('')
   const [phase, setPhase] = useState('idle')
+  const [removingId, setRemovingId] = useState('')
   const [error, setError] = useState('')
   const [result, setResult] = useState(null)
   const [imports, setImports] = useState([])
@@ -95,6 +96,21 @@ export default function ImportPage() {
     } catch (err) {
       setError(err.message)
       setPhase('failed')
+    }
+  }
+
+  async function removeImport(item) {
+    if (!window.confirm(`Delete the import record for ${item.filename}? Codes already saved stay in the list.`)) return
+    setRemovingId(item.id)
+    setError('')
+    try {
+      await adminFetch(`/api/admin/imports/${item.id}`, { method: 'DELETE' })
+      setImports((current) => current.filter((row) => row.id !== item.id))
+    } catch (err) {
+      if (err.status === 401) navigate('/admin/login', { replace: true })
+      else setError(err.message)
+    } finally {
+      setRemovingId('')
     }
   }
 
@@ -293,6 +309,7 @@ export default function ImportPage() {
                 <th>Skipped</th>
                 <th>Bad rows</th>
                 <th>When</th>
+                <th className="code-actions" aria-label="Delete" />
               </tr>
             </thead>
             <tbody>
@@ -305,6 +322,16 @@ export default function ImportPage() {
                   <td>{formatCount(item.skipped)}</td>
                   <td>{formatCount(item.invalid)}</td>
                   <td>{formatWhen(item.createdAt)}</td>
+                  <td className="code-actions">
+                    <button
+                      type="button"
+                      className="admin-btn admin-btn--danger"
+                      disabled={removingId === item.id}
+                      onClick={() => removeImport(item)}
+                    >
+                      {removingId === item.id ? 'Deleting…' : 'Delete'}
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
