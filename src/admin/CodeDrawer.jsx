@@ -4,7 +4,7 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { adminFetch } from '../lib/adminApi'
 import { formatWhen, toLocalInput } from '../lib/verifyFormat'
 import StatusMark from './StatusMark'
@@ -53,6 +53,7 @@ function CodeForm({ detail, onSaved }) {
 
   return (
     <>
+      <div className="code-record__main">
       <dl className="admin-facts">
         <div><dt>Serial</dt><dd>{detail.serial || '—'}</dd></div>
         <div><dt>Checks</dt><dd>{detail.verificationCount}</dd></div>
@@ -96,33 +97,56 @@ function CodeForm({ detail, onSaved }) {
         {error ? <p className="admin-error">{error}</p> : null}
         <button type="submit" className="admin-btn" disabled={saving}>{saving ? 'Saving…' : 'Save changes'}</button>
       </form>
+      </div>
 
-      <h3>Check history</h3>
-      {detail.attempts?.length ? (
-        <ol className="admin-timeline">
-          {detail.attempts.map((attempt) => (
-            <li key={attempt.id}>
-              <StatusMark status={attempt.status} />
-              <time dateTime={attempt.createdAt}>{formatWhen(attempt.createdAt)}</time>
-              <code>{attempt.input}</code>
-            </li>
-          ))}
-        </ol>
-      ) : <p>No checks yet.</p>}
+      <div className="code-record__history">
+        <h3>Check history</h3>
+        {detail.attempts?.length ? (
+          <ol className="admin-timeline">
+            {detail.attempts.map((attempt) => (
+              <li key={attempt.id}>
+                <StatusMark status={attempt.status} />
+                <time dateTime={attempt.createdAt}>{formatWhen(attempt.createdAt)}</time>
+                <code>{attempt.input}</code>
+              </li>
+            ))}
+          </ol>
+        ) : <p>No checks yet.</p>}
+      </div>
     </>
   )
 }
 
-export default function CodeDrawer({ codeId, orphan, onClose, onSaved }) {
+export function CodeRecord({ codeId, onSaved, onReady }) {
   const [panel, setPanel] = useState({ id: '', detail: null, error: '' })
 
   useEffect(() => {
     if (!codeId) return undefined
     let cancelled = false
     adminFetch(`/api/admin/codes/${codeId}`)
-      .then((detail) => { if (!cancelled) setPanel({ id: codeId, detail, error: '' }) })
+      .then((detail) => {
+        if (cancelled) return
+        setPanel({ id: codeId, detail, error: '' })
+        onReady?.(detail.code)
+      })
       .catch((error) => { if (!cancelled) setPanel({ id: codeId, detail: null, error: error.message }) })
     return () => { cancelled = true }
+  }, [codeId, onReady])
+
+  if (panel.id !== codeId) return <p className="admin-note">Opening this code…</p>
+  if (panel.error) return <p className="admin-error">{panel.error}</p>
+  return (
+    <div className="code-record">
+      <CodeForm detail={panel.detail} onSaved={onSaved} />
+    </div>
+  )
+}
+
+export default function CodeDrawer({ codeId, orphan, onClose, onSaved }) {
+  const [title, setTitle] = useState({ id: codeId, text: '' })
+  const heading = title.id === codeId ? title.text : ''
+  const onReady = useCallback((next) => {
+    setTitle({ id: codeId, text: next })
   }, [codeId])
 
   useEffect(() => {
@@ -133,8 +157,6 @@ export default function CodeDrawer({ codeId, orphan, onClose, onSaved }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  const loading = Boolean(codeId) && panel.id !== codeId
-
   return (
     <div className="admin-drawer-root">
       <button type="button" className="admin-drawer-backdrop" aria-label="Close details" onClick={onClose} />
@@ -142,16 +164,12 @@ export default function CodeDrawer({ codeId, orphan, onClose, onSaved }) {
         <header className="admin-drawer__head">
           <div>
             <p className="admin-kicker">Security code</p>
-            <h2 id="code-drawer-title">{panel.detail?.code || orphan?.input || 'Details'}</h2>
+            <h2 id="code-drawer-title">{heading || orphan?.input || 'Details'}</h2>
           </div>
           <button type="button" className="admin-btn admin-btn--ghost" onClick={onClose}>Close</button>
         </header>
 
-        {loading ? <p>Loading history…</p> : null}
-        {panel.error ? <p className="admin-error">{panel.error}</p> : null}
-        {panel.detail && panel.id === codeId ? (
-          <CodeForm key={panel.detail.id} detail={panel.detail} onSaved={onSaved} />
-        ) : null}
+        {codeId ? <CodeRecord codeId={codeId} onSaved={onSaved} onReady={onReady} /> : null}
         {!codeId && orphan ? (
           <div>
             <StatusMark status={orphan.status} />

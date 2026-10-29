@@ -4,12 +4,12 @@
  * GitHub: https://github.com/bitraveneth
  * Contact: meetalex@protonmail.com
  */
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ChevronRight, CircleDashed, KeyRound, Plus, ScanLine, Search, ShieldCheck, Upload } from 'lucide-react'
 import { adminFetch } from '../lib/adminApi'
 import { formatCount, formatWhen } from '../lib/verifyFormat'
-import CodeDrawer from './CodeDrawer'
+import { CodeRecord } from './CodeDrawer'
 import Pager from './Pager'
 import StatusMark from './StatusMark'
 
@@ -54,6 +54,7 @@ export default function CodesPage() {
     timer.current = window.setTimeout(() => {
       setQuery(value.trim())
       setPage(1)
+      setOpenId(null)
     }, 250)
   }
 
@@ -89,7 +90,7 @@ export default function CodesPage() {
 
   const stats = data?.stats
   const items = current && data ? data.items : (data?.items || [])
-  const loading = !current && !error
+  const loading = !current && !error && items.length === 0
   const statCards = [
     { label: 'Codes', value: formatCount(stats?.total), icon: KeyRound },
     { label: 'Valid', value: formatCount(stats?.valid), icon: ShieldCheck },
@@ -102,7 +103,7 @@ export default function CodesPage() {
       <header className="admin-page__head">
         <div>
           <h1>Codes</h1>
-          <p>Scratch codes on the pack, and the links customers scan.</p>
+          <p>Open a code to see its link, check history, and settings. The rest of the list stays on the page.</p>
         </div>
       </header>
 
@@ -189,27 +190,49 @@ export default function CodesPage() {
                 <th>Last result</th>
                 <th>Checks</th>
                 <th>Last check</th>
-                <th className="code-go" aria-label="Open" />
               </tr>
             </thead>
             <tbody>
-              {items.map((item) => (
-                <tr key={item.id} onClick={() => setOpenId(item.id)} tabIndex={0} onKeyDown={(event) => {
-                  if (event.key === 'Enter') setOpenId(item.id)
-                }}>
-                  <td>
-                    <code className="code-chip">{item.code}</code>
-                    {item.suspicious ? <em className="admin-hot">Many checks</em> : null}
-                    {!item.isValid ? <em className="admin-hot admin-hot--off">Disabled</em> : null}
-                  </td>
-                  <td className="code-serial">{item.serial || '—'}</td>
-                  <td>{item.batchLabel || '—'}</td>
-                  <td><StatusMark status={item.lastStatus} /></td>
-                  <td>{formatCount(item.verificationCount)}</td>
-                  <td>{formatWhen(item.lastAttemptAt)}</td>
-                  <td className="code-go" aria-hidden="true"><ChevronRight size={16} /></td>
-                </tr>
-              ))}
+              {items.map((item) => {
+                const open = openId === item.id
+                return (
+                  <Fragment key={item.id}>
+                    <tr
+                      className={open ? 'is-open' : undefined}
+                      aria-expanded={open}
+                      onClick={() => setOpenId(open ? null : item.id)}
+                      tabIndex={0}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter') setOpenId(open ? null : item.id)
+                      }}
+                    >
+                      <td>
+                        <span className="code-main">
+                          <ChevronRight size={16} className={`activity-chevron${open ? ' is-open' : ''}`} aria-hidden="true" />
+                          <code className="code-chip">{item.code}</code>
+                          {item.suspicious ? <em className="admin-hot">Many checks</em> : null}
+                          {!item.isValid ? <em className="admin-hot admin-hot--off">Disabled</em> : null}
+                        </span>
+                      </td>
+                      <td className="code-serial">{item.serial || '—'}</td>
+                      <td>{item.batchLabel || '—'}</td>
+                      <td><StatusMark status={item.lastStatus} /></td>
+                      <td>{formatCount(item.verificationCount)}</td>
+                      <td>{formatWhen(item.lastAttemptAt)}</td>
+                    </tr>
+                    {open ? (
+                      <tr className="activity-detail code-detail">
+                        <td colSpan={6}>
+                          <CodeRecord
+                            codeId={item.id}
+                            onSaved={() => setRevision((value) => value + 1)}
+                          />
+                        </td>
+                      </tr>
+                    ) : null}
+                  </Fragment>
+                )
+              })}
             </tbody>
           </table>
           {current && data && data.total === 0 ? (
@@ -223,21 +246,11 @@ export default function CodesPage() {
 
         {current && data && data.total > (data.pageSize || 25) ? (
           <div className="code-panel__foot">
-            <Pager page={page} pageSize={data.pageSize || 25} total={data.total} onPage={setPage} />
+            <Pager page={page} pageSize={data.pageSize || 25} total={data.total} onPage={(next) => { setPage(next); setOpenId(null) }} />
           </div>
         ) : null}
       </section>
 
-      {openId ? (
-        <CodeDrawer
-          codeId={openId}
-          onClose={() => setOpenId(null)}
-          onSaved={() => {
-            setOpenId(null)
-            setRevision((value) => value + 1)
-          }}
-        />
-      ) : null}
     </div>
   )
 }
