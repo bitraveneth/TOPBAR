@@ -7,6 +7,7 @@
 import crypto from 'node:crypto'
 import prisma from './db.js'
 import { parseVerificationInput } from './parseCode.js'
+import { verifyCopy } from '../src/lib/verifyMessages.js'
 
 const WINDOW_MS = 10 * 60 * 1000
 const LIMIT = 20
@@ -20,12 +21,27 @@ function hashIp(ip) {
   return crypto.createHash('sha256').update(`${salt}:${ip || 'unknown'}`).digest('hex')
 }
 
+function formatVerifyDate(value) {
+  if (!value) return 'an unknown time'
+  return new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'UTC',
+  }).format(new Date(value))
+}
+
+function publicBody(result, extra) {
+  const copy = verifyCopy({
+    result,
+    code: extra.checkedCode,
+    count: extra.verificationCount,
+    firstVerifiedAt: formatVerifyDate(extra.firstVerifiedAt),
+  })
+  return { result, ...copy, ...extra }
+}
+
 function notAuthentic() {
-  return {
-    result: 'not_authentic',
-    title: 'This product is not authentic.',
-    message: 'This code does not match a genuine TOPBAR product. Do not use it.',
-  }
+  return publicBody('not_authentic', {})
 }
 
 async function findCode(tx, parsed) {
@@ -129,15 +145,12 @@ export async function verifyCode(raw, meta) {
       })
       return {
         statusCode: 200,
-        body: {
-          result: 'genuine',
-          title: 'Genuine TOPBAR product',
-          message: 'This is the first verification of this security code.',
+        body: publicBody('genuine', {
           checkedAt: now.toISOString(),
           firstVerifiedAt: now.toISOString(),
           verificationCount: 1,
           checkedCode: record.code,
-        },
+        }),
       }
     }
 
@@ -147,6 +160,8 @@ export async function verifyCode(raw, meta) {
       return rejectCode(tx, fresh, fresh && !fresh.isValid ? 'disabled' : 'expired', parsed, ipHash, userAgent)
     }
 
+    const nextCount = fresh.verificationCount + 1
+    const over = nextCount > 4
     const updated = await tx.verificationCode.update({
       where: { id: fresh.id },
       data: {
@@ -157,7 +172,7 @@ export async function verifyCode(raw, meta) {
     await tx.verificationAttempt.create({
       data: {
         input: parsed.display,
-        status: 'already_verified',
+        status: over ? 'over_verified' : 'already_verified',
         ipHash,
         userAgent,
         codeId: fresh.id,
@@ -165,15 +180,12 @@ export async function verifyCode(raw, meta) {
     })
     return {
       statusCode: 200,
-      body: {
-        result: 'already_verified',
-        title: 'This product was already verified',
-        message: 'If you did not check this code before, treat the pack as suspicious and contact TOPBAR support before use.',
+      body: publicBody(over ? 'over_verified' : 'already_verified', {
         checkedAt: new Date().toISOString(),
         firstVerifiedAt: updated.firstVerifiedAt ? updated.firstVerifiedAt.toISOString() : null,
         verificationCount: updated.verificationCount,
         checkedCode: updated.code,
-      },
+      }),
     }
   })
 }

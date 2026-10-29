@@ -18,6 +18,7 @@ const STATUSES = [
   ['', 'All results'],
   ['genuine_first', 'Genuine'],
   ['already_verified', 'Repeat check'],
+  ['over_verified', 'Too many checks'],
   ['not_authentic', 'Not authentic'],
   ['invalid_format', 'Bad format'],
   ['disabled', 'Disabled'],

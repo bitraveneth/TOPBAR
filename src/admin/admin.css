@@ -250,7 +250,8 @@
 .admin-status--already_verified { color: #ffb020; }
 .admin-status--not_authentic,
 .admin-status--invalid_format,
-.admin-status--expired { color: #ff6b6b; }
+.admin-status--expired,
+.admin-status--over_verified { color: #ff6b6b; }
 .admin-status--disabled,
 .admin-status--muted { color: #8b9c8b; }
 

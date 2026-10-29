@@ -9,10 +9,23 @@ import { useSearchParams } from 'react-router-dom'
 import { ShieldAlert, ShieldCheck, ShieldX, ScanSearch, PackageCheck } from 'lucide-react'
 import { verifyProduct } from '../lib/verifyProduct'
 import { formatWhen } from '../lib/verifyFormat'
+import { verifyCopy } from '../lib/verifyMessages'
 
 function ResultGlyph({ result }) {
-  const Icon = result === 'genuine' ? ShieldCheck : result === 'not_authentic' ? ShieldX : ShieldAlert
-  return <Icon size={22} />
+  const errorResult = result === 'not_authentic' || result === 'over_verified'
+  const Icon = result === 'genuine' ? ShieldCheck : errorResult ? ShieldX : ShieldAlert
+  return <Icon size={28} />
+}
+
+function shownOutcome(outcome) {
+  if (!outcome) return null
+  const copy = verifyCopy({
+    result: outcome.result,
+    code: outcome.checkedCode,
+    count: outcome.verificationCount,
+    firstVerifiedAt: outcome.firstVerifiedAt ? formatWhen(outcome.firstVerifiedAt) : '',
+  })
+  return copy ? { ...outcome, title: copy.title, message: copy.message } : outcome
 }
 
 function VerifyProducts() {
@@ -51,7 +64,7 @@ function VerifyProducts() {
 
   const outcome = error
     ? { result: 'not_authentic', title: 'Verification unavailable', message: error }
-    : result
+    : shownOutcome(result)
   const steps = [
     {
       icon: ScanSearch,
@@ -85,7 +98,7 @@ function VerifyProducts() {
             {steps.map((item, index) => (
               <li key={item.title} className="verify-step">
                 <span className="verify-step__mark" aria-hidden="true">
-                  <item.icon size={22} />
+                  <item.icon size={30} />
                   <span>{index + 1}</span>
                 </span>
                 <div>
@@ -129,17 +142,6 @@ function VerifyProducts() {
                   <div className="verify-result__icon" aria-hidden="true"><ResultGlyph result={outcome.result} /></div>
                   <h3>{outcome.title}</h3>
                   <p>{outcome.message}</p>
-                  {outcome.verificationCount ? (
-                    <p className="verify-result__count">
-                      Checked {outcome.verificationCount} {outcome.verificationCount === 1 ? 'time' : 'times'}
-                    </p>
-                  ) : null}
-                  {outcome.firstVerifiedAt ? (
-                    <p className="verify-result__meta">First verified {formatWhen(outcome.firstVerifiedAt)}</p>
-                  ) : null}
-                  {outcome.checkedCode ? (
-                    <p className="verify-result__meta">Code {outcome.checkedCode}</p>
-                  ) : null}
                 </div>
               )}
             </div>

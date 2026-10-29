@@ -19,6 +19,7 @@ import { clientIp } from './request.js'
 const STATUSES = new Set([
   'genuine_first',
   'already_verified',
+  'over_verified',
   'not_authentic',
   'invalid_format',
   'disabled',
