@@ -74,7 +74,7 @@ function VerifyProducts() {
     {
       icon: ShieldCheck,
       title: 'Enter For Check',
-      desc: 'Enter the 16-digit code below.',
+      desc: 'Enter the 16 Digit Code below.',
     },
     {
       icon: PackageCheck,
@@ -117,12 +117,12 @@ function VerifyProducts() {
                 <h2 className="verify-panel__title">Verify Your Code</h2>
               </div>
               <p className="verify-panel__lead">
-                Scratch the code on your TOPBAR pack, then enter the 16-digit code.
+                Scratch the code on your TOPBAR pack, then enter the 16 Digit Code.
               </p>
 
               <form className="support-form verify-panel__form" onSubmit={handleSubmit}>
                 <div className="form-field">
-                  <label htmlFor="security-code">16-digit code</label>
+                  <label htmlFor="security-code">16 Digit Code</label>
                   <input
                     id="security-code"
                     type="text"
