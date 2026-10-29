@@ -157,6 +157,8 @@ function VerifyProducts() {
                 {[
                   ['Use the original pack', 'Always verify from the printed package code, not from screenshots or edited images.'],
                   ['Check label details', 'Match the product name, flavor, and puff series with the packaging you purchased.'],
+                  ['Use this page', 'Enter the code on the official TOPBAR verify page, not a link someone sent you.'],
+                  ['Read the result', 'A first check confirms the pack. If it was already verified, contact your retailer before use.'],
                   ['Need help?', 'If the code looks damaged or unreadable, contact the TOPBAR support team before using the product.'],
                 ].map(([title, text], index) => (
                   <li key={title} className="verify-tip">
