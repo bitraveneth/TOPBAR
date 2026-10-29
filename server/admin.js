@@ -295,7 +295,7 @@ export function adminRouter() {
         where: { codeId: code.id },
         orderBy: { createdAt: 'desc' },
         take: 100,
-        select: { id: true, input: true, status: true, createdAt: true },
+        select: { id: true, input: true, status: true, createdAt: true, country: true, region: true },
       }),
       prisma.verificationAttempt.groupBy({
         by: ['ipHash'],
@@ -375,7 +375,7 @@ export function adminRouter() {
         where,
         orderBy: { createdAt: 'desc' },
         take: 100,
-        select: { id: true, input: true, status: true, createdAt: true },
+        select: { id: true, input: true, status: true, createdAt: true, country: true, region: true },
       }),
     ])
     res.json({ items, total })

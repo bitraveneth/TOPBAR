@@ -615,7 +615,8 @@ html:has(.admin-login) body,
   padding-bottom: 0.7rem;
   border-bottom: 1px solid #1d261d;
 }
-.admin-timeline time { color: var(--text-muted); font-size: 0.8rem; }
+.admin-timeline time,
+.check-place { color: var(--text-muted); font-size: 0.8rem; }
 
 .code-board { display: grid; gap: 1.05rem; }
 .code-board .admin-page__head { margin-bottom: 0; }

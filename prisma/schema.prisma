@@ -35,6 +35,8 @@ model VerificationAttempt {
   status    String
   ipHash    String?
   userAgent String?
+  country   String?
+  region    String?
   codeId    String?
   code      VerificationCode? @relation(fields: [codeId], references: [id], onDelete: SetNull)
   createdAt DateTime          @default(now())

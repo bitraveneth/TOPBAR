@@ -6,7 +6,7 @@
  */
 import { useCallback, useEffect, useState } from 'react'
 import { adminFetch } from '../lib/adminApi'
-import { formatWhen } from '../lib/verifyFormat'
+import { formatWhen, placeLabel } from '../lib/verifyFormat'
 import StatusMark from './StatusMark'
 
 function CodeForm({ detail }) {
@@ -18,6 +18,7 @@ function CodeForm({ detail }) {
         <div><dt>Attempts</dt><dd>{detail.attemptCount}</dd></div>
         <div><dt>Networks</dt><dd>{detail.distinctIps}</dd></div>
         <div><dt>First verified</dt><dd>{formatWhen(detail.firstVerifiedAt)}</dd></div>
+        <div><dt>Last place</dt><dd>{detail.attempts?.[0] ? placeLabel(detail.attempts[0]) : '—'}</dd></div>
       </dl>
 
       {detail.suspicious ? (
@@ -33,6 +34,7 @@ function CodeForm({ detail }) {
               <li key={attempt.id}>
                 <StatusMark status={attempt.status} />
                 <time dateTime={attempt.createdAt}>{formatWhen(attempt.createdAt)}</time>
+                <span className="check-place">{placeLabel(attempt)}</span>
                 <code>{attempt.input}</code>
               </li>
             ))}

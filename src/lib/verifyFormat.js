@@ -19,6 +19,13 @@ export function formatCount(value) {
   return new Intl.NumberFormat().format(Number(value) || 0)
 }
 
+export function placeLabel(attempt) {
+  if (!attempt) return '—'
+  if (attempt.region && attempt.country) return `${attempt.region}, ${attempt.country}`
+  if (attempt.country) return attempt.country
+  return 'Location unavailable'
+}
+
 export function formatWhen(iso) {
   if (!iso) return '—'
   const date = new Date(iso)

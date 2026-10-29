@@ -8,7 +8,7 @@ import { Fragment, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
 import { adminFetch } from '../lib/adminApi'
-import { formatCount, formatWhen } from '../lib/verifyFormat'
+import { formatCount, formatWhen, placeLabel } from '../lib/verifyFormat'
 import CodeDrawer from './CodeDrawer'
 import MetricStrip from './MetricStrip'
 import Pager from './Pager'
@@ -206,6 +206,7 @@ export default function ActivityPage() {
                               <li key={attempt.id}>
                                 <StatusMark status={attempt.status} />
                                 <time dateTime={attempt.createdAt}>{formatWhen(attempt.createdAt)}</time>
+                                <span className="check-place">{placeLabel(attempt)}</span>
                                 <code>{attempt.input}</code>
                               </li>
                             ))}

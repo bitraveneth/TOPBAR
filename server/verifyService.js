@@ -7,6 +7,7 @@
 import crypto from 'node:crypto'
 import prisma from './db.js'
 import { parseVerificationInput } from './parseCode.js'
+import { placeFromIp } from './place.js'
 import { verifyCopy } from '../src/lib/verifyMessages.js'
 
 const WINDOW_MS = 10 * 60 * 1000
@@ -57,7 +58,17 @@ async function findCode(tx, parsed) {
   return null
 }
 
-async function rejectCode(tx, record, status, parsed, ipHash, userAgent) {
+function attemptData(trace, extra) {
+  return {
+    ipHash: trace.ipHash,
+    userAgent: trace.userAgent,
+    country: trace.country,
+    region: trace.region,
+    ...extra,
+  }
+}
+
+async function rejectCode(tx, record, status, parsed, trace) {
   if (record) {
     await tx.verificationCode.update({
       where: { id: record.id },
@@ -65,21 +76,25 @@ async function rejectCode(tx, record, status, parsed, ipHash, userAgent) {
     })
   }
   await tx.verificationAttempt.create({
-    data: {
+    data: attemptData(trace, {
       input: parsed.display,
       status,
-      ipHash,
-      userAgent,
       codeId: record?.id || null,
-    },
+    }),
   })
   return { statusCode: 200, body: notAuthentic() }
 }
 
 export async function verifyCode(raw, meta) {
   const parsed = parseVerificationInput(raw)
-  const ipHash = hashIp(meta.ip)
-  const userAgent = clip(meta.userAgent, 180)
+  const place = placeFromIp(meta.ip)
+  const trace = {
+    ipHash: hashIp(meta.ip),
+    userAgent: clip(meta.userAgent, 180),
+    country: place.country,
+    region: place.region,
+  }
+  const { ipHash } = trace
   const since = new Date(Date.now() - WINDOW_MS)
   const recent = await prisma.verificationAttempt.count({
     where: { ipHash, createdAt: { gte: since } },
@@ -98,12 +113,10 @@ export async function verifyCode(raw, meta) {
 
   if (!parsed.ok) {
     await prisma.verificationAttempt.create({
-      data: {
+      data: attemptData(trace, {
         input: clip(raw, 200),
         status: 'invalid_format',
-        ipHash,
-        userAgent,
-      },
+      }),
     })
     return { statusCode: 200, body: notAuthentic() }
   }
@@ -112,11 +125,11 @@ export async function verifyCode(raw, meta) {
     const record = await findCode(tx, parsed)
     const now = new Date()
 
-    if (!record) return rejectCode(tx, null, 'not_authentic', parsed, ipHash, userAgent)
+    if (!record) return rejectCode(tx, null, 'not_authentic', parsed, trace)
 
     const expired = Boolean(record.expiresAt && record.expiresAt <= now)
     if (!record.isValid || expired) {
-      return rejectCode(tx, record, record.isValid ? 'expired' : 'disabled', parsed, ipHash, userAgent)
+      return rejectCode(tx, record, record.isValid ? 'expired' : 'disabled', parsed, trace)
     }
 
     const claimed = await tx.verificationCode.updateMany({
@@ -135,13 +148,11 @@ export async function verifyCode(raw, meta) {
 
     if (claimed.count === 1) {
       await tx.verificationAttempt.create({
-        data: {
+        data: attemptData(trace, {
           input: parsed.display,
           status: 'genuine_first',
-          ipHash,
-          userAgent,
           codeId: record.id,
-        },
+        }),
       })
       return {
         statusCode: 200,
@@ -157,7 +168,7 @@ export async function verifyCode(raw, meta) {
     const fresh = await tx.verificationCode.findUnique({ where: { id: record.id } })
     const freshExpired = Boolean(fresh?.expiresAt && fresh.expiresAt <= new Date())
     if (!fresh || !fresh.isValid || freshExpired) {
-      return rejectCode(tx, fresh, fresh && !fresh.isValid ? 'disabled' : 'expired', parsed, ipHash, userAgent)
+      return rejectCode(tx, fresh, fresh && !fresh.isValid ? 'disabled' : 'expired', parsed, trace)
     }
 
     const nextCount = fresh.verificationCount + 1
@@ -170,13 +181,11 @@ export async function verifyCode(raw, meta) {
       },
     })
     await tx.verificationAttempt.create({
-      data: {
+      data: attemptData(trace, {
         input: parsed.display,
         status: over ? 'over_verified' : 'already_verified',
-        ipHash,
-        userAgent,
         codeId: fresh.id,
-      },
+      }),
     })
     return {
       statusCode: 200,
