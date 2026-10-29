@@ -84,7 +84,7 @@ function VerifyProducts() {
   ]
   return (
     <>
-      <div className="page-hero">
+      <div className="page-hero verify-hero">
         <div className="container">
           <p className="page-hero__eyebrow">Product Protection</p>
           <h1>Verify Products</h1>
@@ -111,8 +111,8 @@ function VerifyProducts() {
 
           <div className="verify-grid">
             <div className="content-card verify-panel">
-              <h2 style={{ marginBottom: '0.75rem' }}>Verify Your Code</h2>
-              <p style={{ marginBottom: '1.5rem' }}>
+              <h2 className="verify-panel__title">Verify Your Code</h2>
+              <p className="verify-panel__lead">
                 Enter the scratch code from your TOPBAR pack. Scanning the pack opens this page and checks the code for you.
               </p>
 
