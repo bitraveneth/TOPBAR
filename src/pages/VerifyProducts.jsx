@@ -150,23 +150,23 @@ function VerifyProducts() {
               )}
             </div>
 
-            <div className="content-card verify-tips">
+            <aside className="verify-tips">
+              <p className="verify-tips__kicker">Before you check</p>
               <h2>Verification Tips</h2>
-              <div className="verify-tips__list">
-                <div>
-                  <h3>Use the original pack</h3>
-                  <p>Always verify from the printed package code, not from screenshots or edited images.</p>
-                </div>
-                <div>
-                  <h3>Check label details</h3>
-                  <p>Match the product name, flavor, and puff series with the packaging you purchased.</p>
-                </div>
-                <div>
-                  <h3>Need help?</h3>
-                  <p>If the code looks damaged or unreadable, contact the TOPBAR support team before using the product.</p>
-                </div>
-              </div>
-            </div>
+              <ol className="verify-tips__list">
+                {[
+                  ['Use the original pack', 'Always verify from the printed package code, not from screenshots or edited images.'],
+                  ['Check label details', 'Match the product name, flavor, and puff series with the packaging you purchased.'],
+                  ['Need help?', 'If the code looks damaged or unreadable, contact the TOPBAR support team before using the product.'],
+                ].map(([title, text], index) => (
+                  <li key={title} className="verify-tip">
+                    <span className="verify-tip__mark" aria-hidden="true">{index + 1}</span>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </li>
+                ))}
+              </ol>
+            </aside>
           </div>
         </div>
       </section>
