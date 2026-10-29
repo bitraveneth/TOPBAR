@@ -69,12 +69,12 @@ function VerifyProducts() {
     {
       icon: ScanSearch,
       title: 'Find The Code',
-      desc: 'Find the long security number printed on your TOPBAR pack.',
+      desc: 'Scratch the panel on your TOPBAR pack to reveal the code.',
     },
     {
       icon: ShieldCheck,
       title: 'Enter For Check',
-      desc: 'Type the full number below. You do not need a link.',
+      desc: 'Enter the 16-digit code below.',
     },
     {
       icon: PackageCheck,
@@ -117,12 +117,12 @@ function VerifyProducts() {
                 <h2 className="verify-panel__title">Verify Your Code</h2>
               </div>
               <p className="verify-panel__lead">
-                Type the security code from your TOPBAR pack. It is the long number on the label.
+                Scratch the code on your TOPBAR pack, then enter the 16-digit code.
               </p>
 
               <form className="support-form verify-panel__form" onSubmit={handleSubmit}>
                 <div className="form-field">
-                  <label htmlFor="security-code">Security Code</label>
+                  <label htmlFor="security-code">16-digit code</label>
                   <input
                     id="security-code"
                     type="text"
