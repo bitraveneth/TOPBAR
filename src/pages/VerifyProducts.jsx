@@ -6,9 +6,14 @@
  */
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { ShieldCheck, ScanSearch, PackageCheck } from 'lucide-react'
+import { ShieldAlert, ShieldCheck, ShieldX, ScanSearch, PackageCheck } from 'lucide-react'
 import { verifyProduct } from '../lib/verifyProduct'
 import { formatWhen } from '../lib/verifyFormat'
+
+function ResultGlyph({ result }) {
+  const Icon = result === 'genuine' ? ShieldCheck : result === 'not_authentic' ? ShieldX : ShieldAlert
+  return <Icon size={22} />
+}
 
 function VerifyProducts() {
   const [params] = useSearchParams()
@@ -47,7 +52,23 @@ function VerifyProducts() {
   const outcome = error
     ? { result: 'not_authentic', title: 'Verification unavailable', message: error }
     : result
-
+  const steps = [
+    {
+      icon: ScanSearch,
+      title: 'Find The Code',
+      desc: 'Locate the security or scratch code on your TOPBAR product packaging.',
+    },
+    {
+      icon: ShieldCheck,
+      title: 'Enter For Check',
+      desc: 'Input the full code below exactly as it appears on the pack.',
+    },
+    {
+      icon: PackageCheck,
+      title: 'Confirm Authenticity',
+      desc: 'Review the response and product details before use.',
+    },
+  ]
   return (
     <>
       <div className="page-hero">
@@ -59,35 +80,24 @@ function VerifyProducts() {
       </div>
 
       <section className="section">
-        <div className="container">
-          <div className="content-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', marginBottom: '3rem' }}>
-            {[
-              {
-                icon: ScanSearch,
-                title: 'Find The Code',
-                desc: 'Scratch the panel on your TOPBAR pack, or scan the verify link.',
-              },
-              {
-                icon: ShieldCheck,
-                title: 'Enter For Check',
-                desc: 'Type the last part of the code, or paste the full verify link.',
-              },
-              {
-                icon: PackageCheck,
-                title: 'Confirm Authenticity',
-                desc: 'A genuine code shows when it was first checked, and how many times since.',
-              },
-            ].map((item) => (
-              <div key={item.title} className="content-card" style={{ textAlign: 'center' }}>
-                <item.icon size={28} style={{ color: 'var(--accent)', marginBottom: '0.75rem' }} />
-                <h3>{item.title}</h3>
-                <p>{item.desc}</p>
-              </div>
+        <div className="container verify-page">
+          <ol className="verify-steps">
+            {steps.map((item, index) => (
+              <li key={item.title} className="verify-step">
+                <span className="verify-step__mark" aria-hidden="true">
+                  <item.icon size={22} />
+                  <span>{index + 1}</span>
+                </span>
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.desc}</p>
+                </div>
+              </li>
             ))}
-          </div>
+          </ol>
 
           <div className="verify-grid">
-            <div className="content-card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
+            <div className="content-card verify-panel">
               <h2 style={{ marginBottom: '0.75rem' }}>Verify Your Code</h2>
               <p style={{ marginBottom: '1.5rem' }}>
                 Enter the scratch code from your TOPBAR pack. Scanning the pack opens this page and checks the code for you.
@@ -116,6 +126,7 @@ function VerifyProducts() {
 
               {outcome && (
                 <div className={`verify-result verify-result--${outcome.result}`} role="status" aria-live="polite">
+                  <div className="verify-result__icon" aria-hidden="true"><ResultGlyph result={outcome.result} /></div>
                   <h3>{outcome.title}</h3>
                   <p>{outcome.message}</p>
                   {outcome.verificationCount ? (
@@ -133,19 +144,19 @@ function VerifyProducts() {
               )}
             </div>
 
-            <div className="content-card" style={{ padding: 'clamp(1.25rem, 3vw, 2rem)' }}>
-              <h2 style={{ marginBottom: '0.75rem' }}>Verification Tips</h2>
-              <div style={{ display: 'grid', gap: '0.9rem' }}>
+            <div className="content-card verify-tips">
+              <h2>Verification Tips</h2>
+              <div className="verify-tips__list">
                 <div>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Use the original pack</h3>
+                  <h3>Use the original pack</h3>
                   <p>Always verify from the printed package code, not from screenshots or edited images.</p>
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>A repeat check is a warning</h3>
-                  <p>Each genuine code is counted. If the count is already high and you just bought it, contact support before use.</p>
+                  <h3>Check label details</h3>
+                  <p>Match the product name, flavor, and puff series with the packaging you purchased.</p>
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1rem', marginBottom: '0.25rem' }}>Need help?</h3>
+                  <h3>Need help?</h3>
                   <p>If the code looks damaged or unreadable, contact the TOPBAR support team before using the product.</p>
                 </div>
               </div>
